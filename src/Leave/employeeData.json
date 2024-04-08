@@ -1,0 +1,50 @@
+[
+    {
+        "empId": "1",
+        "empName": "swaroop",
+        "empDept": "IT",
+        "empDesignation": "Full Stack Developer-intern"
+    },
+    {
+        "empId": "2",
+        "empName": "Pavani",
+        "empDept": "IT",
+        "empDesignation": "Full Stack Developer-intern"
+    },
+    {
+        "empId": "3",
+        "empName": "Rose",
+        "empDept": "IT",
+        "empDesignation": "Full Stack Developer-intern"
+    },
+    {
+        "empId": "4",
+        "empName": "Sandeep",
+        "empDept": "IT",
+        "empDesignation": "Full Stack Developer"
+    },
+    {
+        "empId": "5",
+        "empName": "Akhila",
+        "empDept": "IT",
+        "empDesignation": "Full Stack Developer"
+    },
+    {
+        "empId": "6",
+        "empName": "Abhas",
+        "empDept": "IT",
+        "empDesignation": "Full Stack Developer"
+    },
+    {
+        "empId": "7",
+        "empName": "Mani",
+        "empDept": "IT",
+        "empDesignation": "Full Stack Developer"
+    },
+    {
+        "empId": "8",
+        "empName": "Tony",
+        "empDept": "IT",
+        "empDesignation": "Full Stack Developer"
+    }
+]

@@ -1,0 +1,58 @@
+.App{
+    display: flex;
+  flex-direction: column;
+  height: 100vh;
+  /* font-family: sans-serif; */
+  /* font-family: Verdana, Arial, sans-serif; font-style: normal; */
+  font-family: Helvetica, Arial, sans-serif; font-style: normal;
+  /* font-family: Geneva, Arial, sans-serif; font-style: normal */
+  
+}
+.content {
+    flex: 1;
+    display: flex; 
+    background-color: #F0F0F0;
+    overflow: hidden;
+  }
+  
+.content > div {
+    
+    padding: 20px;
+    /* overflow-y: auto;  */
+}
+
+.item1{ 
+  grid-column: 1 / span 3;
+  grid-row: 1;
+}
+.sidebar{
+  grid-column: 1/span 3;
+  grid-row: 2;
+}
+.Main-Container{
+  grid-column: 2/span 2;
+  grid-row: 2;
+  overflow-y:scroll;  
+  margin-bottom: 50px;
+}
+.content{
+  display: grid;
+  grid-template-columns: 260px auto;
+  
+}
+
+.container{
+  margin-bottom:50px;
+}
+
+/* .sub-content{
+  margin:0px;
+  display:flex;
+  flex-direction: row;
+  gap:50px;
+  margin-right: 50px;
+
+} */
+
+
+

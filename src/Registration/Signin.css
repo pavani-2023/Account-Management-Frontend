@@ -1,0 +1,80 @@
+
+  .SignIn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    /* background: url('login-background2.jpg') center center/cover no-repeat; */
+    background-color: #ababb37a;
+  }
+  .images{
+    max-width: 90%;
+    height: auto;
+  }
+  .input-container>input{
+    background-color: transparent;
+    height: 50px;
+    /* border: 2px solid #fff; */
+    border-radius: 5px;
+    /* color: #fff; */
+    margin-top: 5px;
+    width:100%;
+  }
+ 
+  .signin-input-container{
+    
+    width:60%;
+    /* display: flex;
+    flex-direction: column;
+    gap:20px; */
+  }
+
+input::placeholder {
+  color:rgba(0, 0, 0, 0.626);
+}
+.rigth{
+  width:40%
+}
+.right{
+  display: flex;
+  flex-direction: column;
+  
+  row-gap:15px;
+  width:50%;
+}
+.left{
+  width:60%;
+}
+.right>h1{
+  color:#fff
+}
+.p{
+    color: #b3b3b3;
+    font-weight: 300;
+}
+
+.right>button{
+  height: 30px;
+}
+
+
+.signin-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  /* flex-wrap: wrap; */
+  align-items: center;
+  width: 80vw;
+  height:80vh;
+  gap:40px;
+  background-color: #fff;
+  border-radius: 10px;
+}
+.signup-button{
+    
+}
+.error-message{
+  color:red
+}

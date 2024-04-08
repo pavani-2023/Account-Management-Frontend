@@ -1,0 +1,119 @@
+.form-group {
+    margin-bottom: 15px;
+  }
+  .header{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    max-width: 1200px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    
+  }
+  .employee-info-row{
+    display:grid;
+    grid-gap: 10px;
+    margin-bottom: 20px;
+    width: 80%;
+    max-width: 1200px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .employee-info-row input{
+    width:100%;
+    max-width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    word-wrap: break-word;
+  }
+  /* table{
+    width: 120%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  
+  th {
+    background-color: #f2f2f2;
+  }*/
+  th, td{
+    /* border: 1px solid #ddd; */
+    /* padding: 8px; */
+    text-align: left;
+    max-width: 150px;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    /* overflow: hidden; */
+  } 
+
+  
+  .button-container{
+    display: flex;
+    justify-content: space-around;
+  }
+  /* button{
+  
+    margin-top: 22px;
+    margin-left: 30px;
+    padding: 10px 20px;
+    background-color: white;
+    color: black;
+    border-color: black;
+    border-radius: 5px;
+    cursor: pointer;
+  } */
+ 
+
+.table-container [contenteditable="true"] {
+  display: block;
+  width: 100%;
+  min-height: 30px; 
+  
+  word-wrap: break-word;
+  overflow: visible;
+  white-space: normal;
+  box-sizing: border-box; 
+}
+/* Dropdown styles */
+.form-control {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 6px;
+  font-size: 16px;
+  background-color: #fff; 
+  color: #333; 
+}
+
+
+.form-group select:hover,
+.form-group select:focus {
+  border-color: #007bff; 
+}
+
+
+.form-group select option {
+  padding: 10px;
+  background-color: #fff;
+  color: #333; 
+}
+
+.client-info-row .form-group {
+  width: 80%; 
+}
+
+.client-info-row .form-control {
+  width: 100%; 
+}
+.client-info-row{
+  display: flex;
+}
+button .form-group .client-info-row{
+  margin: 10px;
+}
+
+

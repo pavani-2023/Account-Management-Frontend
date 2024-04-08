@@ -1,0 +1,90 @@
+.card{
+    background-color: #fff;
+    border-radius: 15px;
+    width:400px;
+    height: auto;
+    min-height: 400px;
+    margin-bottom: 10px;
+}
+
+
+.employee-data{
+    border-bottom: 3px solid rgba(233, 224, 224, 0.76);
+}
+.data{
+    margin-left:20px;
+    /* color:rgba(8, 8, 8, 0.664); */
+}
+.modal-forms{
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+    background-color: white;
+    width: 50%;
+    min-width:600px;
+    height: 80%;
+    /* min-height: auto; */
+    border: 1px solid #887a7a;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    margin-top: 50px;
+    overflow: scroll;
+}
+.employeelist-modal-form{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+    background-color: white;
+    width: 50%;
+    border: 1px solid #887a7a;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    
+}
+
+.form-data{
+    margin:20px;
+   display:flex;
+   flex-direction: row;
+   flex-wrap: wrap;
+   gap:20px;
+}
+
+.input{
+    width:auto;
+    min-width:250px;
+    height: 25px;
+    border:2px solid rgba(116, 111, 111, 0.363);
+    border-radius: 3px;
+    font-size:small;
+    font-weight: bold;
+    margin-top:5px;
+}
+.textarea-employeelist{
+    width:auto;
+    min-width:300px;
+    border:2px solid rgba(116, 111, 111, 0.363);
+    border-radius: 3px;
+    font-size:small;
+    font-weight: bold;
+    margin-top:5px;
+}
+
+label{
+    font-weight:bold;
+}
+
+.employees-input{
+    width:auto;
+    border:none;
+    font-size: medium;
+    font-weight:400;
+}
+
+.employees-input:focus{
+    outline: none;
+}
