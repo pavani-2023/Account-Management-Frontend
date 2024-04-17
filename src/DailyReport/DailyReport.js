@@ -336,7 +336,7 @@ console.log('selectedClient',selectedClient)
   };
 
   return (
-    <div>
+    <div >
       <div className="form-container">
         <form onSubmit={handleSubmit}>
           <div className="header">
@@ -358,18 +358,17 @@ console.log('selectedClient',selectedClient)
           </div>
 
           <div className="employee-info-row">
-            <div className="form-group">
+            {/* <div className="form-group">
               <label htmlFor="employeeId">Employee ID</label>
               <input
                 type="text"
                 className={`form-control ${errors.employeeId ? 'error' : ''}`}
                 id="employeeId"
                 value={employeeId}
-                onChange={handleEmployeeId}
               />
               {errors.employeeId && <div className="error-message">{errors.employeeId}</div>}
            
-              </div>
+              </div> */}
             <div className="form-group">
               <label htmlFor="date">Date</label>
               <input
@@ -381,11 +380,11 @@ console.log('selectedClient',selectedClient)
               />
               {errors.date && <div className="error-message">{errors.date}</div>}
             </div>
-            <div className="form-group">
+            {/* <div className="form-group">
               <label htmlFor="weekday">Weekday</label>
               <input type="text" className="form-control employee-info-input" id="weekday" value={weekday} readOnly />
-            </div>
-            <div className="form-group">
+            </div> */}
+            {/* <div className="form-group">
               <label htmlFor="ename">Employee Name</label>
               <input
                type="text"
@@ -395,8 +394,8 @@ console.log('selectedClient',selectedClient)
                 readOnly
                 disabled
               />
-            </div>
-            <div className="form-group">
+            </div> */}
+            {/* <div className="form-group">
               <label htmlFor="department">Department</label>
               <input
                 type="text"
@@ -406,8 +405,8 @@ console.log('selectedClient',selectedClient)
                 readOnly
                 disabled
               />
-            </div>
-            <div className="form-group">
+            </div> */}
+            {/* <div className="form-group">
               <label htmlFor="designation">Designation</label>
               <input
                 type="text"
@@ -417,9 +416,10 @@ console.log('selectedClient',selectedClient)
                 readOnly
                 disabled
               />
-            </div>
-            <label htmlFor="client">Client</label>
+            </div> */}
+            
             <div>
+            <label htmlFor="client">Client</label>
             <select
               className="form-control"
               id="client"

@@ -115,6 +115,7 @@ import UserSidebar from './Sidebar/UserSidebar';
 import AdminSidebar from './Sidebar/AdminSidebar';
 
 import Loader from './Registration/RoleBase/Loader';
+import ClientDashboard from './Client-Dashboard/ClientDashboard';
 // function App() {
 
 //   // const { uuid } = useContext(IdContext);
@@ -197,11 +198,18 @@ function App() {
             <Route path='/unauthorized' element={<Unauthorized />} />
           </Routes>
 
+          <div>
+            
+          </div>
           <div className="content">
-            <Header />
-            {userRole === 'User' ? <UserSidebar /> : 
-               userRole === 'Admin' ? <AdminSidebar /> : null
-             }
+           
+           
+             <Header />
+             {/* <Sidebar/> */}
+             {userRole === 'User' ? <UserSidebar /> : 
+               userRole === 'Admin' ? <AdminSidebar /> : 
+               userRole === 'Client' ? null :null
+              }
             <Routes>
               <Route path="/employee/:uuid" element={<Employee />} />
               <Route path="/client" element={<Client />} />
@@ -219,11 +227,63 @@ function App() {
               <Route element={<ProtectedRoute allowedRoles={['User']} />}>
                 <Route path="/employee/:uuid" element={<Employee />} />
               </Route>
+              <Route element={<ProtectedRoute allowedRoles={['Client']} />}>
+                <Route path='/client-dashboard/:uuid' element={<ClientDashboard/>}/>
+              </Route>
             </Routes>
           </div>
+          <Routes>
+          
+          </Routes>
         </div>
       </IdProvider>
     </BrowserRouter>
+
+
+    // <BrowserRouter>
+    //   <IdProvider>
+    //     <div className="App">
+    //       <Routes>
+    //         <Route path="/signup" element={<Signup />} />
+    //         <Route path='/' element={<Signin />} />
+    //         <Route path='/unauthorized' element={<Unauthorized />} />
+    //       </Routes>
+
+    //       <div className='main-component'>
+    //         <div className='menu-sidebar'>
+    //         {userRole === 'User' ? <UserSidebar /> : 
+    //            userRole === 'Admin' ? <AdminSidebar /> : null
+    //          }
+    //         </div>
+    //         <div className="content sub-component">
+           
+           
+    //          <Header />
+    //         <Routes>
+    //           <Route path="/employee/:uuid" element={<Employee />} />
+    //           <Route path="/client" element={<Client />} />
+    //           <Route path="/client-list/:uuid" element={<ClientListTable />} />
+    //           <Route path="/leave/:uuid" element={<Leave />} />
+    //           <Route path="/Example" element={<Example />} />
+    //           <Route path="/todo-list/:uuid" element={<TodoList />} />
+    //           <Route path="/employee-list" element={<EmployeeList />} />
+    //           <Route path='/reports/:uuid' element={<Report />} />
+    //           <Route path='/clockin-reports/:uuid' element={<ClockInReports />} />
+    //           <Route path='/leave-list' element={<LeaveAdmin />} />
+    //           <Route element={<ProtectedRoute allowedRoles={['Admin']} />}>
+    //             <Route path="/admin-page" element={<AdminPage />} />
+    //           </Route>
+    //           <Route element={<ProtectedRoute allowedRoles={['User']} />}>
+    //             <Route path="/employee/:uuid" element={<Employee />} />
+    //           </Route>
+    //         </Routes>
+    //       </div>
+    //       </div>
+          
+          
+    //     </div>
+    //   </IdProvider>
+    // </BrowserRouter> 
   );
 }
 

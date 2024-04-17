@@ -757,16 +757,15 @@ const YourComponent = () => {
         </div>
 
         <div className="employee-info-row">
-          <div className="form-group">
+          {/* <div className="form-group">
             <label htmlFor="employeeId">Employee ID</label>
             <input
               type="text"
               className="form-control"
               id="employeeId"
               value={employeeId}
-              onChange={(e) => setEmployeeId(e.target.value)}
             />
-          </div>
+          </div> */}
           <div className="form-group">
             <label htmlFor="startDate">Start Date</label>
             <input
@@ -787,7 +786,7 @@ const YourComponent = () => {
               onChange={(e) => setEndDate(e.target.value)}
             />
           </div>
-          <div className="form-group">
+          {/* <div className="form-group">
             <label htmlFor="ename">Employee Name</label>
             <input
               type="text"
@@ -797,8 +796,8 @@ const YourComponent = () => {
               readOnly
               disabled
             />
-          </div>
-          <div className="form-group">
+          </div> */}
+          {/* <div className="form-group">
             <label htmlFor="department">Department</label>
             <input
               type="text"
@@ -808,8 +807,8 @@ const YourComponent = () => {
               readOnly
               disabled
             />
-          </div>
-          <div className="form-group">
+          </div> */}
+          {/* <div className="form-group">
             <label htmlFor="designation">Designation</label>
             <input
               type="text"
@@ -819,12 +818,11 @@ const YourComponent = () => {
               readOnly
               disabled
             />
-          </div>
-        </div>
-
+          </div> */}
+          
         <div className="client-info-row">
           <div className="form-group">
-            <label htmlFor="client">Client</label>
+            <label htmlFor="client">Client</label><br></br>
             <select
               className="form-control"
               id="client"
@@ -839,17 +837,23 @@ const YourComponent = () => {
               ))}
             </select>
           </div>
-          <div className="form-group">
-            <button className="btn" onClick={fetchTaskReports}>Get Reports</button>
-          </div>
-          <div className="form-group">
-            <button className="btn" onClick={handleConvertToPDF} disabled={!reportsFetched}>
-              Convert to PDF
-            </button>
-          </div>
+         
         </div>
+        </div>
+
       </div>
 
+      <div style={{display:'flex'}}>
+        <div className="form-group">
+          <button className="btn" onClick={fetchTaskReports}>Get Reports</button>
+        </div>
+        <div className="form-group">
+          <button className="btn" onClick={handleConvertToPDF} disabled={!reportsFetched}>
+              Convert to PDF
+          </button>
+        </div>
+      </div>
+      
       <div className="table-container">
         <table id="taskReport">
           <thead>

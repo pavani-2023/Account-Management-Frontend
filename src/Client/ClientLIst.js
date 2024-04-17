@@ -107,137 +107,20 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-
-// const ClientListTable = () => {
-//   const [clients, setClients] = useState([]);
-//   const [searchTerm, setSearchTerm] = useState('');
-//   const [selectedData, setSelectedData] = useState([]);
-//   console.log('selected data',selectedData)
-//   const [searchResults, setSearchResults] = useState([]);
-//   const { uuid } = useParams();
-//   // console.log('uuid',uuid)
-//   // const{empId,setEmpID}=useState(uuid)
-//   // console.log(empId)
-
-//   useEffect(() => {
-//     const fetchClientDetails = async () => {
-//       try {
-//         const response = await axios.get('http://localhost:5000/getClientDetails');
-//         setClients(response.data);
-//       } catch (error) {
-//         console.error('Error fetching client details:', error);
-//       }
-//     };
-
-//     fetchClientDetails();
-//   }, []);
-
-//   const saveclientdetails= async()=>{
-//     try{
-//       const response = await axios.post(`http://localhost:5000/SaveClientDetails/${uuid}`,selectedData);
-//     }catch(error){
-//       console.log('error saving clients',error)
-//     }
-//   }
- 
-
-//   const handleChange = event => {
-//     setSearchTerm(event.target.value);
-//     const results = clients.filter(item =>
-//       item.clientName.toLowerCase().includes(event.target.value.toLowerCase())
-//     );
-//     setSearchResults(results);
-//   };
-
-//   const handleAdd = item => {
-//     setSelectedData([...selectedData, item]);
-//     setSearchTerm('');
-//     setSearchResults([]);
-//   };
-
-//   // const deleteRow =async (rowIndex)=>{
-//   //   const clientIdToDelete = clients[rowIndex].clientId;
-//   //  try{
-//   //   const response= await axios.delete(`http://localhost:5000/deleteClientsdetails/${clientIdToDelete}`)
-//   //   if (response.status === 200) {
-//   //     // Update clients array after successful deletion
-//   //     const updatedClients = clients.filter(client => client.id !== clientIdToDelete);
-//   //     setClients(updatedClients);
-//   //   } else {
-//   //     // Handle error response
-//   //     console.error('Failed to delete client');
-//   //   }
-//   //  }catch(error){
-//   //   console.log('error deleting clients',error)
-//   //  }
-
-//   // }
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 
-
-//   return (
-//     <div className='Main-Container'>
-//       <div className='client' style={{ paddingBottom: '50px' }}>
-//         <h2>Client Details</h2>
-
-//         <div>
-          
-//           <input
-//             type="text"
-//             placeholder="Search..."
-//             placeholderTextColor='red'
-//             value={searchTerm}
-//             onChange={handleChange}
-//             style={{ width: '40%', height: '25px', borderRadius: '5px', borderColor: 'black' }}
-//           />
-//           <div>
-//             {searchResults.map(item => (
-//               <div onClick={() => handleAdd(item)} key={item.id}>
-//                 {item.clientName}{' '}
-//                 {/* <button onClick={() => handleAdd(item)}>Add</button> */}
-//               </div>
-//             ))}
-//           </div>
-        
-//           <table className='client-table'>
-//             <thead>
-//               <tr>
-//                 <th>Client Id</th>
-//                 <th>Client Name</th>
-//                 <th>Address</th>
-//                 <th>Email</th>
-//                 <th>Actions</th>
-//               </tr>
-//             </thead>
-//             <tbody>
-//               {selectedData.map((item,rowIndex) => (
-//                 <tr key={rowIndex}>
-//                   <td>{item.clientName}</td>
-//                   <td>{item.clientId}</td>
-//                   <td>{item.clientAddress}</td>
-//                   <td>{item.clientEmail}</td>
-//                   <td>
-//                 {/* <button onClick={() => deleteRow(rowIndex)}>Delete</button> */}
-//               </td>
-//                 </tr>
-//               ))}
-//             </tbody>
-//           </table>
-//           <button onClick={saveclientdetails}>Submit</button>
-//         </div>
-       
-        
-//       </div>
-//     </div>
-//   );
-// };
 const ClientListTable = () => {
   const [clients, setClients] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedData, setSelectedData] = useState([]);
+  console.log('selectedData',selectedData)
   const [searchResults, setSearchResults] = useState([]);
   const { uuid } = useParams();
-
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [employeedetails,setEmployeeDetails]= useState([])
+  console.log('employeedetails',employeedetails)
   useEffect(() => {
     const fetchClientDetails = async () => {
       try {
@@ -252,9 +135,31 @@ const ClientListTable = () => {
     getClientDetails();
   }, []);
 
+
+  useEffect(()=>{
+    getemployeeDetails();
+  },[])
+  const getemployeeDetails=async()=>{
+    try {
+      const response = await axios.get(`http://localhost:5000/getemployeeDetails/${uuid}`);
+      const data = response.data
+      console.log('response',response.data)
+      setEmployeeDetails(prevState => ({
+        ...prevState,
+        employeeName: data.EmployeeName,
+        department: data.dep,
+        designation: data.Designation,
+        clientId:data.clientId
+       
+      }));
+         
+    }catch(error){
+      console.log('error fetching employeedetails',error)
+    }
+  }
   const saveClientDetails = async () => {
     try {
-      const response = await axios.post(`http://localhost:5000/saveSelectedClients/${uuid}`, selectedData);
+      const response = await axios.post(`http://localhost:5000/saveSelectedClients/${uuid}`, {selectedData,employeeName:employeedetails.employeeName});
       if (response.status === 200) {
         console.log('Selected clients saved successfully');
       } else {
@@ -285,6 +190,7 @@ const ClientListTable = () => {
 
   const handleAdd = item => {
     setSelectedData([...selectedData, item]);
+    setSearchTerm('');
   };
 
   const handleDelete = async clientId => {
@@ -300,33 +206,41 @@ const ClientListTable = () => {
       console.error('Error deleting client:', error);
     }
   };
+  const handleDropdownClick = () => {
+    setDropdownVisible(!dropdownVisible);
+  };
 
   return (
     <div className='Main-Container'>
       <div className='container' style={{ paddingBottom: '50px' }}>
-        <h2>Client Details</h2>
+        <h2> Search and Add Clients</h2>
         <div>
           <input
             type="text"
-            placeholder="Search..."
+            placeholder="Search clients"
             value={searchTerm}
             onChange={handleChange}
-            style={{ width: '40%', height: '25px', borderRadius: '5px', borderColor: 'black' }}
+            onFocus={handleDropdownClick}
+            style={{ width: '40%', height: '30px', borderRadius: '5px', borderColor: 'black' }}
           />
-          <div>
+          
+          {dropdownVisible&&(
+            <div className="dropdown">
             {searchResults.map(item => (
-              <div onClick={() => handleAdd(item)} key={item.clientId}>
+              <div onClick={() => {handleAdd(item);setDropdownVisible(false)}} key={item.clientId}>
                 {item.clientName}
               </div>
             ))}
           </div>
-          <table className='client-table'>
+          )}
+          
+          <table className='client-table'  style={{marginTop:'100px'}}>
             <thead>
               <tr>
                 <th>Client Id</th>
                 <th>Client Name</th>
                 <th>Address</th>
-                <th>Email</th>
+                <th style={{width:'auto',minWidth:'150px'}}>Email</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -338,13 +252,16 @@ const ClientListTable = () => {
                   <td>{item.clientAddress}</td>
                   <td>{item.clientEmail}</td>
                   <td>
-                    <button onClick={() => handleDelete(item.clientId)}>Delete</button>
+                    <h3 onClick={() => handleDelete(item.clientId)}><FontAwesomeIcon icon={faTrash} /></h3>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-          <button onClick={saveClientDetails}>Submit</button>
+          <div style={{display:'flex',justifyContent:'center'}}>
+            <button onClick={saveClientDetails}>Update</button>
+          </div>
+          
         </div>
       </div>
     </div>

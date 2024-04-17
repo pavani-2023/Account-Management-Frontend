@@ -294,14 +294,17 @@ const MonthlyReports = () => {
     try {
       disableInputFields();
       setError('');
-
+  
       if (!employeeId || !selectedMonth || !selectedYear) {
         setError('Employee ID, Month, and Year are required.');
         return;
       }
-
+  
       const response = await axios.get(`http://localhost:4000/api/reports/monthly-report/${employeeId}/${selectedMonth}/${selectedYear}`);
-      const apiData = response.data;
+      const apiData = response.data.map(report => ({
+        ...report,
+        weekday: getDayOfWeek(new Date(report.date).getDay()) // Update weekday field
+      }));
       setTimeReports(apiData);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -310,7 +313,7 @@ const MonthlyReports = () => {
       enableInputFields();
     }
   };
-
+  
   const convertToPDF = () => {
     // Logic to convert fetched data to PDF format
     // You can use libraries like pdfmake or jsPDF for PDF generation
@@ -362,13 +365,17 @@ const MonthlyReports = () => {
           <h2>Monthly Check-In/Check-Out Data</h2>
         </div>
       </div>
-      <div id="employeeInfo">
-        <div>
+      <div id="employeeInfo" className="employee-info-row">
+        {/* <div>
           <label htmlFor="eid">Employee Id:</label>
           <div style={{ position: "relative" }}>
-            <input type="text" id="eid" name="eid" placeholder="Enter Employee ID" required value={employeeId} onChange={(e) => setEmployeeId(e.target.value.trim())}/>
+            <input type="text" id="eid" name="eid" placeholder="Enter Employee ID" required value={employeeId}/>
           </div>
-        </div>
+        </div> */}
+        {/* <div>
+          <label>Date:</label>
+          <input type='date'/>
+        </div> */}
         <div>
           <label htmlFor="selectedMonth">Select Month:</label>
           <select id="selectedMonth" name="selectedMonth" value={selectedMonth} onChange={(e) => setSelectedMonth(e.target.value)} enabled={!employeeId}>
@@ -406,7 +413,7 @@ const MonthlyReports = () => {
             <option value="2029">2029</option>
           </select>
         </div>
-        <div>
+        {/* <div>
           <label htmlFor="ename">Employee Name:</label>
           <input type="text" id="ename" name="fname" value={employeeInfo.employeename} placeholder="Enter Employee Name" readOnly className="disabled-input" />
         </div>
@@ -417,12 +424,12 @@ const MonthlyReports = () => {
         <div>
           <label htmlFor="designation">Designation:</label>
           <input type="text" id="designation" name="designation" placeholder="Enter Designation" readOnly className="disabled-input" value={employeeInfo.designation} />
-        </div>
+        </div> */}
       </div>
       <button onClick={fetchData}>Fetch Data</button>
       <button onClick={convertToPDF}>Convert to PDF</button>
       {error && <div className="error-message">{error}</div>}
-      <table id="monthlyDataTable">
+      <table id="monthlyDataTable"  className='clockin-table'>
         <thead>
           <tr>
             <th style={{ width: '15%' }}>Date</th>
@@ -440,7 +447,7 @@ const MonthlyReports = () => {
               <td>{report.weekday}</td>
               <td>{report.clockInTime}</td>
               <td>{report.clockOutTime}</td>
-              <td>{`${report.totalHours} and ${report.totalMinutes}`}</td>
+              <td>{report.totalHours}</td>
               <td>{report.comments}</td>
             </tr>
           ))}

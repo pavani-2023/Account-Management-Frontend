@@ -2,6 +2,11 @@ import React, { useState,useEffect } from 'react';
 import './todolist.css';
 import axios from 'axios'
 import { useParams } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { AgGridReact } from 'ag-grid-react';
+import 'ag-grid-community/styles/ag-grid.css';
+import 'ag-grid-community/styles/ag-theme-alpine.css';
 
 const TodoList = () => {
   const [todos, setTodos] = useState([]);
@@ -13,8 +18,8 @@ const TodoList = () => {
   const [alltodos,setAllTodos]=useState([])
   console.log('alltods',alltodos)
 
-  const [todoChanges, setTodoChanges] = useState([]); // State to track changes in todo items
-console.log('todoChanges',todoChanges)
+  const [todoChanges, setTodoChanges] = useState([]); 
+  console.log('todoChanges',todoChanges)
 
   const allTodos = [...todos, ...completedTodos];
 
@@ -89,20 +94,20 @@ console.log('todoChanges',todoChanges)
 
   const updateTodo = async (updatedTodo, index, isCompleted) => {
     try {
-      // Determine which array to update based on 'isCompleted'
+      
       const todosToUpdate = isCompleted ? completedTodos : todos;
   
-      // Check if the index is within bounds
+     
       if (index >= 0 && index < todosToUpdate.length) {
-        // Make a copy of the todo array to avoid mutating state directly
+      
         const updatedTodos = [...todosToUpdate];
-        // Update the todo at the specified index
+       
         updatedTodos[index] = updatedTodo;
   
-        // Update the state based on 'isCompleted'
+       
         isCompleted ? setCompletedTodos(updatedTodos) : setTodos(updatedTodos);
   
-        // Send PUT request to update the todo on the server
+       
         await axios.put(`http://localhost:5000/updatetodo/${ updatedTodos[index]._id}`, updatedTodo);
   
         console.log('Todo updated successfully:', updatedTodo);
@@ -115,6 +120,15 @@ console.log('todoChanges',todoChanges)
   };
   
 
+  const formatDate = (date) => {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+};
+
+  
+
   const handleAddTodo = async (e) => {
     e.preventDefault()
     if (newTodo.trim() === '') {
@@ -122,13 +136,17 @@ console.log('todoChanges',todoChanges)
     }
   
     try {
-      const currentDate = new Date().toISOString().slice(0, 10);
+      const startdate = new Date()
+      const currentDate = new Date(startdate).toISOString().slice(0, 10);
+      
       const endDate = new Date().toISOString().slice(0, 10);
+   
   
       const newTodoItem = {
         EmployeeId:uuid,
         text: newTodo,
         startDate: currentDate,
+        
         // endDate: endDate,
         progress: '',
         notes: '',
@@ -136,6 +154,7 @@ console.log('todoChanges',todoChanges)
         priority: '', 
       };
 
+      console.log('startDate',startDate)
        // Send POST request to backend endpoint to save new todo
        const response = await axios.post('http://localhost:5000/todos', newTodoItem);
       
@@ -197,7 +216,8 @@ console.log('todoChanges',todoChanges)
     // Update progress
     updatedTodos[index].progress = updatedTodos[index].completed ? 'Completed' : 'In Progress';
     const endDate = new Date().toISOString().slice(0, 10);
-    updatedTodos[index].endDate = updatedTodos[index].completed ? endDate : null; // Add completion date
+    // const formattedEndDate = formatDate(endDate)
+    updatedTodos[index].endDate = updatedTodos[index].completed ? endDate: null; // Add completion date
   
     // Separate completed and uncompleted todos
     const updatedTodo = updatedTodos[index];
@@ -230,9 +250,12 @@ console.log('todoChanges',todoChanges)
       setTodos(todos.filter((_, i) => i !== index));
     }
   };
+
+  
   
   const [startDate, setStartDate] = useState(null); // State variable for start date
   const [endDate, setEndDate] = useState(null);
+
   
   const filteredTodos = allTodos.filter((todo) => {
     if (startDate && endDate) {
@@ -254,10 +277,23 @@ console.log('todoChanges',todoChanges)
   const handleEndDateChange = (e) => {
     setEndDate(e.target.value);
   };
+  const columnDefs = [
+    { headerName: '', field: '', checkboxSelection: true, width: 50 },
+    { headerName: 'Task', field: 'text',},
+    { headerName: 'Start Date', field: 'startDate' },
+    { headerName: 'End Date', field: 'endDate' },
+    { headerName: 'Progress', field: 'progress', cellEditor: 'agSelectCellEditor',
+      cellEditorParams: {
+        values: ['In Progress', 'Completed']
+      }
+    },
+    { headerName: 'Notes', field: 'notes', cellEditor: 'agLargeTextCellEditor' ,width:300,autoHeight: true },
+    { headerName: 'Priority', field: 'priority' }
+  ];
 
   return (
     <div className='Main-Container'>
-      <h1>ToDo List</h1>
+     
       <div className='todo-list-container'>
         <div className='todo-menu'>
         <div onClick={() => displayDiv(1)} className={`todo-menu-items ${activeDiv === 1 ? 'active' : ''}`}>Add Task</div>
@@ -266,7 +302,7 @@ console.log('todoChanges',todoChanges)
         </div>
 
 
-        <div className="todo-sub" style={{ marginLeft: '40px' }}>
+        <div className="todo-sub" >
 
           {activeDiv===1 && <div className={`add-task ${activeDiv===1?'active':''}`}>
 
@@ -289,7 +325,7 @@ console.log('todoChanges',todoChanges)
                   <th style={{width:'500px'}}>Task</th>
                   <th  style={{width:'150px'}}>Start Date</th>
                   <th style={{width:'150px'}}>Progress</th>
-                  <th style={{width:'600px'}}>Notes</th>
+                  <th style={{width:'400px',}}>Notes</th>
                   <th style={{width:'150px'}}>Priority</th>
                   <th >Actions</th>
                 </tr>
@@ -312,25 +348,32 @@ console.log('todoChanges',todoChanges)
                         <option value="Completed">Completed</option>
                       </select>
                     </td>
-                    <td >
-                        <textarea  className='slect-todo'  style={{ width: '90%',height:'auto'  }} id={`note-${index}`} placeholder='Add Notes Here...........'
+                    {/* <td >
+                        <textarea className='slect-todo'  style={{ height:'auto',width:'200px',maxWidth:'300px',minHeight: '50px',border:'none' ,wordWrap:'break-word' }} id={`note-${index}`} placeholder='Add Notes Here...........'
+                         value={todo.notes}
+                          onChange={(e) => handleNoteChange(e, index, false)}
+                        />
+                    </td> */}
+                    <td style={{ height: 'auto', padding: '0', position: 'relative' }}>
+                        <textarea className='slect-todo'   style={{ width: '100%',  height: '100%', border: 'none', boxSizing: 'border-box', position: 'absolute', top: '0', left: '0', resize: 'none' ,backgroundColor:'transparent',  }} id={`note-${index}`} placeholder='Add Notes Here...........'
                          value={todo.notes}
                           onChange={(e) => handleNoteChange(e, index, false)}
                         />
                     </td>
-                    {/* <td contentEditable id={`note-${index}`} style={{ whiteSpace: 'normal', wordWrap: 'break-word', border: '1px solid #ccc' }}onBlur={(e) => handleNoteChange(e, index, true)}>
+        
+                    {/* <td contentEditable style={{ whiteSpace: 'normal',width:'300px',maxWidth:'300px', wordWrap: 'break-word', border: '1px solid #ccc' }}onChange={(e) => handleNoteChange(e, index,true)}>
                       {todo.notes}  
                     </td> */}
                     <td>
-                      <select value={todo.priority} style={{ width: 'fit-content',  }} onChange={(e)=>handleChange(e,index)}>
-                        <option>Select Priority</option>
-                        <option style={{color:'red'}}>High priority</option>
-                        <option style={{color:'orange'}}>Medium priority</option>
-                        <option style={{color:'Green'}}>Low priority</option>
+                      <select value={todo.priority} style={{ width: 'fit-content', appearance: 'none', }} onChange={(e)=>handleChange(e,index)}>
+                        <option value="Low" style={{color:'green'}}>Low</option>
+                        <option value="Medium" style={{color:'orange'}}>Medium</option>
+                        <option value="High" style={{color:'red'}}>High</option>
                       </select>
                     </td>
+
                     <td>
-                      <button onClick={() => handleRemoveTodo(index)}>Delete</button>
+                      <h3 onClick={() => handleRemoveTodo(index)}><FontAwesomeIcon icon={faTrash} /></h3>
                     </td>
                   </tr>
                 ))}
@@ -375,7 +418,7 @@ console.log('todoChanges',todoChanges)
                         value={todo.notes}
                         readOnly
                         onChange={(e) => handleNoteChange(e, index, true)}
-                        style={{ width: '100%',  height: '100%', border: 'none', boxSizing: 'border-box', position: 'absolute', top: '0', left: '0', resize: 'none' ,overflow:'hidden' }}
+                        style={{ width: '100%',  height: '100%', border: 'none', boxSizing: 'border-box', position: 'absolute', top: '0', left: '0', resize: 'none' ,overflow:'hidden',backgroundColor:'transparent' }}
                       />
                     </td>
                     <td>
@@ -419,16 +462,16 @@ console.log('todoChanges',todoChanges)
             </div>
           </div>
 
-          <table className='todoist-table' style={{ width: '90%' }}>
+          <table className='todoist-table' style={{ width: '100%' }}>
             <thead>
               <tr>
                 <th></th>
-                <th style={{ width: '300px' }}>Task</th>
+                <th style={{ width:'400px',maxWidth: '500px' }}>Task</th>
                 <th>Start Date</th>
                 <th>End Date</th>
                 <th>Progress</th>
-                <th style={{ width: '300px' }}>Notes</th>
-                <th style={{ width: '100px' }}>Priority</th>
+                <th style={{ maxWidth: '300px' }}>Notes</th>
+                <th style={{ maxWidth: '100px' }}>Priority</th>
               </tr>
             </thead>
             <tbody>
@@ -452,7 +495,7 @@ console.log('todoChanges',todoChanges)
                   </td>
                   <td
                     contentEditable
-                    style={{ whiteSpace: 'normal', wordWrap: 'break-word', border: '1px solid #ccc' }}
+                    style={{ whiteSpace: 'normal', wordWrap: 'break-word',backgroundColor:'transparent' }}
                     onBlur={(e) => handleNoteChange(e, index, true)}
                   >
                     {todo.notes}
@@ -463,7 +506,20 @@ console.log('todoChanges',todoChanges)
               ))}
             </tbody>
           </table>
+
+          <div className="ag-theme-alpine" style={{ height: '500px', width: '110%' }}>
+      <AgGridReact
+        columnDefs={columnDefs}
+        rowData={filteredTodos}
+        defaultColDef={{ resizable: true }}
+    
+        onCellValueChanged={handleNoteChange}
+        onSelectionChanged={handleToggleComplete}
+      />
+    </div>
         </div>
+
+        
       )}
         </div>
       </div>

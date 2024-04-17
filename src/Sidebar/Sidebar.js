@@ -8,6 +8,7 @@ import { useContext } from 'react';
 
 export default function Sidebar() {
   const { uuid } = useContext(IdContext);
+  // const uuid = sessionStorage.getItem('uuid');
   return (
     <div className='sidebar'>
        <Link to={`/employee/${uuid}`}>
@@ -22,10 +23,9 @@ export default function Sidebar() {
       <Link to='/leave-list'>Leave List</Link>
       <Link to='/Example'>Example</Link>
       <Link to={`/todo-list/${uuid}`}>To Do</Link>
-      <Link to={`/reports/${uuid}`}>Reports</Link>
+      <Link to={`/reports/${uuid}`}>Task Reports</Link>
       <Link to={`/clockin-reports/${uuid}`}>Clock-In Reports</Link>
-      <Link to='/admin-page'>Admin</Link>
-      <Link to='/user-page'>User</Link>
+      
     </div>
   )
 }

@@ -415,8 +415,9 @@ import { useParams } from 'react-router-dom';
 function DailyReport() {
     const { uuid } = useParams();
     console.log('uuid',uuid)
-    const [clockData, setClockData] = useState({ employeeId: uuid, employeeName: '', department: '', designation: '', date: '', weekday: '', clockInTime: '', clockOutTime: '', totalHours: 0, totalMinutes: 0, comments: '' });
+    const [clockData, setClockData] = useState({ employeeId: uuid, employeeName: '', department: '', designation: '', date: '', weekday: '', clockInTime: '', clockOutTime: '', totalHours: 0, totalMinutes: 0, comments: '' ,clientId:''});
     const [clockedIn, setClockedIn] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     console.log(clockData);
     useEffect(()=>{
@@ -432,6 +433,7 @@ function DailyReport() {
           employeeName: data.EmployeeName,
           department: data.dep,
           designation: data.Designation,
+          clientId:data.clientId
          
         }));
            
@@ -439,6 +441,7 @@ function DailyReport() {
         console.log('error fetching employeedetails',error)
       }
     }
+    
     useEffect(() => {
         const currentDate = new Date();
         const formattedDate = formatDate(currentDate);
@@ -450,6 +453,37 @@ function DailyReport() {
             weekday: currentWeekday,
         }));
     }, []);
+
+    useEffect(() => {
+      
+        if (clockData.employeeId && clockData.date) {
+            fetchFirstClockInAndOut();
+        }
+    }, [clockData.employeeId, clockData.date]); 
+
+    
+    const fetchFirstClockInAndOut = () => {
+        console.log('Fetching first clock-in and clock-out for employee ID and date:', clockData.employeeId, clockData.date);
+        axios.get(`http://localhost:4000/api/reports/first-clock-in-out/${clockData.employeeId}/${clockData.date}`)
+            .then(response => {
+                const { clockInTime, clockOutTime, comments } = response.data;
+                console.log('First Clock In Time:', clockInTime);
+                console.log('First Clock Out Time:', clockOutTime);
+                console.log('comments:', comments);
+                
+               
+                setClockData(prevState => ({
+                    ...prevState,
+                    clockInTime: clockInTime,
+                    clockOutTime: clockOutTime,
+                    comments: comments,
+                    totalHours: calculateTotalHours(clockInTime, clockOutTime)
+                }));
+            })
+            .catch(error => {
+                console.error('Error fetching first clock-in and clock-out:', error);
+            });
+    };
 
     const formatDate = (date) => {
         const year = date.getFullYear();
@@ -463,6 +497,29 @@ function DailyReport() {
         return days[dayIndex];
     };
 
+    const calculateTotalHours = (clockInTime, clockOutTime) => {
+        if (!clockInTime || !clockOutTime) {
+            return '';
+        }
+
+        const clockIn = new Date(`2000-01-01T${clockInTime}`);
+        const clockOut = new Date(`2000-01-01T${clockOutTime}`);
+
+        const timeDifference = clockOut - clockIn;
+        const totalHours = Math.floor(timeDifference / (1000 * 60 * 60));
+        const totalMinutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+
+        if (totalHours === 0 && totalMinutes === 0) {
+            return '0 hours 0 minutes';
+        } else if (totalHours === 0) {
+            return `${totalMinutes} minute${totalMinutes !== 1 ? 's' : ''}`;
+        } else if (totalMinutes === 0) {
+            return `${totalHours} hour${totalHours !== 1 ? 's' : ''}`;
+        } else {
+            return `${totalHours} hour${totalHours !== 1 ? 's' : ''} ${totalMinutes} minute${totalMinutes !== 1 ? 's' : ''}`;
+        }
+    };
+
     const padZero = (number) => {
         return (number < 10 ? '0' : '') + number;
     };
@@ -471,96 +528,77 @@ function DailyReport() {
         console.log("Search Function")
     };
 
-const clockInOut = () => {
-    if (clockData.employeeId.trim() === '') {
-        return;
-    }
-
-    const currentTime = new Date();
-    const formattedTime = `${padZero(currentTime.getHours())}:${padZero(currentTime.getMinutes())}`;
-
-    if (!clockedIn) {
-        const clockInTime = new Date(`2000-01-01T${formattedTime}`);
-        const defaultClockInTime = new Date(`2000-01-01T04:00`);
-        const timeDifference = clockInTime - defaultClockInTime;
-        const lateOrEarly = timeDifference >= 0 ? 'late' : 'early';
-        const totalHours = Math.abs(Math.floor(timeDifference / (1000 * 60 * 60)));
-        const totalMinutes = Math.abs(Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60)));
-
-        const clockInComment = `You clocked in by ${totalHours} hour${totalHours !== 1 ? 's' : ''} ${totalMinutes} minute${totalMinutes !== 1 ? 's' : ''} ${lateOrEarly}`;
-
-        setClockData(prevState => {
-            const updatedComments = prevState.comments ? `${prevState.comments} | ${clockInComment}` : clockInComment;
-            return {
-                ...prevState,
-                clockInTime: formattedTime,
-                comments: updatedComments
-            };
-        });
-
-        setClockedIn(true);
-
-        axios.post('http://localhost:4000/api/reports/dailyclockin-clockout', {
-            ...clockData,
-            clockInTime: formattedTime,
-            comments: clockInComment
-        })
-        .then(response => {
-            console.log('Clock in data sent successfully:', response.data);
-        })
-        .catch(error => {
-            console.error('Error sending clock in data:', error);
-        });
-    } else {
-        const clockOutTime = new Date(`2000-01-01T${formattedTime}`);
-        const defaultClockOutTime = new Date(`2000-01-01T13:00`);
-        const timeDifference = clockOutTime - defaultClockOutTime;
-        const lateOrEarly = timeDifference >= 0 ? 'early' : 'late';
-        const totalHours = Math.abs(Math.floor(timeDifference / (1000 * 60 * 60)));
-        const totalMinutes = Math.abs(Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60)));
-
-        const clockOutComment = `You clocked out by ${totalHours} hour${totalHours !== 1 ? 's' : ''} ${totalMinutes} minute${totalMinutes !== 1 ? 's' : ''} ${lateOrEarly}`;
-
-        setClockData(prevState => {
-            const updatedComments = prevState.comments ? `${prevState.comments} | ${clockOutComment}` : clockOutComment;
-            return {
-                ...prevState,
-                clockOutTime: formattedTime,
-                comments: updatedComments
-            };
-        });
-
-        setClockedIn(false);
-
-        axios.post('http://localhost:4000/api/reports/dailyclockin-clockout', {
-            ...clockData,
-            clockOutTime: formattedTime,
-            comments: clockOutComment
-        })
-        .then(response => {
-            console.log('Clock out data sent successfully:', response.data);
-        })
-        .catch(error => {
-            console.error('Error sending clock out data:', error);
-        });
-    }
-};
-
-
-    const calculateTotalHours = () => {
-        if (!clockData.clockInTime || !clockData.clockOutTime) {
-            return '';
+    const clockInOut = () => {
+        if (clockData.employeeId.trim() === '') {
+            return;
         }
 
-        const clockIn = new Date(`2000-01-01T${clockData.clockInTime}`);
-        const clockOut = new Date(`2000-01-01T${clockData.clockOutTime}`);
+        setLoading(true);
 
-        const timeDifference = clockOut - clockIn;
-        const totalHours = Math.floor(timeDifference / (1000 * 60 * 60));
-        const totalMinutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+        const currentTime = new Date();
+        const formattedTime = `${padZero(currentTime.getHours())}:${padZero(currentTime.getMinutes())}`;
 
-        return `${totalHours} hour${totalHours !== 1 ? 's' : ''} ${totalMinutes} minute${totalMinutes !== 1 ? 's' : ''}`;
+        let clockDataToSend = {
+            ...clockData,
+            totalHours: calculateTotalHours(clockData.clockInTime, formattedTime)
+        };
+
+        if (!clockData.clockInTime) {
+            const clockInComment = `You clocked in successfully at ${formattedTime}`;
+
+            setClockData(prevState => ({
+                ...prevState,
+                clockInTime: formattedTime,
+                comments: prevState.comments ? prevState.comments + '\n' + clockInComment : clockInComment
+            }));
+
+            clockDataToSend = {
+                ...clockDataToSend,
+                clockInTime: formattedTime,
+                comments: clockInComment
+            };
+        } else if (!clockData.clockOutTime) {
+            const clockOutComment = `You clocked out successfully at ${formattedTime}`;
+
+            setClockData(prevState => ({
+                ...prevState,
+                clockOutTime: formattedTime,
+                comments: prevState.comments ? prevState.comments + '\n' + clockOutComment : clockOutComment,
+                totalHours: calculateTotalHours(clockData.clockInTime, formattedTime) // Update total hours when clocking out
+            }));
+
+            clockDataToSend = {
+                ...clockDataToSend,
+                clockOutTime: formattedTime,
+                comments: clockOutComment
+            };
+        } else {
+          
+            const clockInOutComment = `You have already clocked in at ${clockData.clockInTime} and clocked out at ${clockData.clockOutTime}`;
+
+            setClockData(prevState => ({
+                ...prevState,
+                comments: prevState.comments ? prevState.comments + '\n' + clockInOutComment : clockInOutComment
+            }));
+
+            setLoading(false);
+            return;
+        }
+
+   
+        axios.post('http://localhost:4000/api/reports/dailyclockin-clockout', clockDataToSend)
+            .then(response => {
+                console.log('Clock data sent successfully:', response.data);
+            })
+            .catch(error => {
+                console.error('Error sending clock data:', error);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
     };
+
+
 
     return (
         <div>
@@ -569,39 +607,44 @@ const clockInOut = () => {
                     <h2>Daily Clock-In / Clock-out</h2>
                 </div>
             </div>
-            <div id='employeeInfo'>
-                <div>
+            <div id='employeeInfo' className="employee-info-row">
+                {/* <div>
                     <label htmlFor="eid">Employee Id:</label>
                     <div style={{ position: 'relative' }}>
-                        <input type="text" id='eid' name='eid' placeholder='Enter Employee ID' required value={clockData.employeeId} onChange={(e) => setClockData(prevState => ({ ...prevState, employeeId: e.target.value }))} />
+                        <input type="text" id='eid' name='eid' placeholder='Enter Employee ID' required value={clockData.employeeId} />
                         <div className='search-icon' onClick={searchEmployeeInfo}>
                             <i className='fas fa-search'></i>
                         </div>
                     </div>
-                </div>
+                </div> */}
                 <div>
                     <label htmlFor="date">Date:</label>
                     <input type="date" id="date" name="date" value={clockData.date} onChange={(e) => setClockData(prevState => ({ ...prevState, date: e.target.value }))} required />
                 </div>
-                <div>
+                {/* <div>
                     <label htmlFor="weekday">Week Day:</label>
                     <input type="text" id="weekday" name="weekday" value={clockData.weekday} readOnly />
-                </div>
-                <div>
+                </div> */}
+                {/* <div>
                     <label htmlFor="ename">Employee Name:</label>
                     <input type="text" id="ename" name="fname" placeholder="Enter Employee Name" value={clockData.employeeName} readOnly className="disabled-input" />
-                </div>
-                <div>
+                </div> */}
+                {/* <div>
                     <label htmlFor="department">Department:</label>
                     <input type="text" id="department" name="department" placeholder="Enter Department" value={clockData.department} readOnly className="disabled-input" />
-                </div>
-                <div>
+                </div> */}
+                {/* <div>
                     <label htmlFor="designation">Designation:</label>
                     <input type="text" id="designation" name="designation" placeholder="Enter Designation" value={clockData.designation} readOnly className="disabled-input" />
-                </div>
+                </div> */}
             </div>
-            <button onClick={clockInOut}>{clockedIn ? 'Clock Out' : 'Clock In'}</button>
-            <table>
+            {/* <button onClick={clockInOut}>{clockedIn ? 'Clock Out' : 'Clock In'}</button> */}
+            <div id='clockin-clockout'>
+                <button onClick={clockInOut} disabled={loading || (clockData.clockInTime && clockData.clockOutTime)}>
+                    {clockData.clockInTime && clockData.clockOutTime ? 'Clock In/Out Completed' : clockData.clockInTime ? 'Clock Out' : 'Clock In'}
+                </button>
+            </div>
+            <table className='clockin-table'>
                 <thead>
                     <tr>
                         <th style={{ width: '15%' }}>Date</th>
@@ -618,7 +661,7 @@ const clockInOut = () => {
                         <td>{clockData.weekday}</td>
                         <td>{clockData.clockInTime}</td>
                         <td>{clockData.clockOutTime}</td>
-                        <td>{calculateTotalHours()}</td>
+                        <td>{clockData.totalHours}</td>
                         <td>{clockData.comments}</td>
                     </tr>
                 </tbody>

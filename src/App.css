@@ -17,7 +17,7 @@
   
 .content > div {
     
-    padding: 20px;
+    /* padding: 20px; */
     /* overflow-y: auto;  */
 }
 
@@ -43,16 +43,19 @@
 
 .container{
   margin-bottom:50px;
+  margin-left:50px;
+  margin-top:50px;
 }
 
-/* .sub-content{
-  margin:0px;
-  display:flex;
-  flex-direction: row;
-  gap:50px;
-  margin-right: 50px;
+/* modifiying */
+/* .main-component{
+  display: flex;
+  overflow: hidden;
+}
 
+.content{
+  display: flex;
+  flex-direction: column;
+  
 } */
-
-
 

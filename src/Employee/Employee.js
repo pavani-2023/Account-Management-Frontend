@@ -68,12 +68,24 @@ export default function Employee() {
     //     localStorage.setItem(`employeeData_${employeeData.EmployeeID}`, JSON.stringify(employeeData));
     //   }, [employeeData]);
 
-      const updateEmployeeName = () => {
-        const { FirstName, MiddleName, Lastname } = employeeData;
-        const fullName = `${FirstName} ${MiddleName} ${Lastname}`.trim(); 
-        setEmployeeData(prevData => ({ ...prevData, EmployeeName: fullName }));
-      };
+    //   const updateEmployeeName = () => {
+    //     const { FirstName, MiddleName, Lastname } = employeeData;
+    //     const fullName = `${FirstName} ${MiddleName} ${Lastname}`.trim(); 
+    //     setEmployeeData(prevData => ({ ...prevData, EmployeeName: fullName }));
+    //   };
 
+    const updateEmployeeName = () => {
+        const { FirstName, MiddleName, Lastname } = employeeData;
+        // Check if any of the name parts are undefined, if so, replace with empty string
+        const firstNamePart = FirstName ? FirstName : '';
+        const middleNamePart = MiddleName ? MiddleName : '';
+        const lastNamePart = Lastname ? Lastname : '';
+        
+        // Construct full name with trimmed parts
+        const fullName = `${firstNamePart} ${middleNamePart} ${lastNamePart}`.trim(); 
+        setEmployeeData(prevData => ({ ...prevData, EmployeeName: fullName }));
+    };
+    
       useEffect(()=>{
         getEmployeeDetails();
     }, []);
@@ -173,9 +185,9 @@ export default function Employee() {
        
 
         <div className='container'>
-        <h1 className='heading'>Employee</h1>
+        {/* <h1 className='heading'>Employee Info</h1> */}
 
-        <div className="image"style={{display:'flex',flexDirection:'row',gap:'5%',marginBottom:'100px' ,width:'100%'}}>
+        {/* <div className="image"style={{display:'flex',flexDirection:'row',gap:'5%',marginBottom:'100px' ,width:'100%',height:'300px'}}>
             <div className='profile-pic' style={{width:'25%',backgroundColor:'#fff',}}>
                 <div style={{ display: 'flex', justifyContent: 'center',alignItems:'center',height:'100%' }}>
                     <input
@@ -190,7 +202,7 @@ export default function Employee() {
                         src={employeeData.imageSrc}
                         id="profile-image1"
                         height="200"
-                        style={{ cursor: 'pointer',borderRadius:'50%',width:'60%',height:'70%' ,}}
+                        style={{ cursor: 'pointer',borderRadius:'50%',width:'50%' ,}}
                         onClick={handleClick}
                     />
                 </div>
@@ -223,7 +235,7 @@ export default function Employee() {
                
 
             </div>
-        </div>
+        </div> */}
         
         <div className='Employee-container'>
    
@@ -243,94 +255,148 @@ export default function Employee() {
 
             <div className='Employee-personal-details'>
                 {activeDiv===1  && < div className={`container ${activeDiv === 1 ? 'active' : ''}`}>
-                   <div className='personal-info employee'>
-                         <div className='input-cont'>
-                            <label>First Name</label><br/>
-                            <input type="text"value={employeeData.FirstName} onChange={(e) => handleChange(e, 'FirstName')}/>
-                         </div>
-     
-                         <div className='input-cont'>
-                            <label>Middle Name</label><br/>
-                            <input type="text"value={employeeData.MiddleName} onChange={(e) => handleChange(e, 'MiddleName')}/>
-                         </div>
-     
-     
-                         <div className='input-cont'>
-                            <label>Last Name</label><br/>
-                            <input type="text" value={employeeData.Lastname}onChange={(e) => handleChange(e, 'Lastname')} />
-                         </div>
-     
-                         
+                   <div style={{display:'flex', width:'100%'}} >
 
-                         <div className='input-cont'>
-                            <label>Gender</label><br/>
-                            <select className='gender' value={employeeData.Gender || ""}onChange={(e) => handleChange(e, 'Gender')} >
-                                <option value="">Select Gender</option>
-                                <option>Male</option>
-                                <option>Female</option>
-                                <option>Other</option>
-                            </select>
-                         </div>
-     
-                         <div className='input-cont'>
-                            <label>Personal Email</label><br/>
-                            <input type="email" value={employeeData.PersonalEmail} onChange={(e) => handleChange(e, 'PersonalEmail')}/>
-                         </div>
-     
-                         <div className='input-cont'>
-                             <label>Mobile Number</label><br/>
-                             <input type="number" value={employeeData.MobileNumber} onChange={(e) => handleChange(e, 'MobileNumber')}/>
-                         </div>
-     
-                         <div className='input-cont'>
-                             <label>Alternative Mobile Number</label><br/>
-                             <input type="number" value={employeeData.AlternativeMobileNumber} onChange={(e) => handleChange(e, 'AlternativeMobileNumber')} />
-                         </div>
-     
-                         <div className='input-cont'>
-                            <label>Date Of Birth</label><br/>
-                            <input type="date" value={employeeData.DateOfBirth} onChange={(e) => handleChange(e, 'DateOfBirth')} />
-                         </div>
-     
-                         <div className='input-cont'>
-
-                            <label> Father Name</label><br/>
-                            <input type="text" value={employeeData.EmployeeName} onChange={(e) => handleChange(e, 'FatherName')} />
-                            
-                         </div>
-     
-                         <div className='input-cont'>
-
-                            <label>Residential Address</label><br/>
-                            <input type="text" value={employeeData.ResidentialAddress} onChange={(e) => handleChange(e, 'ResidentialAddress')}/>
-
-                         </div>
-     
-     
-                   </div>
-                   <h3 className='h3'>Emergancey Contact Information</h3>
-                   <div>
-                    
-                   </div>
-                   <div className='emergancey-info employee'>
-
-                        <div className='input-cont'>
-                            <label>Name</label><br/>
-                            <input type="text" value={employeeData.Name}onChange={(e) => handleChange(e, 'Name')}/>
+                
+                        <div className="image"style={{display:'flex',flexDirection:'column',justifyContent:'center',width:'30%'}}>
+                        <div className='profile-pic' style={{width:'75%',backgroundColor:'#fff',}}>
+                            <div style={{ display: 'flex', justifyContent: 'center',alignItems:'center',height:'100%' }}>
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleImageChange}
+                                    style={{ display: 'none' }}
+                                    ref={fileInputRef}
+                                />
+                                <img
+                                    alt="User Pic"
+                                    src={employeeData.imageSrc}
+                                    id="profile-image1"
+                                    height="150"
+                                    style={{ cursor: 'pointer',borderRadius:'50%',width:'50%' ,}}
+                                    onClick={handleClick}
+                                />
+                            </div>
                         </div>
+                        <div style={{width:'65%',height:'300px',backgroundColor:'#fff'}}>
+                            <div style={{margin:'50px',display:'flex',flexDirection:'column',gap:'10px'}}>
+                                <div className='input-conta'>
+                                    <label style={{marginRight:'20px'}}>Employee ID:</label>
+                                    <input style={{border:'none'}}type="text"  value={employeeData.EmployeeID} onChange={() => {}} readOnly />
+                                </div>
 
-                        <div className='input-cont'>
-                            <label>Phone Number</label><br/>
-                            <input type="text" value={employeeData.PhoneNumber} onChange={(e) => handleChange(e, 'PhoneNumber')}/>
+                                <div className='input-conta'>
+                                    <label>Employee Name:</label>
+                                    <input type="text" style={{border:'none'}} id="employee-name" readOnly value={employeeData.EmployeeName} onChange={(e) => handleChange(e, 'EmployeeName')}/>
+                                </div>
+
+                                <div className='input-conta'>
+                                        <label>Department:</label>
+                                        <input type="text" readOnly value={employeeData.DepName} style={{border:'none'}} onChange={(e) => handleChange(e, 'DepName')}/>
+                                </div>
+
+                                <div className='input-conta'>
+                                        <label>Designation: </label>
+                                        <input type="text" readOnly  value={employeeData.Designation} style={{border:'none'}} onChange={(e) => handleChange(e, 'Designation')}/>
+                                </div>
+
+
+                            </div>
+
+                        
+
                         </div>
+                        </div>
+                        <div>
+                            <div className='personal-info employee'>
+                                    <div className='input-cont'>
+                                        <label>First Name</label><br/>
+                                        <input type="text"value={employeeData.FirstName} onChange={(e) => handleChange(e, 'FirstName')}/>
+                                    </div>
+                
+                                    <div className='input-cont'>
+                                        <label>Middle Name</label><br/>
+                                        <input type="text"value={employeeData.MiddleName} onChange={(e) => handleChange(e, 'MiddleName')}/>
+                                    </div>
+                
+                
+                                    <div className='input-cont'>
+                                        <label>Last Name</label><br/>
+                                        <input type="text" value={employeeData.Lastname}onChange={(e) => handleChange(e, 'Lastname')} />
+                                    </div>
+                
+                                    
 
-                        <div className='input-cont'>
-                            <label>Relationship</label><br/>
-                            <input type="text" value={employeeData.Relationship} onChange={(e) => handleChange(e, 'Relationship')} />
+                                    <div className='input-cont'>
+                                        <label>Gender</label><br/>
+                                        <select className='gender ' style={{width:'400px'}} value={employeeData.Gender || ""}onChange={(e) => handleChange(e, 'Gender')} >
+                                            <option value="">Select Gender</option>
+                                            <option>Male</option>
+                                            <option>Female</option>
+                                            <option>Other</option>
+                                        </select>
+                                    </div>
+                
+                                    <div className='input-cont'>
+                                        <label>Personal Email</label><br/>
+                                        <input type="email" value={employeeData.PersonalEmail} onChange={(e) => handleChange(e, 'PersonalEmail')}/>
+                                    </div>
+                
+                                    <div className='input-cont'>
+                                        <label>Mobile Number</label><br/>
+                                        <input type="number" value={employeeData.MobileNumber} onChange={(e) => handleChange(e, 'MobileNumber')}/>
+                                    </div>
+                
+                                    <div className='input-cont'>
+                                        <label>Alternative Mobile Number</label><br/>
+                                        <input type="number" value={employeeData.AlternativeMobileNumber} onChange={(e) => handleChange(e, 'AlternativeMobileNumber')} />
+                                    </div>
+                
+                                    <div className='input-cont'>
+                                        <label>Date Of Birth</label><br/>
+                                        <input type="date" value={employeeData.DateOfBirth} onChange={(e) => handleChange(e, 'DateOfBirth')} />
+                                    </div>
+                
+                                    <div className='input-cont'>
+
+                                        <label> Father Name</label><br/>
+                                        <input type="text" value={employeeData.FatherName} onChange={(e) => handleChange(e, 'FatherName')} />
+                                        
+                                    </div>
+                
+                                    <div className='input-cont'>
+
+                                        <label>Residential Address</label><br/>
+                                        <input type="text" value={employeeData.ResidentialAddress} onChange={(e) => handleChange(e, 'ResidentialAddress')}/>
+
+                                    </div>
+                
+                
+                            </div>
+                            <h3 className='h3'>Emergancey Contact Information</h3>
+                            <div>
+                                
+                            </div>
+                            <div className='emergancey-info employee'>
+
+                                    <div className='input-cont'>
+                                        <label>Name</label><br/>
+                                        <input type="text" value={employeeData.Name}onChange={(e) => handleChange(e, 'Name')}/>
+                                    </div>
+
+                                    <div className='input-cont'>
+                                        <label>Phone Number</label><br/>
+                                        <input type="text" value={employeeData.PhoneNumber} onChange={(e) => handleChange(e, 'PhoneNumber')}/>
+                                    </div>
+
+                                    <div className='input-cont'>
+                                        <label>Relationship</label><br/>
+                                        <input type="text" value={employeeData.Relationship} onChange={(e) => handleChange(e, 'Relationship')} />
+                                    </div>
+                            </div>
+
                         </div>
                    </div>
-
-                   
                 </div>}
                 
                 {activeDiv===2 && <div className={`container ${activeDiv === 2 ? 'active' : ''}`}>
@@ -412,6 +478,10 @@ export default function Employee() {
                         <div className='input-cont'>
                             <label>Salary CTC</label><br/>
                             <input type="text" value={employeeData.SalaryCTC}onChange={(e) => handleChange(e, 'SalaryCTC')}/>
+                        </div>
+                        <div className='input-cont'>
+                            <label>IFSC Code</label><br/>
+                            <input type="text" value={employeeData.IFSCCode}onChange={(e) => handleChange(e, 'IFSCCode')}/>
                         </div>
                     </div>
                     

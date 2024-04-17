@@ -19,6 +19,7 @@ function Leave() {
   return (
     <>
       <div className='Main-Container'>
+        <div className='container'>
         <button onClick={handleNewFormClick}>Leave Application Form</button>
         {showNewForm && (
           <div className='overlay'>
@@ -31,6 +32,8 @@ function Leave() {
           </div>
         )}
       <LeaveList/>
+        </div>
+       
       </div>
       
     </>

@@ -1,6 +1,7 @@
 button{
     padding: 8px 15px;
-    background-color: #026F44;
+    /* background-color: #026F44; */
+    background-color: #2a4d5d;
     color: white;
     border: none;
     border-radius: 3px;
@@ -38,8 +39,11 @@ button{
 
   .leave-table{
     margin-top:50px;
-    width:80%;
+    width:90%;
     height: auto;
     /* border: 1px solid black;  */
     border-collapse:collapse;
+}
+.leave-table td{
+  padding:8px;
 }

@@ -24,9 +24,9 @@ function LeaveList() {
 
 
   return (
-    <div>
+    <div >
       
-      <table className="leave-table">
+      <table className="leave-table" >
         <thead>
           <tr>
             <th>SNo.</th>

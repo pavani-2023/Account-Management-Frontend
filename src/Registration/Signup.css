@@ -2,7 +2,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  /* height: 100vh; */
+  height: 80vh;
   margin: 0;
   /* background: url('login-background2.jpg') center center/cover no-repeat; */
 }

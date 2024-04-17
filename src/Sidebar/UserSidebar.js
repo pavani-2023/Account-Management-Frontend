@@ -19,7 +19,7 @@ export default function UserSidebar() {
       <NavLink to={`/leave/${uuid}`} className='items' activeClassName="active">Leave</NavLink>
       <NavLink to={`/todo-list/${uuid}`}  className='items' activeClassName="active">To Do</NavLink>
       <NavLink to={`/reports/${uuid}`}  className='items' activeClassName="active">Reports</NavLink>
-      <NavLink to={`/clockin-reports/${uuid}`}  className='items' activeClassName="active">Clock-In Reports</NavLink>
+      <NavLink to={`/clockin-reports/${uuid}`}  className='items' activeClassName="active">Attendance</NavLink>
     </div>
   )
 }

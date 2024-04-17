@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './EmployeeLIst.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowUp,faEnvelope,faPhone,faUser,faGear,faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faArrowUp,faEnvelope,faPhone,faUser,faGear,faArrowLeft ,faPenToSquare,} from '@fortawesome/free-solid-svg-icons';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import Signup from '../Registration/Signup';
 
 const EmployeeList = () => {
@@ -40,17 +41,21 @@ const EmployeeList = () => {
   useEffect(() => {
     fetchEmployeedata();
     fetchemployeelogindetails();
-    getSelectedEmployeeLoginDetails();
-    handleopenSetting()
+    
+   
    
   }, []);
+  useEffect(()=>{
+    getSelectedEmployeeLoginDetails();
+  
+  },[selectedEmployee])
 
   const fetchEmployeedata = async () => {
     try {
       const response = await axios.get('http://localhost:5000/Employee');
       setEmployees(response.data); 
       const employeedata = response.data[0];
-      console.log('response',employeedata)
+      // console.log('response',employeedata)
     } catch (error) {
       console.error('Error fetching employees:', error);
     }
@@ -87,8 +92,8 @@ const fetchemployeelogindetails=async()=>{
     try {
           const response = await axios.get('http://localhost:5000/submitForm');
           setEmployeeLoginDetails(response.data); 
-          const employeedata = response.data[0];
-          // console.log('response',employeedata)
+          const employeedata = response.data;
+          console.log('response',employeedata)
     } catch (error) {
         console.error('Error fetching employees:', error);
     }
@@ -130,7 +135,8 @@ const getSelectedEmployeeLoginDetails = () => {
   }
   return null;
 }
-
+// console.log('selectes', selectedEmployee.EmployeeID)
+console.log('employee login details',employeelogindetails)
 console.log('sleected employee login details',seletcedEmployeeLoginDetails)
 
 
@@ -236,6 +242,30 @@ console.log('sleected employee login details',seletcedEmployeeLoginDetails)
 
   console.log('employee data',employees);
   console.log('seletcedEmployeeLoginDetails',seletcedEmployeeLoginDetails)
+
+  const handleDeleteEmployee  = async(employeeID)=>{
+    console.log('emp id',employeeID)
+    try{
+      
+      const response = await axios.delete(`http://localhost:5000/Employee/${employeeID}`)
+      console.log('emp id',employeeID)
+      console.log('Employee deleted successfully');
+    }catch(error){
+      console.log('error deleteing employee',error)
+    }
+  }
+
+  const deleteEmployee = async (employeeID) => {
+  const result = await handleDeleteEmployee(employeeID);
+  if (result.success) {
+    // Handle success, show a success message or update UI accordingly
+    console.log(result.message);
+  } else {
+    // Handle error, show an error message or update UI accordingly
+    console.error(result.message);
+  }
+};
+
   return (
     <div className='Main-Container'>
       <div className="container">
@@ -261,10 +291,10 @@ console.log('sleected employee login details',seletcedEmployeeLoginDetails)
 
         {employees.map((employee) => (
           <div className="card" key={employee.EmployeeID}>
-            <div className='image' style={{display:'flex',justifyContent:'center',height:'40%'}}>
+            <div className='image' style={{display:'flex',justifyContent:'center',height:'35%'}}>
               <img src={employee.imageSrc ? employee.imageSrc : 'https://d30y9cdsu7xlg0.cloudfront.net/png/138926-200.png'} style={{ cursor: 'pointer', borderRadius: '60%', width: '45%'}} alt={employee.name} />
             </div>
-            <div className="card-body" style={{ margin: '20px',height:'60%',display:'flex',flexDirection:'column',gap:'15px'}}>
+            <div className="card-body" style={{ margin: '20px',height:'60%',display:'flex',flexDirection:'column',gap:'10px'}}>
               <p className="card-title" style={{textAlign:'center'}}>{formData.EmployeeName||employee.EmployeeName?employee.EmployeeName:'Employee Name'}</p>
               {/* <div>
                 <input value={formData.EmployeeName||employee.EmployeeID} className='employees-input' placeholder="Employee ID" onChange={(e) => handleInputChange(e, employee.EmployeeID, 'EmployeeID')} />
@@ -284,8 +314,12 @@ console.log('sleected employee login details',seletcedEmployeeLoginDetails)
                 <FontAwesomeIcon icon={faUser} style={{marginRight:'20px'}}/>
                 <input value={employee.DepName} className='employees-input' placeholder="Department Name" onChange={(e) => handleInputChange(e, employee.EmployeeID, 'DepName')} />
               </div>
-              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', borderTop: '3px solid rgba(233, 224, 224, 0.76)' }}>
-              <h2 onClick={() => handleform(employee)}>View More Details</h2>
+              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+                <div style={{display:'flex',flexDirection:'row',gap:'15px'}}>
+                  <h3 onClick={() => handleform(employee)}><FontAwesomeIcon icon={faPenToSquare} /></h3>
+                  <h3 onClick={() => handleDeleteEmployee(employee.EmployeeID)}><FontAwesomeIcon icon={faTrash} /></h3>
+                </div>
+              
             </div>
               
             </div>

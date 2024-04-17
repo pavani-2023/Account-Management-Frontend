@@ -216,21 +216,22 @@ function LeaveAdmin() {
   
   return (
     <div className='Main-Container'>
+      <div className='container'>
       <button onClick={updatedata}>Update</button>
-      <table className="leave-table">
+      <table className='leaves' style={{marginTop:'50px',width:'100%'}}>
         <thead>
           <tr>
             <th>SNo.</th>
-            <th>Employee Name</th>
+            <th >Employee Name</th>
             <th>Department</th>
             <th>Designation</th>
             <th>Leave Type</th>
             <th>From Date</th>
             <th>To Date</th>
             <th>No.Of Days</th>
-            <th>Reason</th>
+            <th style={{width:'200px'}}>Reason</th>
             <th>Approved / Rejected</th>
-            <th>Comments</th>
+            <th style={{width:'200px'}}>Comments</th>
           </tr>
         </thead>
         <tbody>
@@ -266,6 +267,8 @@ function LeaveAdmin() {
           ))}
         </tbody>
       </table>
+      </div>
+     
     </div>
   );
 }

@@ -27,6 +27,7 @@ const ClockInReports = () => {
 
   return (
     <div className='Main-Container'>
+      <div className='container'>
       <div className="tabs">
         <button
           className={`tab-btn ${viewMode === 'daily' ? 'active' : ''}`}
@@ -49,6 +50,8 @@ const ClockInReports = () => {
       </div>
 
       {viewMode === 'daily' ? <DailyReport data={data} /> : (viewMode === 'weekly' ? <WeeklyReport data={data} /> : <MonthlyReports data={data} />)}
+      </div>
+      
     </div>
   );
 };

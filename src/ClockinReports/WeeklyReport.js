@@ -306,8 +306,8 @@ const WeeklyReport = () => {
           <h2>Weekly Check-In/Check-Out Data</h2>
         </div>
       </div>
-      <div id="employeeInfo">
-        <div>
+      <div id="employeeInfo" className="employee-info-row">
+        {/* <div>
           <label htmlFor="eid">Employee Id:</label>
           <div style={{ position: 'relative' }}>
             <input
@@ -317,10 +317,10 @@ const WeeklyReport = () => {
               placeholder="Enter Employee ID"
               required
               value={employeeId}
-              onChange={(e) => setEmployeeId(e.target.value.trim())}
+              
             />
           </div>
-        </div>
+        </div> */}
         <div>
           <label htmlFor="fromdate">From Date:</label>
           <input
@@ -343,7 +343,7 @@ const WeeklyReport = () => {
             onChange={(e) => setToDate(e.target.value)}
           />
         </div>
-        <div>
+        {/* <div>
           <label htmlFor="ename">Employee Name:</label>
           <input type="text" id="ename" name="fname" value={employeeInfo.employeename} placeholder="Enter Employee Name" readOnly className="disabled-input" />
         </div>
@@ -354,14 +354,14 @@ const WeeklyReport = () => {
         <div>
           <label htmlFor="designation">Designation:</label>
           <input type="text" id="designation" name="designation" placeholder="Enter Designation" readOnly className="disabled-input" value={employeeInfo.designation} />
-        </div>
+        </div> */}
       </div>
       <div>
         <button onClick={fetchData} disabled={loading}>{loading ? 'Fetching Data...' : 'Fetch Data'}</button>
         <button onClick={convertToPDF} disabled={!timeReports.length}>Convert to PDF</button>
       </div>
       {error && <div className="error-message">{error}</div>}
-      <table id="weeklyDataTable">
+      <table id="weeklyDataTable"  className='clockin-table'>
         <thead>
           <tr>
             <th style={{ width: '15%' }}>Date</th>
@@ -379,7 +379,7 @@ const WeeklyReport = () => {
               <td>{getDayOfWeek(new Date(report.date).getDay())}</td>
               <td>{report.clockInTime}</td>
               <td>{report.clockOutTime}</td>
-              <td>{`${report.totalHours} and ${report.totalMinutes}`}</td>
+              <td>{report.totalHours}</td>
               <td>{report.comments}</td>
             </tr>
           ))}

@@ -256,6 +256,7 @@ const LeaveApplication = ({ show, onClose }) => {
   const { uuid } = useParams();
 
   const [employeeList, setEmployeeList] = useState([]);
+  console.log('employeeList',employeeList)
   const [formData, setFormData] = useState({ empId:uuid, empName: '', empDept: '', empDesignation: '', leaveType: '', leaveDuration: '', startDate: '', endDate: '', startTime: '04:00', endTime: '08:00', numberOfDays: 0, numberOfHours: 0, reason: '',});
   const [selectedEmpId, setSelectedEmpId] = useState(''); 
 
@@ -341,9 +342,10 @@ const LeaveApplication = ({ show, onClose }) => {
 const handleSubmit = async (e) => {
   e.preventDefault();
   try {
-    const formDataWithEmpId = { ...formData, empId: uuid, empName: employeeList.EmployeeName, empDept: employeeList.dep, empDesignation: employeeList.Designation };
+    const formDataWithEmpId = { ...formData, empId: uuid, empName: employeeList.EmployeeName, empDept: employeeList.dep, empDesignation: employeeList.Designation,clientId:employeeList.clientId };
     // console.log(formDataWithEmpId)
     await axios.post('http://localhost:5000/employeeLeaves', formDataWithEmpId);
+    console.log('formDataWithEmpId',formDataWithEmpId)
     window.alert('Submitted Successfully');
     onClose();
   } catch (err) {
@@ -354,7 +356,7 @@ const handleSubmit = async (e) => {
 
 
   const handleClear = () => {
-    setFormData({ empId: '', empName: '', empDept: '', empDesignation: '', leaveType: '', leaveDuration: '', startDate: '', endDate: '', startTime: '04:00', endTime: '08:00', numberOfDays: 0, numberOfHours: 0, reason: '', message: '',});
+    setFormData({ leaveType: '', leaveDuration: '', startDate: '', endDate: '', startTime: '04:00', endTime: '08:00', numberOfDays: 0, numberOfHours: 0, reason: '', message: '',});
     setSelectedEmpId('');
   };
   const handleInputChange = (e) => {
@@ -385,17 +387,17 @@ const handleSubmit = async (e) => {
       <div className="modal-content">
         <form className="modal-form">
           <span className="close" onClick={onClose}>&times;</span>
-          <label>Employee ID:
+          {/* <label>Employee ID:
          
             <input  type="text" value={uuid}/>
-          </label>
+          </label> */}
           {/* <label>Name<input type="text" name="empName" id='EmployeeName'value={employeeList.EmployeeName} onChange={() => {}}/></label>
           <label>Department<input type="text" name="empDept" value={employeeList.dep} onChange={() => {}}/></label>
           <label>Designation<input type="text" name="empDesignation" value={employeeList.Designation} onChange={handleInputChange}/></label> */}
 
-          <label>Name<input type="text" name="empName" id='EmployeeName' value={employeeList.EmployeeName} /></label>
-          <label>Department<input type="text" name="empDept" value={employeeList.dep} /></label>
-          <label>Designation<input type="text" name="empDesignation" value={employeeList.Designation} /></label>
+          {/* <label>Name<input type="text" name="empName" id='EmployeeName' value={employeeList.EmployeeName} /></label> */}
+          {/* <label>Department<input type="text" name="empDept" value={employeeList.dep} /></label> */}
+          {/* <label>Designation<input type="text" name="empDesignation" value={employeeList.Designation} /></label> */}
           <label>Leave Type:<select name="leaveType" value={formData.leaveType || ''} onChange={handleInputChange} className='custom-dropdown'>
                               <option value="">Select Leave Type</option>
                               <option value="Casual Leave">Casual Leave</option>

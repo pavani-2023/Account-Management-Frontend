@@ -52,25 +52,23 @@
     margin-bottom: 10px;
     word-wrap: break-word; 
 }
-/* table {
-    width: 80%;
+.clockin-table {
+    width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
     margin-bottom: 20px;
-}
-th,
-td {
-border: 1px solid #ddd;
-padding: 12px;
-text-align: left;
+  }
+  .clockin-table  th,
+  .clockin-table  td {
+
+padding: 10px;
+
 max-width: 150px; 
 word-wrap: break-word;
 white-space: pre-wrap;
 overflow: hidden;
-}
-th {
-    background-color: #f2f2f2;
-} */
+} 
+
 
 
 button:hover {
@@ -228,6 +226,17 @@ button:hover {
 }
 
 .disabled-input {
-    background-color: #f0f0f0;
+    background-color:#fff;
     cursor: not-allowed;
+}
+
+.employee-info-row input ,select{
+    width: 100%;
+    max-width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    word-wrap: break-word;
+    border-radius: 5px;
+    
 }

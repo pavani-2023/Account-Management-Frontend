@@ -24,6 +24,7 @@ export default function Report() {
 
   return (
     <div className='Main-Container'>
+      <div className='container'>
       <div className="tabs">
         <button
           className={`tab-btn ${viewMode === 'daily' ? 'active' : ''}`}
@@ -39,6 +40,8 @@ export default function Report() {
         </button>
       </div>
       {viewMode === 'daily' ? <DailyReport data={data} /> : <WeeklyReport data={data} />}
+      </div>
+      
     </div>
   );
 }
