@@ -91,6 +91,7 @@ export default function Header() {
       if (error) {
         console.error(error.message);
       } else {
+        sessionStorage.removeItem('role');
         console.log('Signout successful', user);
         window.history.replaceState(null, '/user-page', '/');
         window.location.href = '/';

@@ -233,7 +233,7 @@ button:hover {
 .employee-info-row input ,select{
     width: 100%;
     max-width: 100%;
-    padding: 8px;
+    /* padding: 8px; */
     box-sizing: border-box;
     margin-bottom: 10px;
     word-wrap: break-word;

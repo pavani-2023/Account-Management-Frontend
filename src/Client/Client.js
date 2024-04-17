@@ -8,6 +8,7 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const ClientTable = () => {
   const [clients, setClients] = useState([]);
+  console.log('clients',clients)
   const [clientlogins,setClientlogins]=useState([])
   // console.log('clientlogins',clientlogins)
   const[newemp,setNewEmp] =useState(false);

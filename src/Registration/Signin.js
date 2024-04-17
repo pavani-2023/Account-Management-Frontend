@@ -12,7 +12,7 @@ import image from './images/undraw_file_sync_ot38.svg'
 
 const Signin = () => {
   
-  const { updateuuid,login } = useContext(IdContext);
+  const { updateuuid,login,updateuserRole } = useContext(IdContext);
   const navigate =useNavigate();
  
 
@@ -30,42 +30,7 @@ const Signin = () => {
     });
   };
  
-  // const handleLogin = async () => {
-  //   try {
-  //     const response = await axios.post('http://localhost:5000/signin', formData);
-      
 
-  //     if (response.status === 200) {
-  //       console.log('User signed in successfully');
-  //       const uuid = response.data.uuid;
-  //       const role = response.data.role
-  //       console.log('role',role)
-  //       // updateuuid({uuid});
-  //       // login({role});
-  //       sessionStorage.setItem('role', role);
-      
-  //       console.log('login',login)
-  //       console.log('update id',updateuuid(uuid));
-  //       console.log('signin uuid',uuid);
-  //       console.log(response.data)
-        
-  //     if (role === 'User') {
-       
-  //       navigate('/user-page');
-  //     } else if (role === 'Admin') {
-        
-  //       navigate('/admin-page');
-  //     } else {
-        
-  //       console.log('/unauth');
-  //     }
-  //     } else {
-  //       console.error('Sign-in failed:', response.data.error || 'Unknown error');
-  //     }
-  //   } catch (error) {
-  //     console.error('Error during sign-in:', error);
-  //   }
-  // };
   const handleLogin = async () => {
     try {
       const response = await axios.post('http://localhost:5000/signin', formData);
@@ -79,14 +44,15 @@ const Signin = () => {
             updateuuid({uuid});
             console.log('update id',updateuuid(uuid));
         if (role === 'User') {
-          navigate('/user-page');
+          navigate(`/employee/${uuid}`);
         } else if (role === 'Admin') {
-          navigate('/admin-page');
+          navigate(`/admin-dashboard/${uuid}`);
         }else if (role === 'Client') {
           navigate(`/client-dashboard/${uuid}`);
         } else {
           console.log('/unauth');
         }
+        window.location.reload();
       } else {
         // Update error state when sign-in fails
         setError(response.data.error || 'Unknown error');
@@ -98,41 +64,6 @@ const Signin = () => {
       console.log('Error during sign-in:', error);
     }
   };
-//   const handleLogin = async () => {
-//   try {
-//     const response = await axios.post('http://localhost:5000/signin', formData);
-
-//     if (response.status === 200) {
-//       console.log('User signed in successfully');
-//       const uuid = response.data.uuid;
-//       const role = response.data.role;
-
-//       sessionStorage.setItem('role', role);
-//       updateuuid({ uuid });
-
-//       let redirectUrl = '/'; // Default redirect URL
-
-//       if (role === 'User') {
-//         redirectUrl = '/user-page';
-//       } else if (role === 'Admin') {
-//         redirectUrl = '/admin-page';
-//       } else {
-//         console.log('/unauth');
-//       }
-
-//       // Replace the current location in history with the appropriate redirect URL
-//       window.history.replaceState(null, '', redirectUrl);
-//       navigate(redirectUrl);
-//     } else {
-//       // Update error state when sign-in fails
-//       setError(response.data.error || 'Unknown error');
-//     }
-//   } catch (error) {
-//     // Update error state when there's an error during sign-in
-//     setError('Error during sign-in. Please try again.');
-//     console.log('Error during sign-in:', error);
-//   }
-// };
 
   
   return (

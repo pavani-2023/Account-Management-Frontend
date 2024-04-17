@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { useEffect } from 'react'
 import './ClientDasboard.css'
 import ClockInTable from './ClockInTable'
-import LeaveAdmin from '../Leave/LeaveAdmin'
 import LeaveStatus from './Leaves/LeaveStatus'
 import Reports from './Reports'
 
@@ -31,7 +30,10 @@ export default function ClientDashboard() {
          
       </div>
       <div className='clockin-reports'>
-      <button onClick={handleFormOpen}>View Reports Here</button>
+        <div style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
+           <button onClick={handleFormOpen}>View Reports Here</button>
+        </div>
+      
 
           {showOverlay && (
             <div className="overlay">

@@ -243,17 +243,44 @@ const TodoList = () => {
   
 
   
-  const handleRemoveTodo = (index, isCompleted) => {
+  // const handleRemoveTodo = (index, isCompleted) => {
+  //   if (isCompleted) {
+  //     setCompletedTodos(completedTodos.filter((_, i) => i !== index));
+  //   } else {
+  //     setTodos(todos.filter((_, i) => i !== index));
+
+  //   }
+  // };
+
+  const handleRemoveTodo = async (id, isCompleted) => {
+    try {
+      const response = await axios.delete(`http://localhost:5000/todos/${id}`);
+      
+      if (!response.status === 200) {
+        throw new Error('Failed to delete todo');
+      }
+  
+      console.log('Todo deleted successfully');
+      
+    } catch (error) {
+      console.error('Error deleting todo:', error.message);
+     
+    }
+  
+  
     if (isCompleted) {
-      setCompletedTodos(completedTodos.filter((_, i) => i !== index));
+      setCompletedTodos(prevCompletedTodos =>
+        prevCompletedTodos.filter(todo => todo._id !== id)
+      );
     } else {
-      setTodos(todos.filter((_, i) => i !== index));
+      setTodos(prevTodos =>
+        prevTodos.filter(todo => todo._id !== id)
+      );
     }
   };
-
   
   
-  const [startDate, setStartDate] = useState(null); // State variable for start date
+  const [startDate, setStartDate] = useState(null); 
   const [endDate, setEndDate] = useState(null);
 
   
@@ -366,6 +393,7 @@ const TodoList = () => {
                     </td> */}
                     <td>
                       <select value={todo.priority} style={{ width: 'fit-content', appearance: 'none', }} onChange={(e)=>handleChange(e,index)}>
+                        <option>Select</option>
                         <option value="Low" style={{color:'green'}}>Low</option>
                         <option value="Medium" style={{color:'orange'}}>Medium</option>
                         <option value="High" style={{color:'red'}}>High</option>
@@ -373,7 +401,7 @@ const TodoList = () => {
                     </td>
 
                     <td>
-                      <h3 onClick={() => handleRemoveTodo(index)}><FontAwesomeIcon icon={faTrash} /></h3>
+                      <h3 onClick={() => handleRemoveTodo(todo._id)}><FontAwesomeIcon icon={faTrash} /></h3>
                     </td>
                   </tr>
                 ))}
@@ -507,16 +535,7 @@ const TodoList = () => {
             </tbody>
           </table>
 
-          <div className="ag-theme-alpine" style={{ height: '500px', width: '110%' }}>
-      <AgGridReact
-        columnDefs={columnDefs}
-        rowData={filteredTodos}
-        defaultColDef={{ resizable: true }}
-    
-        onCellValueChanged={handleNoteChange}
-        onSelectionChanged={handleToggleComplete}
-      />
-    </div>
+          
         </div>
 
         

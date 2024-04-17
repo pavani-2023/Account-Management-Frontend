@@ -10,6 +10,7 @@ export default function UserSidebar() {
   const { uuid } = useContext(IdContext);
   return (
     <div className='sidebar'>
+      
       <NavLink to={`/employee/${uuid}`} className='items' activeClassName="active">
         <div className='sidebars'><FontAwesomeIcon icon={faUsers} className='icon'/> Employee</div>
       </NavLink>
