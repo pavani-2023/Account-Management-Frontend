@@ -64,7 +64,7 @@ export default function Reports() {
             return;
           }
       
-          const response = await axios.get(`http://localhost:4000/api/reports/current-month/${clockData.clientId}/${employee.EmployeeId}`);
+          const response = await axios.get(`http://localhost:5000/current-month/${clockData.clientId}/${employee.EmployeeId}`);
           setTimeReports(response.data.map(report => ({
             ...report,
             weekday: getDayOfWeek(new Date(report.date).getDay())
@@ -87,7 +87,7 @@ export default function Reports() {
             return;
           }
       
-          const response = await axios.get(`http://localhost:4000/api/reports/previous-month/${clockData.clientId}/${employee.EmployeeId}`);
+          const response = await axios.get(`http://localhost:5000/previous-month/${clockData.clientId}/${employee.EmployeeId}`);
           setTimeReports(response.data.map(report => ({
             ...report,
             weekday: getDayOfWeek(new Date(report.date).getDay())
@@ -107,7 +107,7 @@ export default function Reports() {
             setError('Employee ID and Client ID are required.');
             return;
           }
-          const response = await axios.get(`http://localhost:4000/api/reports/current-week/${clockData.clientId}/${employee.EmployeeId}`);
+          const response = await axios.get(`http://localhost:5000/current-week/${clockData.clientId}/${employee.EmployeeId}`);
           const apiData = response.data;
           setTimeReports(apiData);
       
@@ -129,7 +129,7 @@ export default function Reports() {
             setError('Employee ID and Client ID are required.');
             return;
           }
-          const response = await axios.get(`http://localhost:4000/api/reports/previous-week/${clockData.clientId}/${employee.EmployeeId}`);
+          const response = await axios.get(`http://localhost:5000/previous-week/${clockData.clientId}/${employee.EmployeeId}`);
           const apiData = response.data;
           setTimeReports(apiData);
       

@@ -42,7 +42,7 @@ const ClockInTableAdmin = ({ selectedClientId }) => {
         const today = new Date();
         const fromDate = formatDate(today);
         const toDate = formatDate(today);
-        axios.get(`http://localhost:4000/api/reports/todays-clock-in/${uuid}/${fromDate}/${toDate}`)
+        axios.get(`http://localhost:5000/todays-clock-in/${uuid}/${fromDate}/${toDate}`)
             .then(response => {
                 console.log('Response data:', response.data);
                 setTodaysClockInData(response.data);
@@ -120,7 +120,7 @@ const getStatusIcon = (clockInTime, clockOutTime) => {
         <div>
            
   
-            <div>
+            <div className='clockin-table'>
                 
                 <table>
                     <thead>

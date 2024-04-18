@@ -57,7 +57,7 @@ function DailyReport() {
     
     const fetchFirstClockInAndOut = () => {
         console.log('Fetching first clock-in and clock-out for employee ID and date:', clockData.employeeId, clockData.date);
-        axios.get(`http://localhost:4000/api/reports/first-clock-in-out/${clockData.employeeId}/${clockData.date}`)
+        axios.get(`http://localhost:5000/first-clock-in-out/${clockData.employeeId}/${clockData.date}`)
             .then(response => {
                 const { clockInTime, clockOutTime, comments } = response.data;
                 console.log('First Clock In Time:', clockInTime);
@@ -180,7 +180,7 @@ function DailyReport() {
         }
 
    
-        axios.post('http://localhost:4000/api/reports/dailyclockin-clockout',  clockDataToSend)
+        axios.post('http://localhost:5000/dailyclockin-clockout',  clockDataToSend)
     .then(response => {
         console.log('Clock data sent successfully:', response.data);
     })

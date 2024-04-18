@@ -42,7 +42,7 @@ export default function ClockInTable() {
       const today = new Date();
       const fromDate = formatDate(today);
       const toDate = formatDate(today);
-      axios.get(`http://localhost:4000/api/reports/todays-clock-in/${uuid}/${fromDate}/${toDate}`)
+      axios.get(`http://localhost:5000/todays-clock-in/${uuid}/${fromDate}/${toDate}`)
           .then(response => {
               console.log('Response data:', response.data);
               setTodaysClockInData(response.data);
@@ -114,32 +114,27 @@ const getStatusIcon = (clockInTime, clockOutTime) => {
 
 
   return (
-      <div>
-         
-
-          <div>
-              
-              <table>
-                  <thead>
-                      <tr>
-                          <th>Employee ID</th>
-                          <th>Clock In Time</th>
-                          <th>Clock Out Time</th>
-                          <th>Status</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      {employee.map((entry, index) => (
-                          <tr key={index}>
-                              <td>{entry.EmployeeName}</td>
-                              <td>{entry.clockInTime}</td>
-                              <td>{entry.clockOutTime}</td>
-                              <td>{getStatusIcon(entry.clockOutTime)}</td>
-                          </tr>
-                      ))}
-                  </tbody>
-              </table>
-          </div>
-      </div>
+    <div className='clockin-table'>           
+        <table>
+           <thead>
+                <tr>
+                   <th>Employee ID</th>
+                   <th>Clock In Time</th>
+                   <th>Clock Out Time</th>
+                   <th>Status</th>
+                </tr>
+           </thead>
+           <tbody>
+               {employee.map((entry, index) => (
+                    <tr key={index}>
+                       <td>{entry.EmployeeName}</td>
+                       <td>{entry.clockInTime}</td>
+                       <td>{entry.clockOutTime}</td>
+                       <td>{getStatusIcon(entry.clockOutTime)}</td>
+                    </tr>
+                ))}
+           </tbody>
+        </table>
+   </div>
   );
 }

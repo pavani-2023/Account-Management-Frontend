@@ -291,6 +291,7 @@ console.log('sleected employee login details',seletcedEmployeeLoginDetails)
 
         {employees.map((employee) => (
           <div className="card" key={employee.EmployeeID}>
+            
             <div className='image' style={{display:'flex',justifyContent:'center',height:'35%'}}>
               <img src={employee.imageSrc ? employee.imageSrc : 'https://d30y9cdsu7xlg0.cloudfront.net/png/138926-200.png'} style={{ cursor: 'pointer', borderRadius: '60%', width: '45%'}} alt={employee.name} />
             </div>
