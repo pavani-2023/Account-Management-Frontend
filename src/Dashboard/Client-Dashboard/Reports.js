@@ -19,6 +19,16 @@ export default function Reports() {
         getemployees();
     },[uuid])
 
+
+    const [selectedEmployeeId, setSelectedEmployeeID] = useState(""); 
+    console.log('selectedemployeeid',selectedEmployeeId)
+
+    const handleEmployeeChange = (event) => {
+        setSelectedEmployeeID(event.target.value); 
+        setTimeReports([])
+    };
+
+
     const getemployees = async()=>{
         try{
             const response = await axios.get(`http://localhost:5000/getemployeedetailsbyclientid/${uuid}`);
@@ -39,6 +49,8 @@ export default function Reports() {
           weekday: currentWeekday,
       }));
   }, []);
+
+
 
 
     const formatDate = (date) => {
@@ -64,7 +76,7 @@ export default function Reports() {
             return;
           }
       
-          const response = await axios.get(`http://localhost:5000/current-month/${clockData.clientId}/${employee.EmployeeId}`);
+          const response = await axios.get(`http://localhost:5000/current-month/${clockData.clientId}/${selectedEmployeeId}`);
           setTimeReports(response.data.map(report => ({
             ...report,
             weekday: getDayOfWeek(new Date(report.date).getDay())
@@ -87,7 +99,7 @@ export default function Reports() {
             return;
           }
       
-          const response = await axios.get(`http://localhost:5000/previous-month/${clockData.clientId}/${employee.EmployeeId}`);
+          const response = await axios.get(`http://localhost:5000/previous-month/${clockData.clientId}/${selectedEmployeeId}`);
           setTimeReports(response.data.map(report => ({
             ...report,
             weekday: getDayOfWeek(new Date(report.date).getDay())
@@ -107,7 +119,7 @@ export default function Reports() {
             setError('Employee ID and Client ID are required.');
             return;
           }
-          const response = await axios.get(`http://localhost:5000/current-week/${clockData.clientId}/${employee.EmployeeId}`);
+          const response = await axios.get(`http://localhost:5000/current-week/${clockData.clientId}/${selectedEmployeeId}`);
           const apiData = response.data;
           setTimeReports(apiData);
       
@@ -129,7 +141,7 @@ export default function Reports() {
             setError('Employee ID and Client ID are required.');
             return;
           }
-          const response = await axios.get(`http://localhost:5000/previous-week/${clockData.clientId}/${employee.EmployeeId}`);
+          const response = await axios.get(`http://localhost:5000/previous-week/${clockData.clientId}/${selectedEmployeeId}`);
           const apiData = response.data;
           setTimeReports(apiData);
       
@@ -143,10 +155,10 @@ export default function Reports() {
   return (
     <div>
       <div style={{width:'300px',margin:'auto'}}>
-      <select style={{width:'300px'}}>
+      <select style={{width:'300px'}} onChange={handleEmployeeChange}>
           <option>Select Employee</option>
           {employee.map((employee) => (
-              <option key={employee.EmployeeId} value={employee.EmployeeName}>
+              <option key={employee.EmployeeID} value={employee.EmployeeID}>
                   {employee.EmployeeName}
               </option>
           ))}

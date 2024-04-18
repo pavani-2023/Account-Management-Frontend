@@ -27,7 +27,7 @@ export default function ClockInTable() {
       }
   }
   
-  
+
 
   useEffect(()=>{
     fetchTodaysClockInData();
@@ -87,17 +87,13 @@ export default function ClockInTable() {
 };
 
  
-const getStatusIcon = (clockInTime, clockOutTime) => {
-    if (clockInTime && clockOutTime) {
-        // If both clocked in and clocked out times are empty
-        return <span style={{ color: 'grey', fontSize: '30px' }}>● </span>;
-    } else if (!clockOutTime && clockInTime) {
-        // If only clocked out
-        return <span style={{ color: 'grey', fontSize: '30px' }}>● </span>;
-    } else {
-        // If both clocked in and clocked out or only clocked in
-        return <span style={{ color: 'green', fontSize: '30px' }}>● </span>;
-    }
+const getStatusIcon = (clockInTime) => {
+    
+    return clockInTime ? (
+        <span style={{ color: 'green', fontSize: '30px' }}>● </span> 
+    ) : (
+        <span style={{ color: 'grey', fontSize: '30px' }}>● </span>
+    );
 };
 
 // const getStatusIcon = (clockInTime) => {
