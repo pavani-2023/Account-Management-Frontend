@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { useEffect } from 'react'
 import './ClientDasboard.css'
 import ClockInTable from './ClockInTable'
 import LeaveStatus from './Leaves/LeaveStatus'

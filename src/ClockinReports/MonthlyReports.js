@@ -152,16 +152,6 @@ const MonthlyReports = () => {
         </div>
       </div>
       <div id="employeeInfo" className="employee-info-row">
-        {/* <div>
-          <label htmlFor="eid">Employee Id:</label>
-          <div style={{ position: "relative" }}>
-            <input type="text" id="eid" name="eid" placeholder="Enter Employee ID" required value={employeeId}/>
-          </div>
-        </div> */}
-        {/* <div>
-          <label>Date:</label>
-          <input type='date'/>
-        </div> */}
         <div>
           <label htmlFor="selectedMonth">Select Month:</label>
           <select id="selectedMonth" name="selectedMonth" value={selectedMonth} onChange={(e) => setSelectedMonth(e.target.value)} enabled={!employeeId}>
@@ -199,18 +189,6 @@ const MonthlyReports = () => {
             <option value="2029">2029</option>
           </select>
         </div>
-        {/* <div>
-          <label htmlFor="ename">Employee Name:</label>
-          <input type="text" id="ename" name="fname" value={employeeInfo.employeename} placeholder="Enter Employee Name" readOnly className="disabled-input" />
-        </div>
-        <div>
-          <label htmlFor="department">Department:</label>
-          <input type="text" id="department" name="department" placeholder="Enter Department" readOnly className="disabled-input" value={employeeInfo.department} />
-        </div>
-        <div>
-          <label htmlFor="designation">Designation:</label>
-          <input type="text" id="designation" name="designation" placeholder="Enter Designation" readOnly className="disabled-input" value={employeeInfo.designation} />
-        </div> */}
       </div>
       <button onClick={fetchData}>Fetch Data</button>
       <button onClick={convertToPDF}>Convert to PDF</button>

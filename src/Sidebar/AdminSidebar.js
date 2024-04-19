@@ -11,11 +11,7 @@ export default function AdminSidebar() {
   const { uuid } = useContext(IdContext);
   return (
     <div className='sidebar'>
-      {/* <Link to='/employee-list'>Employee List </Link>
-      <Link to="/client"> 
-      <div className='sidebars'><FontAwesomeIcon icon={faUser} className='icon' /> Client List</div>
-      </Link>
-      <Link to='/leave-list'>Leave List</Link> */}
+   
 
       <NavLink to={`/admin-dashboard/${uuid}`} className='items' activeclassname="active">
       <FontAwesomeIcon icon={faGauge} className='icon'/> Dashboard
@@ -43,11 +39,6 @@ export default function AdminSidebar() {
       <NavLink to={`/leave/${uuid}`} className='items' activeclassname="active">
       <FontAwesomeIcon icon={faCalendarWeek} className='icon' />Leave Request</NavLink>
 
-      {/* <NavLink to='/leave-list' className='items' activeClassName="active">
-     <img src={approval} style={{width:'25px'}} className='icon' /><FontAwesomeIcon icon={faCalendarCheck} />Leaves</NavLink> */}
-    
-
-      {/* <Link to='/Example'>Example</Link> */}
 
       <NavLink to={`/todo-list/${uuid}`} className='items' activeclassname="active">
       <FontAwesomeIcon icon={faList} className='icon' />To Do</NavLink>

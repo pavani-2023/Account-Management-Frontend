@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 export default function ClockInTable() {
   const [todaysClockInData, setTodaysClockInData] = useState([]);
   console.log('todaysClockInData',todaysClockInData)
-  const [clients, setClients] = useState([]);
+
   const { uuid } = useParams();
  
 
@@ -101,14 +101,6 @@ const getStatusIcon = (clockInTime, clockOutTime, employeeId) => {
     }
 };
 
-// const getStatusIcon = (clockInTime) => {
-//     return clockInTime ? (
-//         <span style={{ color: 'green', fontSize: '30px' }}>● </span>
-        
-//     ) : (
-//         <span style={{ color: 'grey', fontSize: '30px' }}>● </span> 
-//     );
-// };
 
 
 

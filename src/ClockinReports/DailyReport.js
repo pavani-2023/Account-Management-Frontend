@@ -9,7 +9,6 @@ function DailyReport() {
     const { uuid } = useParams();
     // console.log('uuid',uuid)
     const [clockData, setClockData] = useState({ employeeId: uuid, employeeName: '', department: '', designation: '', date: '', weekday: '', clockInTime: '', clockOutTime: '', totalHours: 0, totalMinutes: 0, comments: '' ,clientId:''});
-    const [clockedIn, setClockedIn] = useState(false);
     const [loading, setLoading] = useState(false);
 
     // console.log(clockData);
@@ -199,35 +198,11 @@ function DailyReport() {
                 </div>
             </div>
             <div id='employeeInfo' className="employee-info-row">
-                {/* <div>
-                    <label htmlFor="eid">Employee Id:</label>
-                    <div style={{ position: 'relative' }}>
-                        <input type="text" id='eid' name='eid' placeholder='Enter Employee ID' required value={clockData.employeeId} />
-                        <div className='search-icon' onClick={searchEmployeeInfo}>
-                            <i className='fas fa-search'></i>
-                        </div>
-                    </div>
-                </div> */}
+    
                 <div>
                     <label htmlFor="date">Date:</label>
                     <input type="date" id="date" name="date" value={clockData.date} onChange={(e) => setClockData(prevState => ({ ...prevState, date: e.target.value }))} required />
                 </div>
-                {/* <div>
-                    <label htmlFor="weekday">Week Day:</label>
-                    <input type="text" id="weekday" name="weekday" value={clockData.weekday} readOnly />
-                </div> */}
-                {/* <div>
-                    <label htmlFor="ename">Employee Name:</label>
-                    <input type="text" id="ename" name="fname" placeholder="Enter Employee Name" value={clockData.employeeName} readOnly className="disabled-input" />
-                </div> */}
-                {/* <div>
-                    <label htmlFor="department">Department:</label>
-                    <input type="text" id="department" name="department" placeholder="Enter Department" value={clockData.department} readOnly className="disabled-input" />
-                </div> */}
-                {/* <div>
-                    <label htmlFor="designation">Designation:</label>
-                    <input type="text" id="designation" name="designation" placeholder="Enter Designation" value={clockData.designation} readOnly className="disabled-input" />
-                </div> */}
             </div>
             {/* <button onClick={clockInOut}>{clockedIn ? 'Clock Out' : 'Clock In'}</button> */}
             <div id='clockin-clockout'>

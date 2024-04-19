@@ -10,7 +10,7 @@ export default function Reports() {
     const [error, setError] = useState('');
     const [timeReports, setTimeReports] = useState([]);
     console.log('timeReports',timeReports)
-    const[employeeId,setEmployeeId]= useState()
+
 
     const[employee,setEmployee]=useState([]);
     console.log('employee',employee)
@@ -200,40 +200,3 @@ export default function Reports() {
     </div>
   )
 }
-
-// import React, { useEffect, useState } from 'react'
-// import { useParams } from 'react-router-dom';
-// import axios from 'axios';
-
-// export default function Reports() {
-//     const[employee,setEmployee]=useState([]);
-//     console.log('employee',employee)
-//     const { uuid } = useParams();
-//     useEffect(()=>{
-//         getemployees();
-//     },[uuid])
-
-//     const getemployees = async()=>{
-//         try{
-//             const response = await axios.get(`http://localhost:5000/getemployeedetailsbyclientid/${uuid}`);
-//              setEmployee(response.data.data)
-//         }catch(error){
-//             console.log('error getting employee details')
-//         }
-//     }
-//   return (
-//     <div>
-//       <div>
-//         <select>
-//           <option>Select Employee</option>
-//           {employee.map((employee) => (
-//               <option key={employee.EmployeeId} value={employee.EmployeeName}>
-//                   {employee.EmployeeName}
-//               </option>
-//           ))}
-//         </select>
-
-//       </div>
-//     </div>
-//   )
-// }

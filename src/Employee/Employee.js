@@ -1,16 +1,13 @@
-import React from 'react'
-
 import { useState,useEffect,useRef } from 'react';
 import './Employee.css'
 import {useParams} from 'react-router-dom';
-
 import axios from 'axios';
 
 
 
 export default function Employee() {
     
-    const[file,setFile] = useState('')
+  
     const { uuid } = useParams();
     
    
@@ -511,11 +508,4 @@ export default function Employee() {
 
 
 
-// export default function Employee() {
-//   return (
-//     <div className='Employee'>
-      
-//     </div>
-//   )
-// }
 

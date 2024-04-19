@@ -47,31 +47,7 @@ const LeaveStatusAdmin = ({ selectedClientId }) => {
           }
         };
       
-        // const handleStatusChange =(startDate, endDate, event) =>{
-        //   const { value: approvalStatus } = event.target;
-        //   const updatedLeaveData = leaveData.map(leave => {
-        //     if (leave.startDate === startDate && leave.endDate === endDate) {
-        //       return { ...leave, approvalStatus };
-        //     }
-        //     return leave;
-        //   });
-        //   setLeaveData(updatedLeaveData);
-        // }
-      
-        const handleCommentsChange = (startDate, endDate, event) => {
-          const { value: comments } = event.target;
-          const updatedLeaveData = leaveData.map(leave => {
-            if (leave.startDate === startDate && leave.endDate === endDate) {
-              return { ...leave, comments };
-            }
-            return leave;
-          });
-          setLeaveData(updatedLeaveData);
-        };
-      
-      
-       
-        
+
         return (
           
             <div>

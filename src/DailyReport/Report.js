@@ -2,25 +2,12 @@ import React from 'react'
 import './DailyReport.css'
 import WeeklyReport from './WeeklyReport';
 import DailyReport from './DailyReport';
-import axios from 'axios';
-import { useEffect,useState } from 'react';
+import { useState } from 'react';
 
 export default function Report() {
   const [viewMode, setViewMode] = useState('daily');
   const [data, setData] = useState([]);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await axios.get('/api/employees'); 
-  //       setData(response.data);
-  //     } catch (error) {
-  //       console.error('Error fetching data:', error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
 
   return (
     <div className='Main-Container'>

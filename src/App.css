@@ -25,16 +25,19 @@
   grid-column: 1 / span 3;
   grid-row: 1;
 }
+
 .sidebar{
   grid-column: 1/span 3;
   grid-row: 2;
 }
+
 .Main-Container{
   grid-column: 2/span 2;
   grid-row: 2;
-  overflow-y:scroll;  
+  overflow-y:auto;  
   margin-bottom: 50px;
 }
+
 .content{
   display: grid;
   grid-template-columns: 260px auto;

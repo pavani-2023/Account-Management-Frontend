@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 import './ClockinReports.css'
 import DailyReport from './DailyReport.js';
 import WeeklyReport from './WeeklyReport.js';
@@ -8,10 +7,6 @@ import MonthlyReports from './MonthlyReports.js';
 const ClockInReports = () => {
   const [viewMode, setViewMode] = useState('daily');
   const [data, setData] = useState([]);
-  const [error, setError] = useState(null);
-
- 
-
 
   return (
     <div className='Main-Container'>

@@ -27,20 +27,7 @@ const TodoList = () => {
   const displayDiv = (divNumber) => {
       setActiveDiv(divNumber);
   };
-  // const updateTodoChanges = (_id, changes) => {
 
-  //   const index = todoChanges.findIndex(todo => todo._id === _id);
-
-  //   if (index !== -1) {
-
-  //     const updatedChanges = [...todoChanges];
-  //     updatedChanges[index].changes = changes;
-  //     setTodoChanges(updatedChanges);
-  //   } else {
-
-  //     setTodoChanges([...todoChanges, { _id, changes }]);
-  //   }
-  // };
 
   const handleInputChange = (e) => {
     setNewTodo(e.target.value);

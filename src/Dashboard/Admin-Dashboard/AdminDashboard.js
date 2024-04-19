@@ -1,9 +1,6 @@
 
 import { useEffect,useState } from 'react'
 import axios from 'axios'
-import LeaveStatus from '../Client-Dashboard/Leaves/LeaveStatus'
-import ClockInTable from '../Client-Dashboard/ClockInTable'
-import Reports from '../Client-Dashboard/Reports'
 import ReportsAdmin from './ReportsAdmin'
 import LeaveStatusAdmin from './LeaveStatusAdmin'
 import ClockInTableAdmin from './ClockInTableAdmin'

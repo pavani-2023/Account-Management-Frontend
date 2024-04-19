@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useContext } from 'react';
 import axios from 'axios';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 // import { FaTrash } from 'react-icons/fa';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import { IdContext } from '../Registration/Contextapi';
 import { useParams } from 'react-router-dom';
 
 

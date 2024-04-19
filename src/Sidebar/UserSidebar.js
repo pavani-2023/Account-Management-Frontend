@@ -1,6 +1,6 @@
 import React from 'react'
 import  './Sidebar.css'
-import { Link ,NavLink} from 'react-router-dom'
+import {NavLink} from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserTie,faCircleUser,faCalendarWeek,faList,faClipboardCheck,faClipboardUser} from '@fortawesome/free-solid-svg-icons';
 import { IdContext } from '../Registration/Contextapi';

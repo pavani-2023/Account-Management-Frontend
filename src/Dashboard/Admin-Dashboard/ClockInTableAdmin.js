@@ -87,51 +87,6 @@ const ClockInTableAdmin = ({ selectedClientId }) => {
   };
   
    
-// const getEmployees = async () => {
-//     try {
-//         const response = await axios.get(`http://localhost:5000/getemployeedetailsbyclientid/${uuid}`);
-//         setEmployee(response.data.data);
-
-       
-//         const updatedEmployee = response.data.data.map(emp => {
-//             const matchedClockInData = todaysClockInData.find(entry => entry.employeeId === emp.EmployeeID);
-//             if (matchedClockInData) {
-//                 return {
-//                     ...emp,
-//                     clockInTime: matchedClockInData.clockInTime,
-//                     clockOutTime: matchedClockInData.clockOutTime
-                    
-//                 };
-//             } else {
-               
-//                 return {
-//                     ...emp,
-//                     clockInTime: null,
-//                     clockOutTime: null
-                   
-//                 };
-//             }
-//         });
-
-//         setEmployee(updatedEmployee);
-//     } catch (error) {
-//         console.log('Error getting employee details');
-//     }
-// };
-// const getStatusIcon = (clockInTime, clockOutTime) => {
-//     console.log('both',clockInTime,clockOutTime)
-//     if (!clockInTime && !clockOutTime) {
-       
-//         return <span style={{ color: 'grey', fontSize: '30px' }}> ● </span>;
-//     } else {
-//         return clockInTime ? (
-          
-//             <span style={{ color: 'green', fontSize: '30px' }}>● </span>
-//         ) : (
-//             <span style={{ color: 'grey', fontSize: '30px' }}>● </span> 
-//         );
-//     }
-// };
   
 const getStatusIcon = (clockInTime, clockOutTime, employeeId) => {
     console.log(`Employee ${employeeId}: clockInTime=${clockInTime}, clockOutTime=${clockOutTime}`);
