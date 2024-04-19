@@ -93,7 +93,7 @@ const fetchemployeelogindetails=async()=>{
           const response = await axios.get('http://localhost:5000/submitForm');
           setEmployeeLoginDetails(response.data); 
           const employeedata = response.data;
-          console.log('response',employeedata)
+          // console.log('response',employeedata)
     } catch (error) {
         console.error('Error fetching employees:', error);
     }
@@ -102,14 +102,14 @@ const fetchemployeelogindetails=async()=>{
 const updateEmployeedata=async()=>{
     try{
       const response = await axios.put('http://localhost:5000/submitForm',{uuid:formData.EmployeeID,email:formData.email,password:formData.password})
-      console.log(response);
+      // console.log(response);
 
     }catch(error){
       console.log('erroe updating login details',error)
     }
 }
 
-console.log('selected',employees.EmployeeID)
+// console.log('selected',employees.EmployeeID)
 
 
 // const getSelectdEmployeeLoginDetails=()=>{
@@ -125,7 +125,7 @@ const getSelectedEmployeeLoginDetails = () => {
   if (selectedEmployee) {
       const data = employeelogindetails.find(user => user.uuid === selectedEmployee.EmployeeID);
       if (data) {
-          console.log('dataaaa', data.uuid);
+          // console.log('dataaaa', data.uuid);
           setSelectedEMployeeLOginDetails(data);
           return data;
       } else {
@@ -136,8 +136,8 @@ const getSelectedEmployeeLoginDetails = () => {
   return null;
 }
 // console.log('selectes', selectedEmployee.EmployeeID)
-console.log('employee login details',employeelogindetails)
-console.log('sleected employee login details',seletcedEmployeeLoginDetails)
+// console.log('employee login details',employeelogindetails)
+// console.log('sleected employee login details',seletcedEmployeeLoginDetails)
 
 
   const handleopenSetting=()=>{
@@ -233,15 +233,6 @@ console.log('sleected employee login details',seletcedEmployeeLoginDetails)
   };
   
 
-  console.log('formdata',formData)
-  // console.log('updated login details',setUpdatedLoginDetails);
-
- 
-
-
-
-  console.log('employee data',employees);
-  console.log('seletcedEmployeeLoginDetails',seletcedEmployeeLoginDetails)
 
   const handleDeleteEmployee  = async(employeeID)=>{
     console.log('emp id',employeeID)

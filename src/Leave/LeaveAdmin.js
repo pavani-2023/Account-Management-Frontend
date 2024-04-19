@@ -152,28 +152,6 @@ function LeaveAdmin() {
   };
 
 
-  // const handleStatusChange = async (startDate, endDate, event) => {
-  //   const { value: approvalStatus } = event.target;
-
-  //   try {
-  //     const updatedLeaveData = leaveData.map(leave => {
-  //       if (leave.startDate === startDate && leave.endDate === endDate) {
-  //         return { ...leave, approvalStatus };
-  //       }
-  //       return leave;
-  //     });
-  //     setLeaveData(updatedLeaveData);
-
-  //     await axios.put('http://localhost:5000/updateLeave', {
-  //       startDate,
-  //       endDate,
-  //       approvalStatus,
-  //     });
-  //     console.log('Leave updated successfully');
-  //   } catch (error) {
-  //     console.log('Error updating leave', error);
-  //   }
-  // };
 
   const handleStatusChange =(startDate, endDate, event) =>{
     const { value: approvalStatus } = event.target;
@@ -258,6 +236,7 @@ function LeaveAdmin() {
               </td>
               <td>
                 <input
+                style={{outline:'none',}}
                   type="text"
                   value={leave.comments}
                   onChange={(event) => handleCommentsChange(leave.startDate, leave.endDate, event)}

@@ -20,7 +20,7 @@ function LeaveList() {
       console.log('error fetching leaves data', error);
     }
   }
-  console.log('leavedata',leaveData)
+  // console.log('leavedata',leaveData)
 
 
   return (

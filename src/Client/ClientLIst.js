@@ -115,12 +115,12 @@ const ClientListTable = () => {
   const [clients, setClients] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedData, setSelectedData] = useState([]);
-  console.log('selectedData',selectedData)
+  // console.log('selectedData',selectedData)
   const [searchResults, setSearchResults] = useState([]);
   const { uuid } = useParams();
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [employeedetails,setEmployeeDetails]= useState([])
-  console.log('employeedetails',employeedetails)
+  // console.log('employeedetails',employeedetails)
   useEffect(() => {
     const fetchClientDetails = async () => {
       try {
@@ -143,7 +143,7 @@ const ClientListTable = () => {
     try {
       const response = await axios.get(`http://localhost:5000/getemployeeDetails/${uuid}`);
       const data = response.data
-      console.log('response',response.data)
+      // console.log('response',response.data)
       setEmployeeDetails(prevState => ({
         ...prevState,
         employeeName: data.EmployeeName,

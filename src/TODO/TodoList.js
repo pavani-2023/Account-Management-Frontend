@@ -4,22 +4,20 @@ import axios from 'axios'
 import { useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import { AgGridReact } from 'ag-grid-react';
-import 'ag-grid-community/styles/ag-grid.css';
-import 'ag-grid-community/styles/ag-theme-alpine.css';
+
 
 const TodoList = () => {
   const [todos, setTodos] = useState([]);
-  console.log('todo',todos)
+  // console.log('todo',todos)
   const [completedTodos, setCompletedTodos] = useState([]);
-  console.log('completedtodo',completedTodos)
+  // console.log('completedtodo',completedTodos)
   const [newTodo, setNewTodo] = useState('');
   const { uuid } = useParams();
   const [alltodos,setAllTodos]=useState([])
-  console.log('alltods',alltodos)
+  // console.log('alltods',alltodos)
 
   const [todoChanges, setTodoChanges] = useState([]); 
-  console.log('todoChanges',todoChanges)
+  // console.log('todoChanges',todoChanges)
 
   const allTodos = [...todos, ...completedTodos];
 
@@ -29,26 +27,40 @@ const TodoList = () => {
   const displayDiv = (divNumber) => {
       setActiveDiv(divNumber);
   };
-  const updateTodoChanges = (_id, changes) => {
-    // Find index of todoChanges with the given _id
-    const index = todoChanges.findIndex(todo => todo._id === _id);
+  // const updateTodoChanges = (_id, changes) => {
 
-    if (index !== -1) {
-      // If _id exists, update the changes
-      const updatedChanges = [...todoChanges];
-      updatedChanges[index].changes = changes;
-      setTodoChanges(updatedChanges);
-    } else {
-      // If _id doesn't exist, add a new entry
-      setTodoChanges([...todoChanges, { _id, changes }]);
-    }
-  };
+  //   const index = todoChanges.findIndex(todo => todo._id === _id);
+
+  //   if (index !== -1) {
+
+  //     const updatedChanges = [...todoChanges];
+  //     updatedChanges[index].changes = changes;
+  //     setTodoChanges(updatedChanges);
+  //   } else {
+
+  //     setTodoChanges([...todoChanges, { _id, changes }]);
+  //   }
+  // };
 
   const handleInputChange = (e) => {
     setNewTodo(e.target.value);
   };
 
-
+  const handleTextChange = async (index, newText) => {
+    const updatedTodos = [...todos];
+    updatedTodos[index].text = newText;
+    setTodos(updatedTodos);
+    console.log('text',newText)
+    try {
+      await axios.put('http://localhost:5000/todotext', {
+        _id: updatedTodos[index]._id,
+        text: newText
+      });
+    } catch (error) {
+      console.error('Error updating todo text:', error);
+    }
+  };
+  
 
   const handleChange = async(e, index) => {
     const { value } = e.target;
@@ -61,10 +73,7 @@ const TodoList = () => {
 
 
   useEffect(() => {
-    // Fetch todos when component mounts
-    // fetchTodos();
-    // saveTodo();
-    // updatedata();
+    
     updateTodo();
   }, []);
 
@@ -120,13 +129,7 @@ const TodoList = () => {
   };
   
 
-  const formatDate = (date) => {
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const day = date.getDate().toString().padStart(2, '0');
-    return `${year}-${month}-${day}`;
-};
-
+ 
   
 
   const handleAddTodo = async (e) => {
@@ -155,12 +158,12 @@ const TodoList = () => {
       };
 
       console.log('startDate',startDate)
-       // Send POST request to backend endpoint to save new todo
+
        const response = await axios.post('http://localhost:5000/todos', newTodoItem);
       
-      //  Update state with the newly saved todo
+
        setTodos([...todos, response.data]);
-      // setTodos([...todos, newTodoItem]);
+
        setNewTodo('');
   
       
@@ -174,20 +177,19 @@ const TodoList = () => {
   const handleNoteChange = async(e, index, isCompleted) => {
     const value = e.target.value;
     
-    // Determine which array to update based on 'isCompleted'
-    const todosToUpdate = isCompleted ? completedTodos : todos;
   
-    // Check if the index is within bounds
+    const todosToUpdate = isCompleted ? completedTodos : todos;
+
     if (index >= 0 && index < todosToUpdate.length) {
-      // Make a copy of the array to avoid mutating state directly
+
       const updatedTodos = [...todosToUpdate];
-      // Update the 'notes' property of the todo at the specified index
+
       updatedTodos[index] = {
         ...updatedTodos[index],
         notes: value
       };
   
-      // Update the state based on 'isCompleted'
+  
       isCompleted ? setCompletedTodos(updatedTodos) : setTodos(updatedTodos);
       console.log('updated',updatedTodos)
 
@@ -243,14 +245,7 @@ const TodoList = () => {
   
 
   
-  // const handleRemoveTodo = (index, isCompleted) => {
-  //   if (isCompleted) {
-  //     setCompletedTodos(completedTodos.filter((_, i) => i !== index));
-  //   } else {
-  //     setTodos(todos.filter((_, i) => i !== index));
-
-  //   }
-  // };
+ 
 
   const handleRemoveTodo = async (id, isCompleted) => {
     try {
@@ -304,19 +299,7 @@ const TodoList = () => {
   const handleEndDateChange = (e) => {
     setEndDate(e.target.value);
   };
-  const columnDefs = [
-    { headerName: '', field: '', checkboxSelection: true, width: 50 },
-    { headerName: 'Task', field: 'text',},
-    { headerName: 'Start Date', field: 'startDate' },
-    { headerName: 'End Date', field: 'endDate' },
-    { headerName: 'Progress', field: 'progress', cellEditor: 'agSelectCellEditor',
-      cellEditorParams: {
-        values: ['In Progress', 'Completed']
-      }
-    },
-    { headerName: 'Notes', field: 'notes', cellEditor: 'agLargeTextCellEditor' ,width:300,autoHeight: true },
-    { headerName: 'Priority', field: 'priority' }
-  ];
+
 
   return (
     <div className='Main-Container'>
@@ -335,7 +318,7 @@ const TodoList = () => {
 
           <div>
             <input
-              style={{ width: "90%", height: '30px', paddingLeft: '10px' }}
+              style={{ width: "90%", height: '30px', paddingLeft: '10px',wordWrap: 'break-word', }}
               type="text"
               placeholder="Add ToDo"
               value={newTodo}
@@ -349,7 +332,7 @@ const TodoList = () => {
               <thead>
                 <tr>
                   <th></th>
-                  <th style={{width:'500px'}}>Task</th>
+                  <th style={{width:'500px',maxWidth:'500px'}}>Task</th>
                   <th  style={{width:'150px'}}>Start Date</th>
                   <th style={{width:'150px'}}>Progress</th>
                   <th style={{width:'400px',}}>Notes</th>
@@ -367,7 +350,8 @@ const TodoList = () => {
                         onChange={() => handleToggleComplete(index)}
                       />
                     </td>
-                    <td>{todo.text}</td>
+                    <td contentEditable style={{ whiteSpace: 'normal',width:'300px',maxWidth:'300px', wordWrap: 'break-word',  }} onBlur={(e) => handleTextChange(index, e.target.textContent)}
+              suppressContentEditableWarning={true} value={todo.text}>{todo.text}</td>
                     <td>{todo.startDate}</td>
                     <td>
                       <select style={{ width: 'fit-content', appearance: 'none', }} value={todo.progress} >

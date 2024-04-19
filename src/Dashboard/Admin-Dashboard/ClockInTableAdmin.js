@@ -133,15 +133,21 @@ const ClockInTableAdmin = ({ selectedClientId }) => {
 //     }
 // };
   
-const getStatusIcon = (clockInTime) => {
-    
-    return clockInTime ? (
-        <span style={{ color: 'green', fontSize: '30px' }}>● </span> 
-    ) : (
-        <span style={{ color: 'grey', fontSize: '30px' }}>● </span>
-    );
+const getStatusIcon = (clockInTime, clockOutTime, employeeId) => {
+    console.log(`Employee ${employeeId}: clockInTime=${clockInTime}, clockOutTime=${clockOutTime}`);
+
+    if (clockInTime && clockOutTime) {
+        
+        return <span style={{ color: 'grey', fontSize: '30px' }}>● </span>;
+    } else if (clockInTime) {
+       
+        return <span style={{ color: 'green', fontSize: '30px' }}>● </span>;
+    } else {
+        
+        return <span style={{ color: 'grey', fontSize: '30px' }}>● </span>;
+    }
 };
-  
+
   
     return (
         <div>
@@ -164,7 +170,7 @@ const getStatusIcon = (clockInTime) => {
                                 <td>{entry.EmployeeName}</td>
                                 <td>{entry.clockInTime}</td>
                                 <td>{entry.clockOutTime}</td>
-                                <td>{getStatusIcon(entry.clockOutTime)}</td>
+                                <td>{getStatusIcon(entry.clockInTime, entry.clockOutTime, entry.employeeId)}</td>
                             </tr>
                         ))}
                     </tbody>

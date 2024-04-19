@@ -575,7 +575,7 @@ import 'jspdf-autotable';
 import { useParams } from 'react-router-dom';
 const YourComponent = () => {
   const { uuid } = useParams();
-  console.log('uuid',uuid)
+  // console.log('uuid',uuid)
   const [employeeId, setEmployeeId] = useState(uuid);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -596,7 +596,7 @@ const YourComponent = () => {
     try {
       const response = await axios.get(`http://localhost:5000/getemployeeDetails/${uuid}`);
       const data = response.data
-      console.log('response',response.data)
+      // console.log('response',response.data)
       setEname(data.EmployeeName);
           setDepartment(data.dep);
           setDesignation(data.Designation);
@@ -615,31 +615,6 @@ const YourComponent = () => {
     const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
     return new Date(dateString).toLocaleDateString('en-GB', options);
   };
-
-  // const fetchTaskReports = async () => {
-  //   try {
-  //     const response = await axios.get(`http://localhost:5000/taskreports`, {
-  //       params: {
-  //         empID: employeeId,
-  //         startDate: startDate,
-  //         endDate: endDate
-  //       }
-  //     });
-
-  //     if (response.data && response.data.length > 0) {
-  //       const sortedReports = response.data.sort((a, b) => new Date(a.date) - new Date(b.date));
-  //       setTaskReports(sortedReports);
-  //       setError('');
-  //       setReportsFetched(true); 
-  //     } else {
-  //       setTaskReports([]);
-  //       setError('No task report data available.');
-  //     }
-  //   } catch (error) {
-  //     console.error('Error fetching task reports:', error);
-  //     setError('');
-  //   }
-  // };
 
 
 
@@ -757,15 +732,7 @@ const YourComponent = () => {
         </div>
 
         <div className="employee-info-row">
-          {/* <div className="form-group">
-            <label htmlFor="employeeId">Employee ID</label>
-            <input
-              type="text"
-              className="form-control"
-              id="employeeId"
-              value={employeeId}
-            />
-          </div> */}
+     
           <div className="form-group">
             <label htmlFor="startDate">Start Date</label>
             <input
@@ -786,39 +753,7 @@ const YourComponent = () => {
               onChange={(e) => setEndDate(e.target.value)}
             />
           </div>
-          {/* <div className="form-group">
-            <label htmlFor="ename">Employee Name</label>
-            <input
-              type="text"
-              className="form-control grey-filled no-selection employee-info-input"
-              id="ename"
-              value={ename}
-              readOnly
-              disabled
-            />
-          </div> */}
-          {/* <div className="form-group">
-            <label htmlFor="department">Department</label>
-            <input
-              type="text"
-              className="form-control grey-filled no-selection employee-info-input"
-              id="department"
-              value={department}
-              readOnly
-              disabled
-            />
-          </div> */}
-          {/* <div className="form-group">
-            <label htmlFor="designation">Designation</label>
-            <input
-              type="text"
-              className="form-control grey-filled no-selection employee-info-input"
-              id="designation"
-              value={designation}
-              readOnly
-              disabled
-            />
-          </div> */}
+   
           
         <div className="client-info-row">
           <div className="form-group">

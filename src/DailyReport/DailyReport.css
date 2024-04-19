@@ -46,9 +46,11 @@
     white-space: pre-wrap;
     /* overflow: hidden; */
   } 
+ 
 
   .table-container td{
     padding: 8px;
+     max-width: 150px;
   }
 
 

@@ -11,21 +11,21 @@ export default function UserSidebar() {
   return (
     <div className='sidebar'>
       
-      <NavLink to={`/employee/${uuid}`} className='items' activeClassName="active">
+      <NavLink to={`/employee/${uuid}`} className='items' activeclassname="active">
         <div className='sidebars'><FontAwesomeIcon icon={faCircleUser} className='icon' />Profile</div>
       </NavLink>
-      <NavLink to={`/client-list/${uuid}`}  className='items' activeClassName="active"> 
+      <NavLink to={`/client-list/${uuid}`}  className='items' activeclassname="active"> 
       <div className='sidebars'><FontAwesomeIcon icon={faUserTie}  className='icon' /> Client </div>
       </NavLink>
-      <NavLink to={`/leave/${uuid}`} className='items' activeClassName="active">
+      <NavLink to={`/leave/${uuid}`} className='items' activeclassname="active">
         <FontAwesomeIcon icon={faCalendarWeek} className='icon' />Leave
       </NavLink>
-      <NavLink to={`/todo-list/${uuid}`}  className='items' activeClassName="active">
+      <NavLink to={`/todo-list/${uuid}`}  className='items' activeclassname="active">
         <FontAwesomeIcon icon={faList} className='icon' />To Do
       </NavLink>
-      <NavLink to={`/reports/${uuid}`}  className='items' activeClassName="active">
+      <NavLink to={`/reports/${uuid}`}  className='items' activeclassname="active">
         <FontAwesomeIcon icon={faClipboardCheck} className='icon' />Task Reports</NavLink>
-      <NavLink to={`/clockin-reports/${uuid}`}  className='items' activeClassName="active">
+      <NavLink to={`/clockin-reports/${uuid}`}  className='items' activeclassname="active">
         <FontAwesomeIcon icon={faClipboardUser} className='icon' />Attendance
       </NavLink>
     </div>

@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 
 const WeeklyReport = () => {
   const { uuid } = useParams();
-  console.log('uuid',uuid)
+  // console.log('uuid',uuid)
   const [employeeId, setEmployeeId] = useState(uuid);
   const [fromDate, setFromDate] = useState('');
   const [toDate, setToDate] = useState('');
@@ -114,20 +114,6 @@ const WeeklyReport = () => {
         </div>
       </div>
       <div id="employeeInfo" className="employee-info-row">
-        {/* <div>
-          <label htmlFor="eid">Employee Id:</label>
-          <div style={{ position: 'relative' }}>
-            <input
-              type="text"
-              id="eid"
-              name="eid"
-              placeholder="Enter Employee ID"
-              required
-              value={employeeId}
-              
-            />
-          </div>
-        </div> */}
         <div>
           <label htmlFor="fromdate">From Date:</label>
           <input
@@ -150,18 +136,6 @@ const WeeklyReport = () => {
             onChange={(e) => setToDate(e.target.value)}
           />
         </div>
-        {/* <div>
-          <label htmlFor="ename">Employee Name:</label>
-          <input type="text" id="ename" name="fname" value={employeeInfo.employeename} placeholder="Enter Employee Name" readOnly className="disabled-input" />
-        </div>
-        <div>
-          <label htmlFor="department">Department:</label>
-          <input type="text" id="department" name="department" placeholder="Enter Department" readOnly className="disabled-input" value={employeeInfo.department} />
-        </div>
-        <div>
-          <label htmlFor="designation">Designation:</label>
-          <input type="text" id="designation" name="designation" placeholder="Enter Designation" readOnly className="disabled-input" value={employeeInfo.designation} />
-        </div> */}
       </div>
       <div>
         <button onClick={fetchData} disabled={loading}>{loading ? 'Fetching Data...' : 'Fetch Data'}</button>

@@ -7,12 +7,12 @@ import { useParams } from 'react-router-dom';
 
 function DailyReport() {
     const { uuid } = useParams();
-    console.log('uuid',uuid)
+    // console.log('uuid',uuid)
     const [clockData, setClockData] = useState({ employeeId: uuid, employeeName: '', department: '', designation: '', date: '', weekday: '', clockInTime: '', clockOutTime: '', totalHours: 0, totalMinutes: 0, comments: '' ,clientId:''});
     const [clockedIn, setClockedIn] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    console.log(clockData);
+    // console.log(clockData);
     useEffect(()=>{
       getemployeeDetails();
     },[])
@@ -20,7 +20,7 @@ function DailyReport() {
       try {
         const response = await axios.get(`http://localhost:5000/getemployeeDetails/${uuid}`);
         const data = response.data
-        console.log('response',response.data)
+        // console.log('response',response.data)
         setClockData(prevState => ({
           ...prevState,
           employeeName: data.EmployeeName,
@@ -56,15 +56,11 @@ function DailyReport() {
 
     
     const fetchFirstClockInAndOut = () => {
-        console.log('Fetching first clock-in and clock-out for employee ID and date:', clockData.employeeId, clockData.date);
+        // console.log('Fetching first clock-in and clock-out for employee ID and date:', clockData.employeeId, clockData.date);
         axios.get(`http://localhost:5000/first-clock-in-out/${clockData.employeeId}/${clockData.date}`)
             .then(response => {
                 const { clockInTime, clockOutTime, comments } = response.data;
-                console.log('First Clock In Time:', clockInTime);
-                console.log('First Clock Out Time:', clockOutTime);
-                console.log('comments:', comments);
-                
-               
+        
                 setClockData(prevState => ({
                     ...prevState,
                     clockInTime: clockInTime,

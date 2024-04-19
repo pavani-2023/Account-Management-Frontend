@@ -13,7 +13,7 @@ import { useParams } from 'react-router-dom';
 const DailyReport = () => {
   // const {uuid} =useContext(IdContext);
   const { uuid } = useParams();
-  console.log('uuid',uuid)
+  // console.log('uuid',uuid)
   // const [activeTab, setActiveTab] = useState('daily'); 
   const [employeeId, setEmployeeId] = useState(uuid);
   const [date, setDate] = useState('');
@@ -27,9 +27,9 @@ const DailyReport = () => {
   const [taskReport, setTaskReport] = useState([{ sNo: 1, client: '', description: '', status: '', comments: '', efforts: '' }]);
   const [errors, setErrors] = useState({});
   const [clients, setClients] = useState([]);
-  console.log('clients',clients)
+  // console.log('clients',clients)
  const[selectedClient,setSelectedClient]=useState([])
-console.log('selectedClient',selectedClient)
+// console.log('selectedClient',selectedClient)
   useEffect(()=>{
     getemployeeDetails();
   },[])
@@ -37,7 +37,7 @@ console.log('selectedClient',selectedClient)
     try {
       const response = await axios.get(`http://localhost:5000/getemployeeDetails/${uuid}`);
       const data = response.data
-      console.log('response',response.data)
+      // console.log('response',response.data)
       setEname(data.EmployeeName);
           setDepartment(data.dep);
           setDesignation(data.Designation);
@@ -215,11 +215,11 @@ console.log('selectedClient',selectedClient)
           client: selectedClient 
         };
 
-        console.log('Data to submit:', dataToSubmit);
+        // console.log('Data to submit:', dataToSubmit);
 
         const response = await axios.post('http://localhost:5000/createTimesheet', dataToSubmit);
-        console.log('Axios request:', response.config);
-        console.log('Task report submitted successfully:', response.data);
+        // console.log('Axios request:', response.config);
+        // console.log('Task report submitted successfully:', response.data);
         alert('Task report submitted successfully');
 
         // Generate PDF after successful submission
@@ -271,69 +271,9 @@ console.log('selectedClient',selectedClient)
  
     pdf.save('daily_task_report.pdf');
   };
-  // const submitAndConvert = async () => {
-  //   const eid = employeeId.trim();
-  //   const dateValue = date.trim();
-  //   let taskStatusError = false;
-
-  //   const table = document.getElementById("taskReport");
-  //   for (let i = 1; i < table.rows.length; i++) {
-  //     const description = table.rows[i].cells[1].innerText.trim();
-  //     const status = table.rows[i].cells[2].innerText.trim();
-  //     const hours = table.rows[i].cells[4].innerText.trim();
-
-  //     if (description === "" || status === "" || hours === "") {
-  //       taskStatusError = true;
-  //       break;
-  //     }
-  //   }
-
-  //   if (eid === "" || dateValue === "" || taskStatusError) {
-      
-  //     return;
-  //   }
-
-   
-  //   submitToApi();
-    
-  //   handlePDF();
-  // };
-
-  // const submitToApi = async (e) => {
-
-  //   try {
-  //     const dataToSubmit = {
-  //       empID: employeeId,
-  //       date: date,
-  //       taskReport: taskReport
-  //     };
-  //     const response = await axios.post('http://localhost:5000/createTimesheet', dataToSubmit);
-  //     console.log('Timesheet created successfully:', response.data);
-  //     alert('Timesheet created successfully');
-  //   } catch (error) {
-  //     console.error('Failed to create timesheet:', error);
-  //     alert('Failed to create timesheet');
-  //   }
-  // };
 
 
-  const handlePDF = () => {
-    const doc = new jsPDF();
-    const tableColumn = ['S.No',  'Task Description', 'Status', 'Comments', 'Efforts'];
-    const tableData = taskReport.map((task) => [task.sNo, task.description, task.status, task.comments, task.efforts]);
-    
-    const columnStyles = {
-      0: {cellWidth: 10 }, // S.No
-      // 1: { columnWidth: 40 }, // Client
-      2: { cellWidth: 50 }, // Task Description
-      3: { cellWidth: 30 }, // Status
-      4: { cellWidth: 40 }, // Comments
-      5: {cellWidth: 30 }, // Efforts
-    };
-    
-    doc.autoTable({ head: [tableColumn], body: tableData, columnStyles });
-    doc.save('Daily Report.pdf');
-  };
+
 
   return (
     <div >

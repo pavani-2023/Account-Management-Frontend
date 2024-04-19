@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './Client.css';
 import axios from 'axios';
-import UserSidebar from '../Sidebar/UserSidebar';
-import ClientSIgnUp from '../Registration/Client/ClientSIgnUp';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const ClientTable = () => {
   const [clients, setClients] = useState([]);
-  console.log('clients',clients)
+  // console.log('clients',clients)
   const [clientlogins,setClientlogins]=useState([])
   // console.log('clientlogins',clientlogins)
   const[newemp,setNewEmp] =useState(false);
@@ -47,7 +45,7 @@ fetchclientregistration();
       clientId: client.uuid,
       clientEmail: client.email
     }));
-    console.log('updatedClientLogins', updatedClientLogins); 
+    // console.log('updatedClientLogins', updatedClientLogins); 
     setClientlogins(updatedClientLogins); 
     
     } catch (error) {
@@ -87,23 +85,6 @@ fetchclientregistration();
     }
   };
 
-  // const deleteRow = (rowIndex) => {
-  //   const clientIdToDelete = clients[rowIndex].clientId;
-  //   axios.delete(`/deleteClients/${clientIdToDelete}`)
-  //     .then(response => {
-  //       if (response.status === 200) {
-  //         // Update clients array after successful deletion
-  //         const updatedClients = clients.filter(client => client.id !== clientIdToDelete);
-  //         setClients(updatedClients);
-  //       } else {
-  //         // Handle error response
-  //         console.error('Failed to delete client');
-  //       }
-  //     })
-  //     .catch(error => {
-  //       console.error('Error deleting client:', error);
-  //     });
-  // };
   const [successMessage, setSuccessMessage] = useState('');
   const deleteRow =async (rowIndex)=>{
     const clientIdToDelete = clients[rowIndex].clientId;
@@ -112,11 +93,11 @@ fetchclientregistration();
     const response= await axios.delete(`http://localhost:5000/deleteClients/${clientIdToDelete}`)
     if (response.status === 200) {
       setSuccessMessage(`${clientname} is deleted  Reload the page to reflect changes`)
-      // Update clients array after successful deletion
+      
       const updatedClients = clients.filter(client => client.id !== clientIdToDelete);
       setClients(updatedClients);
     } else {
-      // Handle error response
+ 
       console.error('Failed to delete client');
     }
    }catch(error){
@@ -129,7 +110,7 @@ fetchclientregistration();
     <div className="Main-Container">
     
       <div className='container'>
-        {/* <h2>Client Details</h2> */}
+      
         
       
         <div className='table-align'>
@@ -137,57 +118,7 @@ fetchclientregistration();
           
 
           {successMessage && <div className="success-message-clients">{successMessage}</div>}
-
-       
-     
-{/*           
-                 <table className="client-table">
-                  <thead>
-                    <tr>
-                      <th style={{ width: '50px' }}>ID</th>
-                      <th style={{ width: '100px' }}>Name</th>
-                      <th style={{ width: '150px' }}>Address</th>
-                      <th style={{ width: '150px' }}>Email</th>
-                      <th style={{ width: '50px' }}>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {clients.map((client, rowIndex) => (
-                      <tr key={rowIndex}>
-                        <td
-                          contentEditable="true"
-                          onBlur={(e) => handleCellChange(e.target.innerText, rowIndex, 'clientId')}
-                        >
-                          {client.clientId}
-                        </td>
-                        <td
-                          contentEditable="true"
-                          onBlur={(e) => handleCellChange(e.target.innerText, rowIndex, 'clientName')}
-                        >
-                          {client.clientName}
-                        </td>
-                        <td
-                          contentEditable="true"
-                          onBlur={(e) => handleCellChange(e.target.innerText, rowIndex, 'clientAddress')}
-                        >
-                          {client.clientAddress}
-                        </td>
-                        <td
-                          contentEditable="true"
-                          onBlur={(e) => handleCellChange(e.target.innerText, rowIndex, 'clientEmail')}
-                        >
-                          {client.clientEmail}
-                        </td>
-                        <td>
-                          <h3 onClick={() => deleteRow(rowIndex)} style={{color:'#2a4d5d'}}><FontAwesomeIcon icon={faTrash} /></h3>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>  */}
-
-
-                
+              
                 <table className="client-table">
                   <thead>
                     <tr>
@@ -204,29 +135,34 @@ fetchclientregistration();
                       <tr key={rowIndex}>
                         <td
                           contentEditable="true"
+                          suppressContentEditableWarning={true}
                           onBlur={(e) => handleCellChange(e.target.innerText, rowIndex, 'clientId')}
                         >
                           {client.clientId}
                         </td>
                         <td
                           contentEditable="true"
+                          suppressContentEditableWarning={true}
                         >
                           {client.clientusername}
                         </td>
                         <td
                           contentEditable="true"
+                          suppressContentEditableWarning={true}
                           onBlur={(e) => handleCellChange(e.target.innerText, rowIndex, 'clientName')}
                         >
                           {client.clientName}
                         </td>
                         <td
                           contentEditable="true"
+                          suppressContentEditableWarning={true}
                           onBlur={(e) => handleCellChange(e.target.innerText, rowIndex, 'clientAddress')}
                         >
                           {client.clientAddress}
                         </td>
                         <td
                           contentEditable="true"
+                          suppressContentEditableWarning={true}
                           onBlur={(e) => handleCellChange(e.target.innerText, rowIndex, 'clientEmail')}
                         >
                           {client.clientEmail}

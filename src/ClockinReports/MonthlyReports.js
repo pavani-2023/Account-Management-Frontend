@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 
 const MonthlyReports = () => {
   const { uuid } = useParams();
-  console.log('uuid',uuid)
+  // console.log('uuid',uuid)
   const [employeeId, setEmployeeId] = useState(uuid);
   const [selectedMonth, setSelectedMonth] = useState("");
   const [selectedYear, setSelectedYear] = useState("");
@@ -29,7 +29,7 @@ const MonthlyReports = () => {
     try {
       const response = await axios.get(`http://localhost:5000/getemployeeDetails/${uuid}`);
       const data = response.data
-      console.log('response',response.data)
+      // console.log('response',response.data)
       setEmployeeInfo(prevState => ({
         ...prevState,
         employeename: data.EmployeeName,

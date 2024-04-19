@@ -1,9 +1,9 @@
 import React from 'react'
 
-import { useState,useEffect,useRef ,useContext} from 'react';
+import { useState,useEffect,useRef } from 'react';
 import './Employee.css'
-import {useLocation,useParams} from 'react-router-dom';
-import { IdContext } from '../Registration/Contextapi';
+import {useParams} from 'react-router-dom';
+
 import axios from 'axios';
 
 
@@ -12,11 +12,7 @@ export default function Employee() {
     
     const[file,setFile] = useState('')
     const { uuid } = useParams();
-    // const data =useContext(IdContext);
-    // console.log('data',)
-  
     
-    // const storedEmployeeData = JSON.parse(localStorage.getItem(`employeeData_${uuid}`)) || {};
    
    
     const [employeeData,setEmployeeData]=useState({
@@ -58,30 +54,20 @@ export default function Employee() {
         Managers:'',
         Details:'',
         imageSrc:'https://d30y9cdsu7xlg0.cloudfront.net/png/138926-200.png',
-        // ...storedEmployeeData,
+ 
       })
 
       const fileInputRef = useRef(null);
    
     
-    //   useEffect(() => {
-    //     localStorage.setItem(`employeeData_${employeeData.EmployeeID}`, JSON.stringify(employeeData));
-    //   }, [employeeData]);
-
-    //   const updateEmployeeName = () => {
-    //     const { FirstName, MiddleName, Lastname } = employeeData;
-    //     const fullName = `${FirstName} ${MiddleName} ${Lastname}`.trim(); 
-    //     setEmployeeData(prevData => ({ ...prevData, EmployeeName: fullName }));
-    //   };
-
+ 
     const updateEmployeeName = () => {
         const { FirstName, MiddleName, Lastname } = employeeData;
-        // Check if any of the name parts are undefined, if so, replace with empty string
+        
         const firstNamePart = FirstName ? FirstName : '';
         const middleNamePart = MiddleName ? MiddleName : '';
         const lastNamePart = Lastname ? Lastname : '';
-        
-        // Construct full name with trimmed parts
+      
         const fullName = `${firstNamePart} ${middleNamePart} ${lastNamePart}`.trim(); 
         setEmployeeData(prevData => ({ ...prevData, EmployeeName: fullName }));
     };
@@ -117,35 +103,17 @@ export default function Employee() {
         }
       };
 
-    //   const getEmployeeDetails = async () => {
-    //     try {
-    //       const response = await axios.get('http://localhost:5000//Empolyee/detailsById', {
-    //         EmployeeID: employeeData.EmployeeID
-    //       });
-    //       console.log('Fetched employee details', response.data);
-    //     } catch (error) {
-    //       console.log('Error fetching employee details', error);
-    //     }
-    //   }
+  
     const getEmployeeDetails = async () => {
     try {
       const response = await axios.get(`http://localhost:5000/employee/${employeeData.EmployeeID}`)
       setEmployeeData(response.data)
-      console.log('Fetched employee details', response.data);
+    //   console.log('Fetched employee details', response.data);
     } catch (error) {
       console.log('Error fetching employee details', error);
     }
   }
 
-// const getEmployeeDetails = async () => {
-//     try {
-//       const response = await axios.get('http://localhost:5000/Employee')
-//       setEmployeeData(response.data[0])
-//       console.log('Fetched employee details', response.data);
-//     } catch (error) {
-//       console.log('Error fetching employee details', error);
-//     }
-//   }
 
  
       const [activeDiv, setActiveDiv] = useState(1);
@@ -155,9 +123,9 @@ export default function Employee() {
         };
      
 
-    const handleFilechange = (e)=>{
-        setFile(e.target.file);
-    }
+    // const handleFilechange = (e)=>{
+    //     setFile(e.target.file);
+    // }
 
     
   const handleImageChange = (e) => {
@@ -165,7 +133,7 @@ export default function Employee() {
     const reader = new FileReader();
 
     reader.onloadend = () => {
-    //   setImageSrc(reader.result);
+
       setEmployeeData(prevData => ({ ...prevData,imageSrc:reader.result}));
     };
 
@@ -282,7 +250,7 @@ export default function Employee() {
                             <div style={{margin:'50px',display:'flex',flexDirection:'column',gap:'10px'}}>
                                 <div className='input-conta'>
                                     <label style={{marginRight:'20px'}}>Employee ID:</label>
-                                    <input style={{border:'none'}}type="text"  value={employeeData.EmployeeID} onChange={() => {}} readOnly />
+                                    <input style={{border:'none'}}type="text"  value={employeeData.EmployeeID}  readOnly />
                                 </div>
 
                                 <div className='input-conta'>
@@ -416,7 +384,7 @@ export default function Employee() {
 
                         <div className='input-cont'>
                             <label>Team Lead</label><br/>
-                            <input type="text" value={employeeData.ReleavingDate} onChange={(e) => handleChange(e, 'TeamLead')} />
+                            <input type="text" value={employeeData.TeamLead} onChange={(e) => handleChange(e, 'TeamLead')} />
                         </div>
                         <div className='input-cont'>
                             <label>Department Head</label><br/>
