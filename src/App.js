@@ -1,6 +1,6 @@
 
 
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { HashRouter, Route, Routes } from 'react-router-dom'
 import { useState, } from 'react';
 import { useEffect } from 'react';
 // import { supabase } from './Registration/supabase';
@@ -44,7 +44,7 @@ function App() {
 
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <IdProvider>
         <div className="App">
           <Routes>
@@ -94,7 +94,7 @@ function App() {
           </Routes>
         </div>
       </IdProvider>
-    </BrowserRouter>
+    </HashRouter>
 
   );
 }
