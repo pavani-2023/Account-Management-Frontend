@@ -54,11 +54,11 @@ function LeaveList() {
                   onChange={(event) => handleCommentChange(index, event)}
                 />
               </td> */}
-              <td>{leave.comments}</td>
+              
               <td>
                {leave.approvalStatus}
               </td>
-              
+              <td>{leave.comments}</td>
             </tr>
           ))}
         </tbody>
