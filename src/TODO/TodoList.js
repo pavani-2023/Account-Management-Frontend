@@ -128,16 +128,11 @@ const TodoList = () => {
     try {
       const startdate = new Date()
       const currentDate = new Date(startdate).toISOString().slice(0, 10);
-      
-      const endDate = new Date().toISOString().slice(0, 10);
-   
-  
+
       const newTodoItem = {
         EmployeeId:uuid,
         text: newTodo,
         startDate: currentDate,
-        
-        // endDate: endDate,
         progress: '',
         notes: '',
         completed:'', 
@@ -196,24 +191,22 @@ const TodoList = () => {
       return;
     }
   
-    // Create a copy of todos
+ 
     const updatedTodos = [...todos];
   
-    // Toggle completed status
+ 
     updatedTodos[index].completed = !updatedTodos[index].completed;
   
-    // Update progress
+
     updatedTodos[index].progress = updatedTodos[index].completed ? 'Completed' : 'In Progress';
     const endDate = new Date().toISOString().slice(0, 10);
-    // const formattedEndDate = formatDate(endDate)
-    updatedTodos[index].endDate = updatedTodos[index].completed ? endDate: null; // Add completion date
-  
-    // Separate completed and uncompleted todos
+
+    updatedTodos[index].endDate = updatedTodos[index].completed ? endDate: null; 
+
     const updatedTodo = updatedTodos[index];
     const completedTodo = updatedTodo.completed ? updatedTodo : null;
     const uncompletedTodo = updatedTodo.completed ? null : updatedTodo;
-  
-    // Update todos and completedTodos state
+
     setTodos(updatedTodos.filter(todo => todo !== updatedTodo));
     if (completedTodo) {
       setCompletedTodos([...completedTodos, completedTodo]);
@@ -223,7 +216,7 @@ const TodoList = () => {
     }
   
     try {
-      // Send PUT request to update the completion status of the todo
+  
       await axios.put(`http://localhost:5000/todos/${updatedTodo._id}`, { completed: updatedTodo.completed ,progress: updatedTodos[index].progress,endDate: updatedTodos[index].endDate});
     } catch (error) {
       console.error('Error updating todo:', error);
@@ -277,12 +270,12 @@ const TodoList = () => {
     return true;
   });
   
-  // Update start date state when input changes
+ 
   const handleStartDateChange = (e) => {
     setStartDate(e.target.value);
   };
 
-  // Update end date state when input changes
+
   const handleEndDateChange = (e) => {
     setEndDate(e.target.value);
   };
@@ -320,7 +313,7 @@ const TodoList = () => {
                 <tr>
                   <th></th>
                   <th style={{width:'500px',maxWidth:'500px'}}>Task</th>
-                  <th  style={{width:'150px'}}>Start Date</th>
+                  <th style={{width:'150px'}}>Start Date</th>
                   <th style={{width:'150px'}}>Progress</th>
                   <th style={{width:'400px',}}>Notes</th>
                   <th style={{width:'150px'}}>Priority</th>
@@ -337,21 +330,19 @@ const TodoList = () => {
                         onChange={() => handleToggleComplete(index)}
                       />
                     </td>
+                    
                     <td contentEditable style={{ whiteSpace: 'normal',width:'300px',maxWidth:'300px', wordWrap: 'break-word',  }} onBlur={(e) => handleTextChange(index, e.target.textContent)}
-              suppressContentEditableWarning={true} value={todo.text}>{todo.text}</td>
+                     suppressContentEditableWarning={true} value={todo.text}>{todo.text}</td>
                     <td>{todo.startDate}</td>
+
+
                     <td>
                       <select style={{ width: 'fit-content', appearance: 'none', }} value={todo.progress} >
                         <option value="In Progress">In Progress</option>
                         <option value="Completed">Completed</option>
                       </select>
                     </td>
-                    {/* <td >
-                        <textarea className='slect-todo'  style={{ height:'auto',width:'200px',maxWidth:'300px',minHeight: '50px',border:'none' ,wordWrap:'break-word' }} id={`note-${index}`} placeholder='Add Notes Here...........'
-                         value={todo.notes}
-                          onChange={(e) => handleNoteChange(e, index, false)}
-                        />
-                    </td> */}
+                  
                     <td style={{ height: 'auto', padding: '0', position: 'relative' }}>
                         <textarea className='slect-todo'   style={{ width: '100%',  height: '100%', border: 'none', boxSizing: 'border-box', position: 'absolute', top: '0', left: '0', resize: 'none' ,backgroundColor:'transparent',  }} id={`note-${index}`} placeholder='Add Notes Here...........'
                          value={todo.notes}
@@ -359,9 +350,6 @@ const TodoList = () => {
                         />
                     </td>
         
-                    {/* <td contentEditable style={{ whiteSpace: 'normal',width:'300px',maxWidth:'300px', wordWrap: 'break-word', border: '1px solid #ccc' }}onChange={(e) => handleNoteChange(e, index,true)}>
-                      {todo.notes}  
-                    </td> */}
                     <td>
                       <select value={todo.priority} style={{ width: 'fit-content', appearance: 'none', }} onChange={(e)=>handleChange(e,index)}>
                         <option>Select</option>
@@ -378,16 +366,14 @@ const TodoList = () => {
                 ))}
               </tbody>
             </table>
-            {/* <button onClick={saveTodo}>Save</button> */}
+      
           </div>
 
 
           </div>}
           
-
-
           {activeDiv===2 && <div className={`incomplete-task ${activeDiv===2?'active':''}`}>
-            <h2>Completed Todo List </h2>
+            <h2>Completed Todo List</h2>
             <table className='todoist-table' style={{width:'100%'}}>
               <thead>
                 <tr>
@@ -411,6 +397,7 @@ const TodoList = () => {
                         <option value="Completed">Completed</option>
                       </select>
                     </td>
+
                     <td style={{ height: 'auto', padding: '0', position: 'relative' }}>
                       <textarea
                         id={`completed-note-${index}`}
@@ -420,13 +407,12 @@ const TodoList = () => {
                         style={{ width: '100%',  height: '100%', border: 'none', boxSizing: 'border-box', position: 'absolute', top: '0', left: '0', resize: 'none' ,overflow:'hidden',backgroundColor:'transparent' }}
                       />
                     </td>
+
                     <td>
-                       {todo.priority}
+                        {todo.priority}
                     </td>
                     
-                    {/* <td>
-                      <button onClick={() => handleRemoveTodo(index, true)}>Remove</button>
-                    </td> */}
+            
                   </tr>
                 ))}
               </tbody>

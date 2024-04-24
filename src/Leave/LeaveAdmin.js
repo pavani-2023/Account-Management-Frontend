@@ -69,7 +69,7 @@ function LeaveAdmin() {
     <div className='Main-Container'>
       <div className='container'>
       <button onClick={updatedata}>Update</button>
-      <table className='leaves' style={{marginTop:'50px',width:'100%'}}>
+      <table className='leaves' style={{marginTop:'50px',width:'95%'}}>
         <thead>
           <tr>
             <th>SNo.</th>
