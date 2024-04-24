@@ -3,7 +3,7 @@ import './Client.css';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
-
+const api =axios.create({baseURL:'https://user-account-backend.onrender.com',})
 const ClientTable = () => {
   const [clients, setClients] = useState([]);
   // console.log('clients',clients)
@@ -28,7 +28,7 @@ fetchclientregistration();
 
   const fetchclientdetails = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/getClientDetails');
+      const response = await api.get('/getClientDetails');
       setClients(response.data); 
     } catch (error) {
       console.log('error fetching client details', error);
@@ -36,7 +36,7 @@ fetchclientregistration();
   };
   const fetchclientregistration = async(res,req)=>{
     try {
-      const response = await axios.get('http://localhost:5000/ClientRegistration');
+      const response = await api.get('/ClientRegistration');
     //  console.log('response',response)
       const data =response.data
       // console.log('data',data)
@@ -56,7 +56,7 @@ fetchclientregistration();
   useEffect(() => {
     const saveclients = async () => {
       try {
-        const response2 = await axios.post('http://localhost:5000/ClientDetails', clientlogins);
+        const response2 = await api.post('/ClientDetails', clientlogins);
       } catch (error) {
         console.log('error fetching client details', error);
       }
@@ -76,7 +76,7 @@ fetchclientregistration();
 
   const handleSubmit = async () => {
     try {
-      await axios.post('http://localhost:5000/clients', clients);
+      await api.post('/clients', clients);
       alert('Data submitted successfully!');
      
     } catch (error) {
@@ -90,7 +90,7 @@ fetchclientregistration();
     const clientIdToDelete = clients[rowIndex].clientId;
     const clientname=clients[rowIndex].clientName
    try{
-    const response= await axios.delete(`http://localhost:5000/deleteClients/${clientIdToDelete}`)
+    const response= await api.delete(`/deleteClients/${clientIdToDelete}`)
     if (response.status === 200) {
       setSuccessMessage(`${clientname} is deleted  Reload the page to reflect changes`)
       

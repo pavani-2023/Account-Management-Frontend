@@ -2,7 +2,7 @@ import React from 'react'
 import { useState,useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-
+const api =axios.create({baseURL:'https://user-account-backend.onrender.com',})
 export default function ClockInTable() {
   const [todaysClockInData, setTodaysClockInData] = useState([]);
   console.log('todaysClockInData',todaysClockInData)
@@ -20,7 +20,7 @@ export default function ClockInTable() {
 
   const getemployees = async()=>{
       try{
-          const response = await axios.get(`http://localhost:5000/getemployeedetailsbyclientid/${uuid}`);
+          const response = await api.get(`/getemployeedetailsbyclientid/${uuid}`);
            setEmployee(response.data.data)
       }catch(error){
           console.log('error getting employee details')
@@ -42,7 +42,7 @@ export default function ClockInTable() {
       const today = new Date();
       const fromDate = formatDate(today);
       const toDate = formatDate(today);
-      axios.get(`http://localhost:5000/todays-clock-in/${uuid}/${fromDate}/${toDate}`)
+      api.get(`/todays-clock-in/${uuid}/${fromDate}/${toDate}`)
           .then(response => {
               console.log('Response data:', response.data);
               setTodaysClockInData(response.data);
@@ -64,7 +64,7 @@ export default function ClockInTable() {
 
   const getEmployees = async () => {
     try {
-        const response = await axios.get(`http://localhost:5000/getemployeedetailsbyclientid/${uuid}`);
+        const response = await api.get(`/getemployeedetailsbyclientid/${uuid}`);
         setEmployee(response.data.data);
 
         // Update today's clock-in data to employee for matched employees

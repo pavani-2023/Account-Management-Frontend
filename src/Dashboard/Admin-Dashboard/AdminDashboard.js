@@ -6,6 +6,8 @@ import LeaveStatusAdmin from './LeaveStatusAdmin'
 import ClockInTableAdmin from './ClockInTableAdmin'
 import './AdminDashboard.css'
 
+const api =axios.create({baseURL:'https://user-account-backend.onrender.com',})
+
 const AdminDashboard = () => {
   const [clients, setClients] = useState([]);
   console.log('clients',clients)
@@ -25,7 +27,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchClientDetails = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/getClientDetails');
+        const response = await api.get('/getClientDetails');
         setClients(response.data);
       } catch (error) {
         console.error('Error fetching client details:', error);

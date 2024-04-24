@@ -3,6 +3,7 @@ import axios from 'axios';
 import './LeaveList.css';
 import { useParams } from 'react-router-dom';
 
+const api =axios.create({baseURL:'https://user-account-backend.onrender.com',})
 function LeaveAdmin() {
   const [leaveData, setLeaveData] = useState([]);
   const { uuid } = useParams();
@@ -14,7 +15,7 @@ function LeaveAdmin() {
 
   const fetchLeavesData = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/getLeaves');
+      const response = await api.get('/getLeaves');
       setLeaveData(response.data.Data);
     } catch (error) {
       console.log('error fetching leaves data', error);
@@ -48,7 +49,7 @@ function LeaveAdmin() {
   const updatedata = async () => {
     try {
       for (const leave of leaveData) {
-        await axios.put('http://localhost:5000/updateLeave', {
+        await api.put('/updateLeave', {
           startDate: leave.startDate,
           endDate: leave.endDate,
           approvalStatus: leave.approvalStatus,

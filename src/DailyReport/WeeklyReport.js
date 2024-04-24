@@ -3,6 +3,10 @@ import axios from 'axios';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { useParams } from 'react-router-dom';
+
+const api =axios.create({baseURL:'https://user-account-backend.onrender.com',})
+
+
 const YourComponent = () => {
   const { uuid } = useParams();
   // console.log('uuid',uuid)
@@ -24,7 +28,7 @@ const YourComponent = () => {
   },[])
   const getemployeeDetails=async()=>{
     try {
-      const response = await axios.get(`http://localhost:5000/getemployeeDetails/${uuid}`);
+      const response = await api.get(`/getemployeeDetails/${uuid}`);
       const data = response.data
       // console.log('response',response.data)
       setEname(data.EmployeeName);
@@ -54,7 +58,7 @@ const YourComponent = () => {
       setError('Please provide employee ID, start date, end date, and select a client.');
       return;
     }
-    const response = await axios.get(`http://localhost:5000/taskreports`, {
+    const response = await api.get(`/taskreports`, {
       params: {
         empID: employeeId,
         startDate: startDate,

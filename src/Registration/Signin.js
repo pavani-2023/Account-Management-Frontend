@@ -5,7 +5,7 @@ import './Signin.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import image from './images/undraw_file_sync_ot38.svg'
-
+const api =axios.create({baseURL:'https://user-account-backend.onrender.com',})
 
 
 const Signin = () => {
@@ -31,7 +31,7 @@ const Signin = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/signin', formData);
+      const response = await api.post('/signin', formData);
   
       if (response.status === 200) {
         console.log('User signed in successfully');

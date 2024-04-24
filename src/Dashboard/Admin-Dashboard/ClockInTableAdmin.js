@@ -1,6 +1,8 @@
 import { useState,useEffect } from 'react';
 import axios from 'axios';
 
+const api =axios.create({baseURL:'https://user-account-backend.onrender.com',})
+
 
 const ClockInTableAdmin = ({ selectedClientId }) => {
 
@@ -9,7 +11,7 @@ const ClockInTableAdmin = ({ selectedClientId }) => {
     const [clients, setClients] = useState([]);
     const  uuid  =  selectedClientId 
    
-  
+  console.log('uuid',uuid)
     const[employee,setEmployee]=useState([]);
   
     console.log('employee',employee)
@@ -20,7 +22,7 @@ const ClockInTableAdmin = ({ selectedClientId }) => {
   
     const getemployees = async()=>{
         try{
-            const response = await axios.get(`http://localhost:5000/getemployeedetailsbyclientid/${uuid}`);
+            const response = await api.get(`/getemployeedetailsbyclientid/${uuid}`);
              setEmployee(response.data.data)
         }catch(error){
             console.log('error getting employee details')
@@ -42,7 +44,7 @@ const ClockInTableAdmin = ({ selectedClientId }) => {
         const today = new Date();
         const fromDate = formatDate(today);
         const toDate = formatDate(today);
-        axios.get(`http://localhost:5000/todays-clock-in/${uuid}/${fromDate}/${toDate}`)
+        api.get(`/todays-clock-in/${uuid}/${fromDate}/${toDate}`)
             .then(response => {
                 console.log('Response data:', response.data);
                 setTodaysClockInData(response.data);
@@ -64,9 +66,9 @@ const ClockInTableAdmin = ({ selectedClientId }) => {
   
     const getEmployees = async () => {
       try {
-          const response = await axios.get(`http://localhost:5000/getemployeedetailsbyclientid/${uuid}`);
-          setEmployee(response.data.data);
-  
+          const response = await api.get(`/getemployeedetailsbyclientid/${uuid}`);
+          setEmployee(response.data);
+          console.log('response',response)
           // Update today's clock-in data to employee for matched employees
           const updatedEmployee = response.data.data.map(emp => {
               const matchedClockInData = todaysClockInData.find(entry => entry.employeeId === emp.EmployeeID);
@@ -113,7 +115,7 @@ const getStatusIcon = (clockInTime, clockOutTime, employeeId) => {
                 <table>
                     <thead>
                         <tr>
-                            <th>Employee ID</th>
+                            <th>Employee Name</th>
                             <th>Clock In Time</th>
                             <th>Clock Out Time</th>
                             <th>Status</th>

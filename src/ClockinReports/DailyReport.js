@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 // import './dailyclockin.css';
 import { useParams } from 'react-router-dom';
-
+const api =axios.create({baseURL:'https://user-account-backend.onrender.com',})
 function DailyReport() {
     const { uuid } = useParams();
     // console.log('uuid',uuid)
@@ -17,7 +17,7 @@ function DailyReport() {
     },[])
     const getemployeeDetails=async()=>{
       try {
-        const response = await axios.get(`http://localhost:5000/getemployeeDetails/${uuid}`);
+        const response = await api.get(`/getemployeeDetails/${uuid}`);
         const data = response.data
         // console.log('response',response.data)
         setClockData(prevState => ({
@@ -56,7 +56,7 @@ function DailyReport() {
     
     const fetchFirstClockInAndOut = () => {
         // console.log('Fetching first clock-in and clock-out for employee ID and date:', clockData.employeeId, clockData.date);
-        axios.get(`http://localhost:5000/first-clock-in-out/${clockData.employeeId}/${clockData.date}`)
+        api.get(`/first-clock-in-out/${clockData.employeeId}/${clockData.date}`)
             .then(response => {
                 const { clockInTime, clockOutTime, comments } = response.data;
         
@@ -175,7 +175,7 @@ function DailyReport() {
         }
 
    
-        axios.post('http://localhost:5000/dailyclockin-clockout',  clockDataToSend)
+        api.post('/dailyclockin-clockout',  clockDataToSend)
     .then(response => {
         console.log('Clock data sent successfully:', response.data);
     })

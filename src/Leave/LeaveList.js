@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './LeaveList.css';
 import { useParams } from 'react-router-dom';
-
+const api =axios.create({baseURL:'https://user-account-backend.onrender.com',})
 function LeaveList() {
   const [leaveData, setLeaveData] = useState([]);
   const { uuid } = useParams();
@@ -14,7 +14,7 @@ function LeaveList() {
 
   const fetchLeavesData = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/getLeaves/${uuid}`);
+      const response = await api.get(`/getLeaves/${uuid}`);
       setLeaveData(response.data);
     } catch (error) {
       console.log('error fetching leaves data', error);

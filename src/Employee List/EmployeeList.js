@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp,faEnvelope,faPhone,faUser,faGear,faArrowLeft ,faPenToSquare,} from '@fortawesome/free-solid-svg-icons';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import Signup from '../Registration/Signup';
-
+const api =axios.create({baseURL:'https://user-account-backend.onrender.com',})
 const EmployeeList = () => {
 
   //state for employee details
@@ -52,7 +52,7 @@ const EmployeeList = () => {
 
   const fetchEmployeedata = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/Employee');
+      const response = await api.get('/Employee');
       setEmployees(response.data); 
       const employeedata = response.data[0];
       // console.log('response',employeedata)
@@ -66,7 +66,7 @@ const EmployeeList = () => {
 const fetchemployeelogindetails=async()=>{
 
     try {
-          const response = await axios.get('http://localhost:5000/submitForm');
+          const response = await api.get('/submitForm');
           setEmployeeLoginDetails(response.data); 
           const employeedata = response.data;
           // console.log('response',employeedata)
@@ -77,7 +77,7 @@ const fetchemployeelogindetails=async()=>{
 
 const updateEmployeedata=async()=>{
     try{
-      const response = await axios.put('http://localhost:5000/submitForm',{uuid:formData.EmployeeID,email:formData.email,password:formData.password})
+      const response = await api.put('/submitForm',{uuid:formData.EmployeeID,email:formData.email,password:formData.password})
       // console.log(response);
 
     }catch(error){
@@ -205,7 +205,7 @@ const getSelectedEmployeeLoginDetails = () => {
     // console.log('emp id',employeeID)
     try{
       
-      const response = await axios.delete(`http://localhost:5000/Employee/${employeeID}`)
+      const response = await api.delete(`/Employee/${employeeID}`)
       // console.log('emp id',employeeID)
       console.log('Employee deleted successfully');
     }catch(error){

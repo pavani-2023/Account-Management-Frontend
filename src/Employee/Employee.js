@@ -3,6 +3,8 @@ import './Employee.css'
 import {useParams} from 'react-router-dom';
 import axios from 'axios';
 
+const api =axios.create({baseURL:'https://user-account-backend.onrender.com',})
+
 
 
 export default function Employee() {
@@ -82,28 +84,26 @@ export default function Employee() {
         updateEmployeeName();
       };
 
-      const handleSubmit = async (e) =>{
-       e.preventDefault();
-        try{
-          const response =await fetch('http://localhost:5000/Employee', {
-            method: 'PUT',
+
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+          const response = await api.put('/Employee', employeeData, {
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify(employeeData)
-        });
-        
-        const result = await response.json();
-        console.log(result);
-        }catch(error) {
-          console.error('Error Submitting Employee Details',error)
+          });
+          console.log(response.data);
+        } catch (error) {
+          console.error('Error Submitting Employee Details', error);
         }
       };
+      
 
   
     const getEmployeeDetails = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/employee/${employeeData.EmployeeID}`)
+      const response = await api.get(`/employee/${employeeData.EmployeeID}`)
       setEmployeeData(response.data)
     //   console.log('Fetched employee details', response.data);
     } catch (error) {

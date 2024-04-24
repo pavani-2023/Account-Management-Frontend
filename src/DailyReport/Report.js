@@ -4,6 +4,7 @@ import WeeklyReport from './WeeklyReport';
 import DailyReport from './DailyReport';
 import { useState } from 'react';
 
+
 export default function Report() {
   const [viewMode, setViewMode] = useState('daily');
   const [data, setData] = useState([]);

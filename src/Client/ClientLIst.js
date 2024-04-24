@@ -4,9 +4,10 @@ import { useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
-
+const api =axios.create({baseURL:'https://user-account-backend.onrender.com',})
 const ClientListTable = () => {
   const [clients, setClients] = useState([]);
+  // console.log('clients',clients)
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedData, setSelectedData] = useState([]);
   // console.log('selectedData',selectedData)
@@ -14,12 +15,15 @@ const ClientListTable = () => {
   const { uuid } = useParams();
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [employeedetails,setEmployeeDetails]= useState([])
-  // console.log('employeedetails',employeedetails)
+  console.log('employeedetails',employeedetails)
+
+
   useEffect(() => {
     const fetchClientDetails = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/getClientDetails');
+        const response = await api.get('/getClientDetails');
         setClients(response.data);
+    
       } catch (error) {
         console.error('Error fetching client details:', error);
       }
@@ -35,7 +39,7 @@ const ClientListTable = () => {
   },[])
   const getemployeeDetails=async()=>{
     try {
-      const response = await axios.get(`http://localhost:5000/getemployeeDetails/${uuid}`);
+      const response = await api.get(`/getemployeeDetails/${uuid}`);
       const data = response.data
       // console.log('response',response.data)
       setEmployeeDetails(prevState => ({
@@ -53,7 +57,7 @@ const ClientListTable = () => {
   }
   const saveClientDetails = async () => {
     try {
-      const response = await axios.post(`http://localhost:5000/saveSelectedClients/${uuid}`, {selectedData,employeeName:employeedetails.employeeName});
+      const response = await api.post(`/saveSelectedClients/${uuid}`, {selectedData,employeeName:employeedetails.employeeName});
       if (response.status === 200) {
         console.log('Selected clients saved successfully');
       } else {
@@ -66,7 +70,7 @@ const ClientListTable = () => {
 
   const getClientDetails = async()=>{
     try{
-      const response = await axios.get(`http://localhost:5000/getClientDetailsByEmployeeID/${uuid}`);
+      const response = await api.get(`/getClientDetailsByEmployeeID/${uuid}`);
       setSelectedData(response.data.data)
       console.log('setselected data',setSelectedData)
 
@@ -94,7 +98,7 @@ const ClientListTable = () => {
     
     // Delete the client from the database
     try {
-      await axios.delete(`http://localhost:5000/deleteClientDetails/${clientId}`);
+      await api.delete(`/deleteClientDetails/${clientId}`);
       console.log('Client deleted successfully from the database');
     } catch (error) {
       console.error('Error deleting client:', error);

@@ -4,7 +4,7 @@ import axios from 'axios'
 import { useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
-
+const api =axios.create({baseURL:'https://user-account-backend.onrender.com',})
 
 const TodoList = () => {
   const [todos, setTodos] = useState([]);
@@ -39,7 +39,7 @@ const TodoList = () => {
     setTodos(updatedTodos);
     console.log('text',newText)
     try {
-      await axios.put('http://localhost:5000/todotext', {
+      await api.put('/todotext', {
         _id: updatedTodos[index]._id,
         text: newText
       });
@@ -55,7 +55,7 @@ const TodoList = () => {
     updatedTodos[index].priority = value;
     setTodos(updatedTodos);
     setTodoChanges(updatedTodos[index]._id)
-    const response = await axios.put(`http://localhost:5000/todospriority/${updatedTodos[index]._id}`, { priority: value });
+    const response = await api.put(`/todospriority/${updatedTodos[index]._id}`, { priority: value });
   };
 
 
@@ -72,7 +72,7 @@ const TodoList = () => {
   useEffect(() => {
     const fetchTodos = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/gettodoItems/${uuid}`);
+        const response = await api.get(`/gettodoItems/${uuid}`);
         const allTodos = response.data.todos || [];
         const incompleteTodos = allTodos.filter(todo => !todo.completed);
         const completedTodos = allTodos.filter(todo => todo.completed);
@@ -104,7 +104,7 @@ const TodoList = () => {
         isCompleted ? setCompletedTodos(updatedTodos) : setTodos(updatedTodos);
   
        
-        await axios.put(`http://localhost:5000/updatetodo/${ updatedTodos[index]._id}`, updatedTodo);
+        await api.put(`/updatetodo/${ updatedTodos[index]._id}`, updatedTodo);
   
         console.log('Todo updated successfully:', updatedTodo);
       } else {
@@ -141,7 +141,7 @@ const TodoList = () => {
 
       console.log('startDate',startDate)
 
-       const response = await axios.post('http://localhost:5000/todos', newTodoItem);
+       const response = await api.post('/todos', newTodoItem);
       
 
        setTodos([...todos, response.data]);
@@ -175,7 +175,7 @@ const TodoList = () => {
       isCompleted ? setCompletedTodos(updatedTodos) : setTodos(updatedTodos);
       console.log('updated',updatedTodos)
 
-      const response = await axios.put(`http://localhost:5000/todosnotes/${updatedTodos[index]._id}`, { notes:value});
+      const response = await api.put(`/todosnotes/${updatedTodos[index]._id}`, { notes:value});
        console.log('response',response)
     } else {
       console.error(`Index ${index} is out of bounds.`);
@@ -217,7 +217,7 @@ const TodoList = () => {
   
     try {
   
-      await axios.put(`http://localhost:5000/todos/${updatedTodo._id}`, { completed: updatedTodo.completed ,progress: updatedTodos[index].progress,endDate: updatedTodos[index].endDate});
+      await api.put(`/todos/${updatedTodo._id}`, { completed: updatedTodo.completed ,progress: updatedTodos[index].progress,endDate: updatedTodos[index].endDate});
     } catch (error) {
       console.error('Error updating todo:', error);
     }
@@ -229,7 +229,7 @@ const TodoList = () => {
 
   const handleRemoveTodo = async (id, isCompleted) => {
     try {
-      const response = await axios.delete(`http://localhost:5000/todos/${id}`);
+      const response = await api.delete(`/todos/${id}`);
       
       if (!response.status === 200) {
         throw new Error('Failed to delete todo');

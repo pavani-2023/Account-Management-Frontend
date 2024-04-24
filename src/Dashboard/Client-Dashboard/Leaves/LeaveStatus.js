@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
+const api =axios.create({baseURL:'https://user-account-backend.onrender.com',})
+
 export default function LeaveStatus() {
   
         const [leaveData, setLeaveData] = useState([]);
@@ -15,7 +17,7 @@ export default function LeaveStatus() {
       
         const fetchLeavesData = async () => {
           try {
-            const response = await axios.get(`http://localhost:5000/getleavesbyclientid/${uuid}`);
+            const response = await api.get(`/getleavesbyclientid/${uuid}`);
             setLeaveData(response.data.Data);
           } catch (error) {
             console.log('error fetching leaves data', error);
@@ -35,7 +37,7 @@ export default function LeaveStatus() {
             });
             setLeaveData(updatedLeaveData);
       
-            await axios.put('http://localhost:5000/updateLeave', {
+            await api.put('/updateLeave', {
               startDate,
               endDate,
               approvalStatus,

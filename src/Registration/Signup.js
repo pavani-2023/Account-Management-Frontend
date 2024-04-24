@@ -2,7 +2,7 @@ import React from 'react';
 import './Signup.css';
 import { useState } from 'react';
 import axios from 'axios';
-
+const api =axios.create({baseURL:'https://user-account-backend.onrender.com',})
 
 function Signup() {
   const generateUUID = () => {
@@ -55,13 +55,13 @@ function Signup() {
     }
   
     try {
-      const response = await axios.post('http://localhost:5000/submitForm', formData);
+      const response = await api.post('/submitForm', formData);
       if (response.status === 200) {
         setSuccessMessage('Registration successful!');
       }
       console.log('employee created');
       if (formData.role === 'Admin' || formData.role === 'User') {
-        const response2 = await axios.post('http://localhost:5000/Employee', { uuid: formData.uuid });
+        const response2 = await api.post('/Employee', { uuid: formData.uuid });
         console.log('response2', response2);
         
       }

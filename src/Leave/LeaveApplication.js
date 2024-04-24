@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './LeaveApplication.css';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+const api =axios.create({baseURL:'https://user-account-backend.onrender.com',})
 
 const LeaveApplication = ({ show, onClose }) => {
   const { uuid } = useParams();
@@ -15,9 +16,10 @@ const LeaveApplication = ({ show, onClose }) => {
     fetchemployeeDetails();
   },[])
 
+
   const fetchemployeeDetails= async()=>{
     try{
-      const response = await axios.get(`http://localhost:5000/getemployeeDetails/${uuid}`)
+      const response = await api.get(`/getemployeeDetails/${uuid}`)
       setEmployeeList(response.data)
 
     }catch(error){
@@ -69,7 +71,7 @@ const handleSubmit = async (e) => {
   try {
     const formDataWithEmpId = { ...formData, empId: uuid, empName: employeeList.EmployeeName, empDept: employeeList.dep, empDesignation: employeeList.Designation,clientId:employeeList.clientId };
     // console.log(formDataWithEmpId)
-    await axios.post('http://localhost:5000/employeeLeaves', formDataWithEmpId);
+    await api.post('/employeeLeaves', formDataWithEmpId);
     console.log('formDataWithEmpId',formDataWithEmpId)
     window.alert('Submitted Successfully');
     onClose();

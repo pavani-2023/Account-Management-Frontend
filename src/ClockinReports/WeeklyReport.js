@@ -3,7 +3,7 @@ import axios from 'axios';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { useParams } from 'react-router-dom';
-
+const api =axios.create({baseURL:'https://user-account-backend.onrender.com',})
 const WeeklyReport = () => {
   const { uuid } = useParams();
   // console.log('uuid',uuid)
@@ -20,7 +20,7 @@ const WeeklyReport = () => {
   },[])
   const getemployeeDetails=async()=>{
     try {
-      const response = await axios.get(`http://localhost:5000/getemployeeDetails/${uuid}`);
+      const response = await api.get(`/getemployeeDetails/${uuid}`);
       const data = response.data
       // console.log('response',response.data)
       setEmployeeInfo(prevState => ({
@@ -44,7 +44,7 @@ const WeeklyReport = () => {
         return;
       }
 
-      const response = await axios.get(`http://localhost:5000/weekly-report/${employeeId}/${fromDate}/${toDate}`);
+      const response = await api.get(`/weekly-report/${employeeId}/${fromDate}/${toDate}`);
       const apiData = response.data;
       setTimeReports(apiData);
 

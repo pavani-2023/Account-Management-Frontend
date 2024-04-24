@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from 'react-router-dom';
-
+const api =axios.create({baseURL:'https://user-account-backend.onrender.com',})
 const MonthlyReports = () => {
   const { uuid } = useParams();
   // console.log('uuid',uuid)
@@ -27,7 +27,7 @@ const MonthlyReports = () => {
   },[])
   const getemployeeDetails=async()=>{
     try {
-      const response = await axios.get(`http://localhost:5000/getemployeeDetails/${uuid}`);
+      const response = await api.get(`/getemployeeDetails/${uuid}`);
       const data = response.data
       // console.log('response',response.data)
       setEmployeeInfo(prevState => ({
@@ -51,7 +51,7 @@ const MonthlyReports = () => {
         return;
       }
   
-      const response = await axios.get(`http://localhost:5000/monthly-report/${employeeId}/${selectedMonth}/${selectedYear}`);
+      const response = await api.get(`/monthly-report/${employeeId}/${selectedMonth}/${selectedYear}`);
       const apiData = response.data.map(report => ({
         ...report,
         weekday: getDayOfWeek(new Date(report.date).getDay()) // Update weekday field

@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from 'react'
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-
+const api =axios.create({baseURL:'https://user-account-backend.onrender.com',})
 
 export default function Reports() {
     const { uuid } = useParams();
@@ -31,7 +31,7 @@ export default function Reports() {
 
     const getemployees = async()=>{
         try{
-            const response = await axios.get(`http://localhost:5000/getemployeedetailsbyclientid/${uuid}`);
+            const response = await api.get(`/getemployeedetailsbyclientid/${uuid}`);
              setEmployee(response.data.data)
         }catch(error){
             console.log('error getting employee details')
@@ -76,7 +76,7 @@ export default function Reports() {
             return;
           }
       
-          const response = await axios.get(`http://localhost:5000/current-month/${clockData.clientId}/${selectedEmployeeId}`);
+          const response = await api.get(`/current-month/${clockData.clientId}/${selectedEmployeeId}`);
           setTimeReports(response.data.map(report => ({
             ...report,
             weekday: getDayOfWeek(new Date(report.date).getDay())
@@ -99,7 +99,7 @@ export default function Reports() {
             return;
           }
       
-          const response = await axios.get(`http://localhost:5000/previous-month/${clockData.clientId}/${selectedEmployeeId}`);
+          const response = await api.get(`/previous-month/${clockData.clientId}/${selectedEmployeeId}`);
           setTimeReports(response.data.map(report => ({
             ...report,
             weekday: getDayOfWeek(new Date(report.date).getDay())
@@ -119,7 +119,7 @@ export default function Reports() {
             setError('Employee ID and Client ID are required.');
             return;
           }
-          const response = await axios.get(`http://localhost:5000/current-week/${clockData.clientId}/${selectedEmployeeId}`);
+          const response = await api.get(`/current-week/${clockData.clientId}/${selectedEmployeeId}`);
           const apiData = response.data;
           setTimeReports(apiData);
       
@@ -141,7 +141,7 @@ export default function Reports() {
             setError('Employee ID and Client ID are required.');
             return;
           }
-          const response = await axios.get(`http://localhost:5000/previous-week/${clockData.clientId}/${selectedEmployeeId}`);
+          const response = await api.get(`/previous-week/${clockData.clientId}/${selectedEmployeeId}`);
           const apiData = response.data;
           setTimeReports(apiData);
       

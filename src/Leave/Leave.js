@@ -1,8 +1,9 @@
 // import LeaveList from './Components/LeaveList';
 import LeaveList from './LeaveList';
 import LeaveApplication from './LeaveApplication';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './Leave.css'
+
 
 function Leave() {
 
@@ -15,6 +16,9 @@ function Leave() {
   const handleCloseForm = () => {
     setShowNewForm(false);
   };
+  useEffect(()=>{
+    
+  })
 
   return (
     <>
