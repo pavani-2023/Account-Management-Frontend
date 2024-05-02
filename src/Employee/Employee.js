@@ -11,47 +11,45 @@ export default function Employee() {
     
   
     const { uuid } = useParams();
-    
-   
    
     const [employeeData,setEmployeeData]=useState({
-        EmployeeName:'',
-        FirstName:'',
-        MiddleName:'',
-        Lastname:'',
+        EmployeeName:null,
+        FirstName:null,
+        MiddleName:null,
+        Lastname:null,
         EmployeeID:uuid,
-        Gender:'',
-        PersonalEmail:'',
-        MobileNumber:'',
-        AlternativeMobileNumber:'',
-        DateOfBirth:'',
-        FatherName:'',
-        ResidentialAddress:'',
-        Name:'',
-        PhoneNumber:'',
-        Relationship:'',
-        DateofJoining:'',
-        WorkEmail:'',
-        ReleavingDate:'',
-        TeamLead:'',
-        DepHaed:'',
-        Manager:'',
-        OfficeManager:'',
-        PANnumber:'',
-        Aadharnumber:'',
-        DepID:'',
-        DepName:'',
-        DepLocation:'',
-        Designation:'',
-        ACType:'',
-        ACNUmber:'',
-        IFSCCode:'',
-        Branch:'', 
-        UANnumber:'',
-        SalaryCTC:'',
-        CompanyName:'',
-        Managers:'',
-        Details:'',
+        Gender:null,
+        PersonalEmail:null,
+        MobileNumber:null,
+        AlternativeMobileNumber:null,
+        DateOfBirth:null,
+        FatherName:null,
+        ResidentialAddress:null,
+        Name:null,
+        PhoneNumber:null,
+        Relationship:null,
+        DateofJoining:null,
+        WorkEmail:null,
+        ReleavingDate:null,
+        TeamLead:null,
+        DepHaed:null,
+        Manager:null,
+        OfficeManager:null,
+        PANnumber:null,
+        Aadharnumber:null,
+        DepID:null,
+        DepName:null,
+        DepLocation:null,
+        Designation:null,
+        ACType:null,
+        ACNUmber:null,
+        IFSCCode:null,
+        Branch:null, 
+        UANnumber:null,
+        SalaryCTC:null,
+        CompanyName:null,
+        Managers:null,
+        Details:null,
         imageSrc:'https://d30y9cdsu7xlg0.cloudfront.net/png/138926-200.png',
  
       })
@@ -63,11 +61,15 @@ export default function Employee() {
     const updateEmployeeName = () => {
         const { FirstName, MiddleName, Lastname } = employeeData;
         
-        const firstNamePart = FirstName ? FirstName : '';
+        const firstNamePart = FirstName ? FirstName.trim(' ') : '';
+     
         const middleNamePart = MiddleName ? MiddleName : '';
+   
         const lastNamePart = Lastname ? Lastname : '';
+        // console.log('lastName',lastNamePart)
       
-        const fullName = `${firstNamePart} ${middleNamePart} ${lastNamePart}`.trim(); 
+        const fullName = `${firstNamePart} ${middleNamePart} ${lastNamePart}`;
+        // console.log('fullName',fullName)
         setEmployeeData(prevData => ({ ...prevData, EmployeeName: fullName }));
     };
     
@@ -76,30 +78,67 @@ export default function Employee() {
     }, []);
     
 
-      const handleChange = (e, field) => {
-        setEmployeeData({
-          ...employeeData,
-          [field]: e.target.value,
-        }); 
+    const [errors, setErrors] = useState({});
+    const [generalError, setGeneralError] = useState('');
+
+    const handleChange = (e, field) => {
+        const value = e.target.value;
+        setEmployeeData(prevData => ({
+            ...prevData,
+            [field]: value,
+        }));
         updateEmployeeName();
-      };
+        
+    };
 
-
-      const handleSubmit = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-          const response = await api.put('/Employee', employeeData, {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          });
-          console.log(response.data);
-        } catch (error) {
-          console.error('Error Submitting Employee Details', error);
+        const requiredFieldsBySection = {
+            'personalDetails': ['FirstName', 'Lastname', 'PersonalEmail', 'MobileNumber', 'DateOfBirth'],
+            'officeDetails': ['DateofJoining', 'WorkEmail','DepName','Designation',],
+            // 'governmentProofs': ['PANnumber', 'Aadharnumber'],
+            // 'bankDetails': ['ACType', 'ACNUmber', 'Branch', 'UANnumber', 'SalaryCTC', 'IFSCCode'],
+            // 'clientDetails': ['CompanyName', 'Managers', 'Details']
+        };
+    
+        // Validate required fields dynamically
+        const newErrors = {};
+        for (const section in requiredFieldsBySection) {
+            if (requiredFieldsBySection.hasOwnProperty(section)) {
+                const fields = requiredFieldsBySection[section];
+                fields.forEach(field => {
+                    if (!employeeData[field] || (typeof employeeData[field] === 'string' && employeeData[field].trim() === '')) {
+                        newErrors[field] = `${field} is required`;
+                    } else {
+                        newErrors[field] = '';
+                    }
+                });
+            }
         }
-      };
-      
+        setErrors(newErrors);
+    
+        
+        const hasErrors = Object.values(newErrors).some(error => error !== '');
+        if (hasErrors) {
+            setGeneralError('Please fill all required fields');
+            return; 
+        }
+    
+        try {
+            const response = await api.put('/Employee', employeeData, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            console.log(response.data);
+            setGeneralError('')
+        } catch (error) {
+            console.error('Error Submitting Employee Details', error);
+        }
+    };
+    
 
+   
   
     const getEmployeeDetails = async () => {
     try {
@@ -120,9 +159,6 @@ export default function Employee() {
         };
      
 
-    // const handleFilechange = (e)=>{
-    //     setFile(e.target.file);
-    // }
 
     
   const handleImageChange = (e) => {
@@ -148,77 +184,29 @@ export default function Employee() {
   return (
     <div className='Main-Container'>
        
-
-        <div className='container'>
-        {/* <h1 className='heading'>Employee Info</h1> */}
-
-        {/* <div className="image"style={{display:'flex',flexDirection:'row',gap:'5%',marginBottom:'100px' ,width:'100%',height:'300px'}}>
-            <div className='profile-pic' style={{width:'25%',backgroundColor:'#fff',}}>
-                <div style={{ display: 'flex', justifyContent: 'center',alignItems:'center',height:'100%' }}>
-                    <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleImageChange}
-                        style={{ display: 'none' }}
-                        ref={fileInputRef}
-                    />
-                    <img
-                        alt="User Pic"
-                        src={employeeData.imageSrc}
-                        id="profile-image1"
-                        height="200"
-                        style={{ cursor: 'pointer',borderRadius:'50%',width:'50%' ,}}
-                        onClick={handleClick}
-                    />
-                </div>
-            </div>
-            <div style={{width:'65%',height:'300px',backgroundColor:'#fff'}}>
-                <div style={{margin:'50px'}}>
-                    <div className='input-cont'>
-                        <label style={{marginRight:'20px'}}>Employee ID:</label>
-                        <input style={{border:'none'}}type="text"  value={employeeData.EmployeeID} onChange={() => {}} readOnly />
-                    </div>
-
-                    <div className='input-cont'>
-                        <label>Employee Name:</label>
-                        <input type="text" style={{border:'none'}} id="employee-name" readOnly value={employeeData.EmployeeName} onChange={(e) => handleChange(e, 'EmployeeName')}/>
-                    </div>
-
-                    <div className='input-cont'>
-                            <label>Department:</label>
-                            <input type="text" readOnly value={employeeData.DepName} style={{border:'none'}} onChange={(e) => handleChange(e, 'DepName')}/>
-                    </div>
-
-                    <div className='input-cont'>
-                            <label>Designation: </label>
-                            <input type="text" readOnly  value={employeeData.Designation} style={{border:'none'}} onChange={(e) => handleChange(e, 'Designation')}/>
-                    </div>
-
-
-                </div>
-
-               
-
-            </div>
-        </div> */}
-        
+       <form onSubmit={handleSubmit}>
+        <div className='employee-main-container'>
+       
         <div className='Employee-container'>
    
             <div className='sub-container'>
                 <div onClick={() => displayDiv(1)} className={`word ${activeDiv === 1 ? 'active' : ''}`}>Personal details</div>
                 <div onClick={() => displayDiv(2)} className={`word ${activeDiv === 2 ? 'active' : ''}`}>Office Details</div>
                 <div onClick={() => displayDiv(3)} className={`word ${activeDiv === 3 ? 'active' : ''}`}>Government proofs</div>
-                
                 <div onClick={() => displayDiv(4)} className={`word ${activeDiv === 4 ? 'active' : ''}`}>Bank Deatils</div>
-                {/* <div onClick={() => displayDiv(5)} className={`word ${activeDiv === 5 ? 'active' : ''}`}>Designation </div> */}
-                
-                {/* <div onClick={() => displayDiv(6)}className={`word ${activeDiv === 6 ? 'active' : ''}`}>Department </div> */}
                 <div onClick={() => displayDiv(7)} className={`word ${activeDiv === 7 ? 'active' : ''}`}>Client Details</div>
 
             </div>
             
 
             <div className='Employee-personal-details'>
+            {generalError && <p style={{ color: 'red' }}>{generalError}</p>}
+
+            <div>
+                    {Object.entries(errors).map(([field, error]) => (
+                        error && <p key={field} style={{ color: 'red' }}>{error}</p>
+                    ))}
+                </div>
                 {activeDiv===1  && < div className={`container ${activeDiv === 1 ? 'active' : ''}`}>
                    <div style={{display:'flex', width:'100%'}} >
 
@@ -275,8 +263,8 @@ export default function Employee() {
                         <div>
                             <div className='personal-info employee'>
                                     <div className='input-cont'>
-                                        <label>First Name</label><br/>
-                                        <input type="text"value={employeeData.FirstName} onChange={(e) => handleChange(e, 'FirstName')}/>
+                                        <label>First Name<span className="required-field"></span></label><br/>
+                                        <input type="text"value={employeeData.FirstName} onChange={(e) => handleChange(e, 'FirstName')} required/>
                                     </div>
                 
                                     <div className='input-cont'>
@@ -286,8 +274,8 @@ export default function Employee() {
                 
                 
                                     <div className='input-cont'>
-                                        <label>Last Name</label><br/>
-                                        <input type="text" value={employeeData.Lastname}onChange={(e) => handleChange(e, 'Lastname')} />
+                                        <label>Last Name<span className="required-field"></span></label><br/>
+                                        <input type="text" value={employeeData.Lastname}onChange={(e) => handleChange(e, 'Lastname')}required />
                                     </div>
                 
                                     
@@ -303,13 +291,13 @@ export default function Employee() {
                                     </div>
                 
                                     <div className='input-cont'>
-                                        <label>Personal Email</label><br/>
-                                        <input type="email" value={employeeData.PersonalEmail} onChange={(e) => handleChange(e, 'PersonalEmail')}/>
+                                        <label>Personal Email<span className="required-field"></span></label><br/>
+                                        <input type="email" value={employeeData.PersonalEmail} onChange={(e) => handleChange(e, 'PersonalEmail')} required/>
                                     </div>
                 
                                     <div className='input-cont'>
-                                        <label>Mobile Number</label><br/>
-                                        <input type="number" value={employeeData.MobileNumber} onChange={(e) => handleChange(e, 'MobileNumber')}/>
+                                        <label>Mobile Number<span className="required-field"></span></label><br/>
+                                        <input type="number" value={employeeData.MobileNumber} onChange={(e) => handleChange(e, 'MobileNumber')} required/>
                                     </div>
                 
                                     <div className='input-cont'>
@@ -318,14 +306,14 @@ export default function Employee() {
                                     </div>
                 
                                     <div className='input-cont'>
-                                        <label>Date Of Birth</label><br/>
-                                        <input type="date" value={employeeData.DateOfBirth} onChange={(e) => handleChange(e, 'DateOfBirth')} />
+                                        <label>Date Of Birth<span className="required-field"></span></label><br/>
+                                        <input type="date" value={employeeData.DateOfBirth} onChange={(e) => handleChange(e, 'DateOfBirth')}required />
                                     </div>
                 
                                     <div className='input-cont'>
 
                                         <label> Father Name</label><br/>
-                                        <input type="text" value={employeeData.FatherName} onChange={(e) => handleChange(e, 'FatherName')} />
+                                        <input type="text" value={employeeData.FatherName} onChange={(e) => handleChange(e, 'FatherName')} required/>
                                         
                                     </div>
                 
@@ -345,18 +333,18 @@ export default function Employee() {
                             <div className='emergancey-info employee'>
 
                                     <div className='input-cont'>
-                                        <label>Name</label><br/>
-                                        <input type="text" value={employeeData.Name}onChange={(e) => handleChange(e, 'Name')}/>
+                                        <label>Name<span className="required-field"></span></label><br/>
+                                        <input type="text" value={employeeData.Name}onChange={(e) => handleChange(e, 'Name')} required/>
                                     </div>
 
                                     <div className='input-cont'>
-                                        <label>Phone Number</label><br/>
-                                        <input type="text" value={employeeData.PhoneNumber} onChange={(e) => handleChange(e, 'PhoneNumber')}/>
+                                        <label>Phone Number<span className="required-field"></span></label><br/>
+                                        <input type="text" value={employeeData.PhoneNumber} onChange={(e) => handleChange(e, 'PhoneNumber')} required/>
                                     </div>
 
                                     <div className='input-cont'>
-                                        <label>Relationship</label><br/>
-                                        <input type="text" value={employeeData.Relationship} onChange={(e) => handleChange(e, 'Relationship')} />
+                                        <label>Relationship<span className="required-field"></span></label><br/>
+                                        <input type="text" value={employeeData.Relationship} onChange={(e) => handleChange(e, 'Relationship')}required />
                                     </div>
                             </div>
 
@@ -388,12 +376,12 @@ export default function Employee() {
                             <input type="text" value={employeeData.DepHaed} onChange={(e) => handleChange(e, 'DepHaed')} />
                         </div>
                         <div className='input-cont'>
-                            <label>Department</label><br/>
-                            <input type="text" value={employeeData.DepName} onChange={(e) => handleChange(e, 'DepName')}/>
+                            <label>Department<span className="required-field"></span></label><br/>
+                            <input type="text" value={employeeData.DepName} onChange={(e) => handleChange(e, 'DepName')} required/>
                         </div>
                         <div className='input-cont'>
-                            <label>Designation </label><br/>
-                            <input type="text" value={employeeData.Designation} onChange={(e) => handleChange(e, 'Designation')}/>
+                            <label>Designation <span className="required-field"></span></label><br/>
+                            <input type="text" value={employeeData.Designation} onChange={(e) => handleChange(e, 'Designation')} required/>
                         </div>
                         <div className='input-cont'>
                             <label>Manager</label><br/>
@@ -452,29 +440,7 @@ export default function Employee() {
                     
           
                 </div>}
-                {/* {activeDiv===5&&<div className={`container ${activeDiv === 5 ? 'active' : ''}`}>
-                    <div className='input-cont'>
-                            <label>Designation Code</label>
-                            <input type="text" />
-                    </div>
-                    
-                </div>} */}
-                {/* {activeDiv===6&&<div className={`container ${activeDiv === 6 ? 'active' : ''}`}>
-                    <div className='input-cont'>
-                        <label>Department Id</label>
-                        <input type="text" value={employeeData.DepID} onChange={(e) => handleChange(e, 'DepID')}/>
-                    </div>
-                    <div className='input-cont'>
-                            <label>Department Name</label>
-                            <input type="text" value={employeeData.DepName} onChange={(e) => handleChange(e, 'DepName')}/>
-                    </div>
-                    <div className='input-cont'>
-                            <label>Department Location</label>
-                            <input type="text" value={employeeData.DepLocation} onChange={(e) => handleChange(e, 'DepLocation')}/>
-                    </div>
-                    
-                </div>}
-                */}
+                
                 {activeDiv===7&&<div className={`container ${activeDiv === 7 ? 'active' : ''}`}>
                     <div className='employee'>
                         <div className='input-cont'>
@@ -490,7 +456,7 @@ export default function Employee() {
                             <input type='text' value={employeeData.Details} onChange={(e) => handleChange(e, 'Details')}/>
                         </div>
 
-                        <button onClick={handleSubmit}>Next</button>
+                        <button type="submit">Submit</button>
                     </div>
                     
                     
@@ -499,13 +465,9 @@ export default function Employee() {
             </div>
              
         </div>
-      
+       
         </div>
-        
+        </form>
     </div>
   )
 }
-
-
-
-

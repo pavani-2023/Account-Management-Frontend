@@ -92,7 +92,7 @@ const Signin = () => {
 
             </div><br />
 
-            <p><Link to="/forgot-password">Forgot Password?</Link></p>
+            {/* <p><Link to="/forgot-password">Forgot Password?</Link></p> */}
 
 
 
