@@ -3,6 +3,7 @@ import './Signup.css';
 import { useState } from 'react';
 import axios from 'axios';
 const api =axios.create({baseURL:'https://user-account-backend.onrender.com',})
+// const api =axios.create({baseURL:'http://localhost:5000',})
 
 function Signup() {
   const generateUUID = () => {
@@ -61,7 +62,7 @@ function Signup() {
       }
       console.log('employee created');
       if (formData.role === 'Admin' || formData.role === 'User') {
-        const response2 = await api.post('/Employee', { uuid: formData.uuid });
+        const response2 = await api.post('/Employee', { uuid: formData.uuid,phoneNumber:formData.phoneNumber,email:formData.email });
         console.log('response2', response2);
         
       }

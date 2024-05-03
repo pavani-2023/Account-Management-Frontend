@@ -193,7 +193,7 @@ const MonthlyReports = () => {
       <button onClick={fetchData}>Fetch Data</button>
       <button onClick={convertToPDF}>Convert to PDF</button>
       {error && <div className="error-message">{error}</div>}
-      <table id="monthlyDataTable"  className='clockin-table'>
+      <table id="monthlyDataTable"  className='clockin-table' style={{width:'95%'}}>
         <thead>
           <tr>
             <th style={{ width: '15%' }}>Date</th>

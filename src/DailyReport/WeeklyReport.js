@@ -224,7 +224,7 @@ const YourComponent = () => {
       </div>
       
       <div className="table-container">
-        <table id="taskReport">
+        <table id="taskReport" >
           <thead>
             <tr>
               <th style={{ width: '5%' }}>S.No</th>

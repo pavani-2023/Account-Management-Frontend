@@ -142,7 +142,7 @@ const WeeklyReport = () => {
         <button onClick={convertToPDF} disabled={!timeReports.length}>Convert to PDF</button>
       </div>
       {error && <div className="error-message">{error}</div>}
-      <table id="weeklyDataTable"  className='clockin-table'>
+      <table id="weeklyDataTable"  className='clockin-table' style={{width:'95%'}}>
         <thead>
           <tr>
             <th style={{ width: '15%' }}>Date</th>

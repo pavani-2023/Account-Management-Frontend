@@ -5,13 +5,14 @@ import axios from 'axios';
 
 const api =axios.create({baseURL:'https://user-account-backend.onrender.com',})
 
-
+// const api =axios.create({baseURL:'http://localhost:5000',})
 
 export default function Employee() {
     
   
     const { uuid } = useParams();
-   
+    const[employeelogindetails,setEmployeeLoginDetails]= useState([]);
+    // console.log('employeeData',employeelogindetails)
     const [employeeData,setEmployeeData]=useState({
         EmployeeName:null,
         FirstName:null,
@@ -53,7 +54,7 @@ export default function Employee() {
         imageSrc:'https://d30y9cdsu7xlg0.cloudfront.net/png/138926-200.png',
  
       })
-
+// console.log('employeeData',employeeData)
       const fileInputRef = useRef(null);
    
     
@@ -72,11 +73,33 @@ export default function Employee() {
         // console.log('fullName',fullName)
         setEmployeeData(prevData => ({ ...prevData, EmployeeName: fullName }));
     };
-    
-      useEffect(()=>{
+    useEffect(()=>{
         getEmployeeDetails();
+        fetchemployeelogindetails()
     }, []);
     
+    const fetchemployeelogindetails=async()=>{
+
+        try {
+              const response = await api.get(`/getlogindetails/${uuid}`);
+              setEmployeeLoginDetails(response.data); 
+              const employeedata = response.data;
+            //   console.log('emplo',employeedata)
+
+              setEmployeeData(prevState => ({
+                ...prevState,
+                MobileNumber: employeedata.PhoneNumber,
+                WorkEmail:employeedata.email,
+
+            }));
+             
+              console.log('response',response)
+        } catch (error) {
+            console.error('Error fetching employees:', error);
+        }
+    }
+    
+   
 
     const [errors, setErrors] = useState({});
     const [generalError, setGeneralError] = useState('');
@@ -297,7 +320,7 @@ export default function Employee() {
                 
                                     <div className='input-cont'>
                                         <label>Mobile Number<span className="required-field"></span></label><br/>
-                                        <input type="number" value={employeeData.MobileNumber} onChange={(e) => handleChange(e, 'MobileNumber')} required/>
+                                        <input type="number" value={employeeData.MobileNumber} onChange={(e) => handleChange(e, 'MobileNumber')} readonly required/>
                                     </div>
                 
                                     <div className='input-cont'>

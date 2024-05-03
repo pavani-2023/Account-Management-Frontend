@@ -5,7 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp,faEnvelope,faPhone,faUser,faGear,faArrowLeft ,faPenToSquare,} from '@fortawesome/free-solid-svg-icons';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import Signup from '../Registration/Signup';
-const api =axios.create({baseURL:'https://user-account-backend.onrender.com',})
+const api =axios.create({baseURL:'https://user-account-backend.onrender.com',});
+// const api =axios.create({baseURL:'http://localhost:5000',})
 const EmployeeList = () => {
 
   //state for employee details
@@ -36,15 +37,13 @@ const EmployeeList = () => {
   const[clientdet,setClientDet]=useState(false);
   const[newemp,setNewEmp] =useState(false);
   const[settingicon,SetSettingIcon]=useState();
-
+const[message,setMessage]=useState();
  
   useEffect(() => {
     fetchEmployeedata();
-    fetchemployeelogindetails();
-    
-   
-   
+    fetchemployeelogindetails();   
   }, []);
+
   useEffect(()=>{
     getSelectedEmployeeLoginDetails();
   
@@ -207,6 +206,9 @@ const getSelectedEmployeeLoginDetails = () => {
       
       const response = await api.delete(`/Employee/${employeeID}`)
       // console.log('emp id',employeeID)
+      if (response.status === 200) {
+      setMessage(`${response.data.deletedEmployee.EmployeeName}`)
+      }
       console.log('Employee deleted successfully');
     }catch(error){
       console.log('error deleteing employee',error)

@@ -210,7 +210,7 @@ function DailyReport() {
                     {clockData.clockInTime && clockData.clockOutTime ? 'Clock In/Out Completed' : clockData.clockInTime ? 'Clock Out' : 'Clock In'}
                 </button>
             </div>
-            <table className='clockin-table'>
+            <table className='clockin-table' style={{width:'95%'}}>
                 <thead>
                     <tr>
                         <th style={{ width: '15%' }}>Date</th>
