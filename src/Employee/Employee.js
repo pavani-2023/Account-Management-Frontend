@@ -86,12 +86,12 @@ export default function Employee() {
               const employeedata = response.data;
             //   console.log('emplo',employeedata)
 
-              setEmployeeData(prevState => ({
-                ...prevState,
-                MobileNumber: employeedata.PhoneNumber,
-                WorkEmail:employeedata.email,
+            //   setEmployeeData(prevState => ({
+            //     ...prevState,
+            //     MobileNumber: employeedata.phoneNumber,
+            //     WorkEmail:employeedata.email,
 
-            }));
+            // }));
              
               console.log('response',response)
         } catch (error) {

@@ -10,10 +10,8 @@ function Signup() {
     return Math.floor(1000000000000000 + Math.random() * 9000000000000000).toString();
   };
   const [formData, setFormData] = useState({
-    username:'',
     email: '',
     password: '',
-    confirmPassword: '',
     phoneNumber: '',
     uuid: generateUUID(),
     role: 'User'
@@ -22,10 +20,8 @@ function Signup() {
 
 
   const [errors, setErrors] = useState({
-    username:'',
     email: '',
     password: '',
-    confirmPassword: '',
     phoneNumber: '',
     uuid: '',
   });
@@ -112,9 +108,6 @@ function Signup() {
           </div>
           <div className='input-container'>
             <input type="text" name="uuid" className="input" placeholder="UUID (16 digits)" value={formData.uuid}  readOnly />
-          </div>
-          <div className='input-container'>
-            <input type="text" className="input" name="username" placeholder="username" onChange={(e) => handleChange(e, 'username')} required/>
           </div>
           <div className='input-container'>
             <input type="email" className="input" name="email" placeholder="Email ID" onChange={(e) => handleChange(e, 'email')} />

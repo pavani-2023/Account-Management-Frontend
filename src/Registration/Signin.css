@@ -40,9 +40,8 @@ input::placeholder {
 .right{
   display: flex;
   flex-direction: column;
-  
   row-gap:15px;
-  width:50%;
+  /* width:50%; */
 }
 .left{
   width:60%;

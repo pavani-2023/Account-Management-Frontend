@@ -335,7 +335,7 @@ const getSelectedEmployeeLoginDetails = () => {
                              <div>
                                  <div className='form-data'>
                                    <div>
-                                     <p className='Label'>First Name:</p><br/>
+                                     <label className='Label'>First Name:</label><br/>
                                      <input className='input'style={{width:'auto'}} value={formData.FirstName||selectedEmployee.FirstName} onChange={(e) => handleInputChange(e, selectedEmployee.EmployeeID, 'FirstName')}/>
                                    </div>
                                    <div>
