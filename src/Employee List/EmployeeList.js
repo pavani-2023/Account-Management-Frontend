@@ -118,9 +118,8 @@ const getSelectedEmployeeLoginDetails = () => {
 
   const handleopenSetting=()=>{
     
-    // setEMployeeDetailsform(false);
-    // SetSettingIcon(true);
-    SetSettingIcon(!settingicon);
+    setEMployeeDetailsform(false);
+    SetSettingIcon(true);
   }
 
   const handleback=()=>{
@@ -368,8 +367,11 @@ const getSelectedEmployeeLoginDetails = () => {
           <div className='overlay' style={{backgroundColor:'rgb(243 232 232 / 0%)'}}>
               <form className='modal-forms'>
                    <span className="close" onClick={handleformclose}>&times;</span>
-                   <FontAwesomeIcon icon={faArrowLeft} onClick={handleback}/>
-                       <div><FontAwesomeIcon icon={faGear} onClick={handleopenSetting} />
+                   <div className='back'><FontAwesomeIcon icon={faArrowLeft} onClick={handleback}/></div>
+                       <div >
+                        <div className='settings'>
+                          <FontAwesomeIcon icon={faGear} onClick={handleopenSetting} />
+                        </div>
 
                        
 

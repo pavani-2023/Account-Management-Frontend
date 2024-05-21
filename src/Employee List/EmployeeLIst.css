@@ -88,3 +88,13 @@ label{
 .employees-input:focus{
     outline: none;
 }
+.settings{
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 50px;
+}
+
+.back{
+    margin-top:5px;
+    margin-left: 5px;
+}
