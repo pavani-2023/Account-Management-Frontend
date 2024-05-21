@@ -11,6 +11,7 @@ const EmployeeList = () => {
 
   //state for employee details
   const [employees, setEmployees] = useState([]);
+  // console.log('employees',employees)
 
   //state for employee registration details
   const[employeelogindetails,setEmployeeLoginDetails]= useState([]);
@@ -20,9 +21,11 @@ const EmployeeList = () => {
 
   //state to track selected employee 
   const [selectedEmployee, setSelectedEmployee] = useState(null);
+  console.log('selectedEmployee',selectedEmployee)
 
 
   const [formData, setFormData] = useState({});
+  console.log('formData',formData)
 
 
   //state to visibilty of form
@@ -37,7 +40,7 @@ const EmployeeList = () => {
   const[clientdet,setClientDet]=useState(false);
   const[newemp,setNewEmp] =useState(false);
   const[settingicon,SetSettingIcon]=useState();
-const[message,setMessage]=useState();
+  const [message, setMessage] = useState(null);
  
   useEffect(() => {
     fetchEmployeedata();
@@ -84,6 +87,13 @@ const updateEmployeedata=async()=>{
     }
 }
 
+const updateEmployeeDetails= async()=>{
+  try{
+
+  }catch(error){
+    console.log('error updating employee details')
+  }
+}
 // console.log('selected',employees.EmployeeID)
 
 
@@ -163,7 +173,41 @@ const getSelectedEmployeeLoginDetails = () => {
   // };
 
 
-  const handleInputChange = (e, id, field) => {
+  // const handleInputChange = async(e, id, field) => {
+  //   const updatedEmployees = employees.map(employee => {
+  //     if (employee.EmployeeID === id) {
+  //       return {
+  //         ...employee,
+  //         [field]: e.target.value
+  //       };
+  //     }
+  //     return employee;
+  //   });
+  //   setEmployees(updatedEmployees);
+  //   setSelectedEmployee(updatedEmployees);
+
+  //   const updatelogindetails =employeelogindetails.map(employee=>{
+  //     if (employee.uuid === id) {
+  //       return {
+  //         ...employee,
+  //         [field]: e.target.value
+  //       };
+  //     }
+  //     return employee;
+  //   });
+   
+  //   setSelectedEMployeeLOginDetails(updatelogindetails)
+    
+    
+  //   const updatedFormData ={ ...formData, [id]:{...formData[id],[field]: e.target.value}, };
+  //   setFormData(updatedFormData);
+
+  //   await updateBackendData(id, { [field]: e.target.value });
+  //   console.log('id',id)
+  // };
+  
+  const handleInputChange = async (e, id, field) => {
+    // Update employees state
     const updatedEmployees = employees.map(employee => {
       if (employee.EmployeeID === id) {
         return {
@@ -174,9 +218,13 @@ const getSelectedEmployeeLoginDetails = () => {
       return employee;
     });
     setEmployees(updatedEmployees);
-    setSelectedEmployee(updatedEmployees);
-
-    const updatelogindetails =employeelogindetails.map(employee=>{
+  
+    // Update selected employee state
+    const updatedSelectedEmployee = updatedEmployees.find(employee => employee.EmployeeID === id);
+    setSelectedEmployee(updatedSelectedEmployee);
+  
+    // Update employee login details state
+    const updatedEmployeeLoginDetails = employeelogindetails.map(employee => {
       if (employee.uuid === id) {
         return {
           ...employee,
@@ -185,20 +233,41 @@ const getSelectedEmployeeLoginDetails = () => {
       }
       return employee;
     });
-   
-    setSelectedEMployeeLOginDetails(updatelogindetails)
-    
-    // Assuming you have another state called formData to update modified fields
-    const updatedFormData ={ ...formData, [id]:{...formData[id],[field]: e.target.value}, };
+    setSelectedEMployeeLOginDetails(updatedEmployeeLoginDetails);
+  
+    // Update form data state
+    const updatedFormData = {
+      ...formData,
+      [id]: {
+        ...formData[id],
+        [field]: e.target.value,
+        EmployeeID: id 
+      }
+    };
     setFormData(updatedFormData);
-
-    // const updatelogindetailsto ={...updatedLoginDetails,[id]:{...updatedLoginDetails[id],field:e.target.value}}
-    // setUpdatedLoginDetails(updatelogindetailsto);
-    // const updatedLoginDetailsCopy = { ...updatedLoginDetails, [field]: e.target.value };
-    // setUpdatedLoginDetails(updatedLoginDetailsCopy);
+  
+    // Update backend data
+    // await updateBackendData(id, { [field]: e.target.value });
+  
+    console.log('id', id);
   };
   
 
+  const updateBackendData = async () => {
+    try {
+      const response = await api.put('/updateEmployeesData', {formData}, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+  
+      console.log('Successfully updated:', response.data);
+      window.alert('Employee data updated successfully!');
+      setFormData({});
+    } catch (error) {
+      console.error('Failed to update:', error);
+    }
+  };
 
   const handleDeleteEmployee  = async(employeeID)=>{
     // console.log('emp id',employeeID)
@@ -207,7 +276,7 @@ const getSelectedEmployeeLoginDetails = () => {
       const response = await api.delete(`/Employee/${employeeID}`)
       // console.log('emp id',employeeID)
       if (response.status === 200) {
-      setMessage(`${response.data.deletedEmployee.EmployeeName}`)
+      setMessage(`${response.data.deletedEmployee.EmployeeName} is deleted  Reload the page to reflect changes` )
       }
       console.log('Employee deleted successfully');
     }catch(error){
@@ -229,7 +298,8 @@ const getSelectedEmployeeLoginDetails = () => {
   return (
     <div className='Main-Container'>
       <div className="container">
-      <h1>Employee List</h1>
+      <h1>Employees</h1>
+      {message && <div>{message}</div>}
       <div style={{display:'flex',flexDirection:'row',justifyContent:'end',marginRight:'50px',marginBottom:'20px'}}>
         {/* <button onClick={handleforms}>Add New Employee</button> */}
         <button onClick={handleforms}>Add New Employee</button>
@@ -487,7 +557,7 @@ const getSelectedEmployeeLoginDetails = () => {
                              )}
                            </div> 
                       
-                      <button>Update</button>
+                      <button onClick={updateBackendData}>Update</button>
                        </div>
                       )}   
               </form>  
