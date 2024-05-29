@@ -6,8 +6,8 @@ import { faArrowUp,faEnvelope,faPhone,faUser,faGear,faArrowLeft ,faPenToSquare,}
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import Signup from '../Registration/Signup';
 
-const api =axios.create({baseURL:'https://user-account-backend.onrender.com',});
-// const api =axios.create({baseURL:'http://localhost:5000',})
+// const api =axios.create({baseURL:'https://user-account-backend.onrender.com',});
+const api =axios.create({baseURL:'http://localhost:5000',})
 const EmployeeList = () => {
 
   //state for employee details
@@ -82,8 +82,8 @@ const concatName = (employee) => {
   if (employee.MiddleName) {
     fullName += ' ' + employee.MiddleName;
   }
-  if (employee.LastName) {
-    fullName += ' ' + employee.LastName;
+  if (employee.Lastname) {
+    fullName += ' ' + employee.Lastname;
   }
   return fullName;
 };
