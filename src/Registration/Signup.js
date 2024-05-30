@@ -13,6 +13,7 @@ function Signup() {
     email: '',
     password: '',
     phoneNumber: '',
+    confirmPassword:'',
     uuid: generateUUID(),
     role: 'User'
   });
@@ -23,6 +24,7 @@ function Signup() {
     email: '',
     password: '',
     phoneNumber: '',
+    confirmPassword:'',
     uuid: '',
   });
 

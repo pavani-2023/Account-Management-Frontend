@@ -5,22 +5,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp,faEnvelope,faPhone,faUser,faGear,faArrowLeft ,faPenToSquare,} from '@fortawesome/free-solid-svg-icons';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import Signup from '../Registration/Signup';
-
 const api =axios.create({baseURL:'https://user-account-backend.onrender.com',});
 // const api =axios.create({baseURL:'http://localhost:5000',})
 const EmployeeList = () => {
 
   //state for employee details
   const [employees, setEmployees] = useState([]);
-  // console.log('employees',employees)
+  console.log('employees',employees)
 
   //state for employee registration details
   const[employeelogindetails,setEmployeeLoginDetails]= useState([]);
-  // console.log('employeelogindetails',employeelogindetails)
 
   //state for selected empolyee registration details
   const[seletcedEmployeeLoginDetails,setSelectedEMployeeLOginDetails]=useState();
-  // console.log('seletcedEmployeeLoginDetails',seletcedEmployeeLoginDetails)
 
   //state to track selected employee 
   const [selectedEmployee, setSelectedEmployee] = useState(null);
@@ -44,22 +41,16 @@ const EmployeeList = () => {
   const[newemp,setNewEmp] =useState(false);
   const[settingicon,SetSettingIcon]=useState();
   const [message, setMessage] = useState(null);
-  const [notification, setNotification] = useState({ message: '', type: '', visible: false });
+ 
   useEffect(() => {
     fetchEmployeedata();
-    fetchemployeelogindetails();  
+    fetchemployeelogindetails();   
   }, []);
-
 
   useEffect(()=>{
     getSelectedEmployeeLoginDetails();
+  
   },[employeedataform])
-
-  // useEffect(() => {
-  //   if (selectedEmployee) {
-  //     getSelectedEmployeeLoginDetails(selectedEmployee);
-  //   }
-  // }, [selectedEmployee]);
 
   const fetchEmployeedata = async () => {
     try {
@@ -71,7 +62,6 @@ const EmployeeList = () => {
       console.error('Error fetching employees:', error);
     }
   };
-
 
 
 const concatName = (employee) => {
@@ -100,7 +90,6 @@ const fetchemployeelogindetails=async()=>{
         console.error('Error fetching employees:', error);
     }
 }
-// console.log('uuid', formData.EmployeeID, 'email',formData.email, formData.password,'password', 'phoneno',formData.phoneNumber )
 
 const updateEmployeedata = async (e) => {
   e.preventDefault();
@@ -108,20 +97,14 @@ const updateEmployeedata = async (e) => {
     const response = await api.put('/submitForm', { formData });
     console.log('response', response);
     window.alert('Employee data updated successfully!');
+    fetchEmployeedata();
+    fetchemployeelogindetails(); 
   } catch (error) {
     console.log('Error updating login details', error);
     window.alert('Failed to update employee data');
   }
 };
 
-const updateEmployeeDetails= async()=>{
-  try{
-
-  }catch(error){
-    console.log('error updating employee details')
-  }
-}
-// console.log('selected',employees.EmployeeID)
 
 
 const getSelectedEmployeeLoginDetails = () => {
@@ -191,52 +174,45 @@ const getSelectedEmployeeLoginDetails = () => {
     setNewEmp(false);
   }
 
-  const handleInputChange = (e, id, field) => {
-    const { value } = e.target;
+
   
+  const handleInputChange = async (e, id, field) => {
+    const { value } = e.target;
+    // Update employees state
     const updatedEmployees = employees.map(employee => {
       if (employee.EmployeeID === id) {
         return {
           ...employee,
-          [field]: value
+          [field]: e.target.value
         };
       }
       return employee;
     });
     setEmployees(updatedEmployees);
   
+    // Update selected employee state
     const updatedSelectedEmployee = updatedEmployees.find(employee => employee.EmployeeID === id);
     setSelectedEmployee(updatedSelectedEmployee);
   
-    // const updatedEmployeeLoginDetails = employeelogindetails.map(employee => {
-    //   if (employee.uuid === id) {
-    //     return {
-    //       ...employee,
-    //       [field]: value
-    //     };
-    //   }
-    //   return employee;
-    // });
-    // setSelectedEMployeeLOginDetails(updatedEmployeeLoginDetails);
-    
     if (seletcedEmployeeLoginDetails && seletcedEmployeeLoginDetails.uuid === id) {
       setSelectedEMployeeLOginDetails({
         ...seletcedEmployeeLoginDetails,
         [field]: value,
       });
     }
-  
+    // Update form data state
     const updatedFormData = {
       ...formData,
       [id]: {
         ...formData[id],
-        [field]: value,
-        EmployeeID: id
+        [field]: e.target.value,
+        EmployeeID: id 
       }
     };
     setFormData(updatedFormData);
-  };
   
+    
+  };
   
 
   const updateBackendData = async () => {
@@ -249,6 +225,9 @@ const getSelectedEmployeeLoginDetails = () => {
   
       console.log('Successfully updated:', response.data);
       window.alert('Employee data updated successfully!');
+      fetchEmployeedata();
+      fetchemployeelogindetails(); 
+      getSelectedEmployeeLoginDetails();
       setFormData({});
     } catch (error) {
       console.error('Failed to update:', error);
@@ -273,10 +252,10 @@ const getSelectedEmployeeLoginDetails = () => {
   const deleteEmployee = async (employeeID) => {
   const result = await handleDeleteEmployee(employeeID);
   if (result.success) {
-    // Handle success, show a success message or update UI accordingly
+    
     console.log(result.message);
   } else {
-    // Handle error, show an error message or update UI accordingly
+   
     console.error(result.message);
   }
 };
@@ -313,21 +292,21 @@ const getSelectedEmployeeLoginDetails = () => {
               <img src={employee.imageSrc ? employee.imageSrc : 'https://d30y9cdsu7xlg0.cloudfront.net/png/138926-200.png'} style={{ cursor: 'pointer', borderRadius: '60%', width: '45%'}} alt={employee.name} />
             </div>
             <div className="card-body" style={{ margin: '20px',height:'60%',display:'flex',flexDirection:'column',gap:'10px'}}>
-              <p className="card-title" style={{textAlign:'center'}} readOnly>{concatName(employee)}</p>
+              <p className="card-title" style={{textAlign:'center'}}>{concatName(employee)}</p>
              
               <div>
                 <FontAwesomeIcon icon={faEnvelope} style={{marginRight:'20px'}}/>
-                <input value={employee.WorkEmail} className='employees-input' placeholder="Work Email" onChange={(e) => handleInputChange(e, employee.EmployeeID, 'WorkEmail')}  readOnly/>
+                <input value={employee.WorkEmail} className='employees-input' placeholder="Work Email" onChange={(e) => handleInputChange(e, employee.EmployeeID, 'WorkEmail')} />
               </div>
               
               <div>
                 <FontAwesomeIcon icon={faPhone} style={{marginRight:'20px'}}/>
-                <input value={employee.MobileNumber} className='employees-input' placeholder="Mobile Number" onChange={(e) => handleInputChange(e, employee.EmployeeID, 'MobileNumber')}readOnly />
+                <input value={employee.MobileNumber} className='employees-input' placeholder="Mobile Number" onChange={(e) => handleInputChange(e, employee.EmployeeID, 'MobileNumber')} />
               </div>
               
               <div>
                 <FontAwesomeIcon icon={faUser} style={{marginRight:'20px'}}/>
-                <input value={employee.DepName} className='employees-input' placeholder="Department Name" onChange={(e) => handleInputChange(e, employee.EmployeeID, 'DepName')} readOnly/>
+                <input value={employee.DepName} className='employees-input' placeholder="Department Name" onChange={(e) => handleInputChange(e, employee.EmployeeID, 'DepName')} />
               </div>
 
 
@@ -365,27 +344,20 @@ const getSelectedEmployeeLoginDetails = () => {
                            <div>
                              {seletcedEmployeeLoginDetails&&(
                                <div style={{display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center',gap:'20px'}}>
-                               {notification.visible && (
-                    <div className={`notification ${notification.type}`}>
-                      {notification.message}
-                    </div>
-                  )}
                                   <div>
                                       <label>Email</label><br />
-                                      <input className='input' name="email" value={seletcedEmployeeLoginDetails.email || ''} onChange={(e) => handleInputChange(e, seletcedEmployeeLoginDetails.uuid, 'email')} />
+                                      <input className='input' name="email" value={seletcedEmployeeLoginDetails.email} onChange={(e) => handleInputChange(e, seletcedEmployeeLoginDetails.uuid, 'email')} />
                                     </div>
                                     <div>
                                       <label>Password</label><br />
-                                      <input className='input' name="password" type='password' value={seletcedEmployeeLoginDetails.confirmPassword|| ''} onChange={(e) => handleInputChange( e,seletcedEmployeeLoginDetails.uuid, 'password')}/>
+                                      <input className='input' name="password" type='password' onChange={(e) => handleInputChange(e, seletcedEmployeeLoginDetails.uuid, 'password')}/>
                                     </div>
                                     <div>
                                       <label>Phone Number</label><br/>
-                                      <input className='input' name='phonenumber' type='number' value={seletcedEmployeeLoginDetails.phoneNumber || ''} onChange={(e) => handleInputChange(e, seletcedEmployeeLoginDetails.uuid, 'phoneNumber')}/>
+                                      <input className='input' name='phoneNumber' type='number' value={seletcedEmployeeLoginDetails.phoneNumber} onChange={(e) => handleInputChange(e, seletcedEmployeeLoginDetails.uuid, 'phoneNumber')}/>
                                     </div>
                                   <button onClick={updateEmployeedata}>Update</button>
-                                 
                                </div>
-                               
                              )}
                             
                              
@@ -393,7 +365,6 @@ const getSelectedEmployeeLoginDetails = () => {
                            )}
                         
                        </div>
-                       
 
                        {employeedetailsform&&(
                          <div>
