@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp,faEnvelope,faPhone,faUser,faGear,faArrowLeft ,faPenToSquare,} from '@fortawesome/free-solid-svg-icons';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import Signup from '../Registration/Signup';
+import Swal from 'sweetalert2';
 const api =axios.create({baseURL:'https://user-account-backend.onrender.com',});
 // const api =axios.create({baseURL:'http://localhost:5000',})
 const EmployeeList = () => {
@@ -172,6 +173,8 @@ const getSelectedEmployeeLoginDetails = () => {
   }
   const handlecloseform=()=>{
     setNewEmp(false);
+    fetchEmployeedata();
+    fetchemployeelogindetails();  
   }
 
 
@@ -241,7 +244,8 @@ const getSelectedEmployeeLoginDetails = () => {
       const response = await api.delete(`/Employee/${employeeID}`)
       // console.log('emp id',employeeID)
       if (response.status === 200) {
-      setMessage(`${response.data.deletedEmployee.EmployeeName} is deleted  Reload the page to reflect changes` )
+      setMessage(`${response.data.deletedEmployee.EmployeeName} is deleted ` )
+      fetchEmployeedata();
       }
       console.log('Employee deleted successfully');
     }catch(error){
@@ -278,7 +282,6 @@ const getSelectedEmployeeLoginDetails = () => {
                         </div>               
                     </form>   
                 </div>
-
             </div>
         )}
       </div>
@@ -387,7 +390,13 @@ const getSelectedEmployeeLoginDetails = () => {
                                    </div>
                                    <div>
                                        <label className='Label'>Gender:</label><br/>
-                                       <input className='input' style={{width:'auto'}}  value={selectedEmployee.Gender} onChange={(e) => handleInputChange(e, selectedEmployee.EmployeeID, 'Gender')}/>
+                                       {/* <input className='input' style={{width:'auto'}}  value={selectedEmployee.Gender} onChange={(e) => handleInputChange(e, selectedEmployee.EmployeeID, 'Gender')}/> */}
+                                       <select className='input ' style={{width:'auto'}} value={selectedEmployee.Gender} onChange={(e) => handleInputChange(e, selectedEmployee.EmployeeID, 'Gender')} >
+                                            <option value="">Select Gender</option>
+                                            <option>Male</option>
+                                            <option>Female</option>
+                                            <option>Other</option>
+                                        </select>
                                    </div>
                                    <div>
                                        <label className='Label'>Personal Email:</label><br/>
@@ -422,15 +431,15 @@ const getSelectedEmployeeLoginDetails = () => {
                                <div className='form-data'>
                                    <div>
                                      <label>Date of Joining:</label><br/>
-                                     <input className='input' value={selectedEmployee.DateofJoining} onChange={(e) => handleInputChange(e, selectedEmployee.EmployeeID, 'DateofJoining')}/>
+                                     <input className='input' type='date' value={selectedEmployee.DateofJoining} onChange={(e) => handleInputChange(e, selectedEmployee.EmployeeID, 'DateofJoining')}/>
                                    </div>
                                    <div>
                                      <label>Work Email:</label><br/>
-                                     <input className='input' value={selectedEmployee.WorkEmail} onChange={(e) => handleInputChange(e, selectedEmployee.EmployeeID, 'WorkEmail')}/>
+                                     <input className='input' type='email' value={selectedEmployee.WorkEmail} onChange={(e) => handleInputChange(e, selectedEmployee.EmployeeID, 'WorkEmail')}/>
                                    </div>
                                    <div>
                                      <label>Releaving Date:</label><br/>
-                                     <input className='input' value={selectedEmployee.ReleavingDate} onChange={(e) => handleInputChange(e, selectedEmployee.ReleavingDate, 'ReleavingDate')}/>
+                                     <input className='input' type='date' value={selectedEmployee.ReleavingDate} onChange={(e) => handleInputChange(e, selectedEmployee.EmployeeID, 'ReleavingDate')}/>
                                    </div>
                                    <div>
                                      <label>TeamLead:</label><br/>

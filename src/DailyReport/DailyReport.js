@@ -377,7 +377,7 @@ console.log('selectedClient',selectedClient)
         </form>
       </div>
 
-      <div className="table-container">
+      <div className="table-container" style={{width:'98%'}}>
         <table id="taskReport">
           <thead>
             <tr>

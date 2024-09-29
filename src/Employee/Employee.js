@@ -51,7 +51,7 @@ export default function Employee() {
         CompanyName:null,
         Managers:null,
         Details:null,
-        imageSrc:'https://d30y9cdsu7xlg0.cloudfront.net/png/138926-200.png',
+        imageSrc:'',
  
       })
 // console.log('employeeData',employeeData)
@@ -230,59 +230,48 @@ export default function Employee() {
                         error && <p key={field} style={{ color: 'red' }}>{error}</p>
                     ))}
                 </div>
-                {activeDiv===1  && < div className={`container ${activeDiv === 1 ? 'active' : ''}`}>
-                   <div style={{display:'flex', width:'100%'}} >
+                {activeDiv===1  && < div className={`profile-container ${activeDiv === 1 ? 'active' : ''}`}>
+                   <div style={{display:'flex',flexDirection:'column', width:'100%',gap:'40px'}} >
+                        <div className="image" style={{ display: 'flex', justifyContent: 'center', gap: '20px', padding: '20px' }}>
 
-                
-                        <div className="image"style={{display:'flex',flexDirection:'column',justifyContent:'center',width:'30%'}}>
-                        <div className='profile-pic' style={{width:'75%',backgroundColor:'#fff',}}>
-                            <div style={{ display: 'flex', justifyContent: 'center',alignItems:'center',height:'100%' }}>
-                                <input
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={handleImageChange}
-                                    style={{ display: 'none' }}
-                                    ref={fileInputRef}
-                                />
-                                <img
-                                    alt="User Pic"
-                                    src={employeeData.imageSrc}
-                                    id="profile-image1"
-                                    height="150"
-                                    style={{ cursor: 'pointer',borderRadius:'50%',width:'50%' ,}}
-                                    onClick={handleClick}
-                                />
-                            </div>
-                        </div>
-                        <div style={{width:'65%',height:'300px',backgroundColor:'#fff'}}>
-                            <div style={{margin:'50px',display:'flex',flexDirection:'column',gap:'10px'}}>
-                                <div className='input-conta'>
-                                    <label style={{marginRight:'20px'}}>Employee ID:</label>
-                                    <input style={{border:'none'}}type="text"  value={employeeData.EmployeeID}  readOnly />
+                            <div className="profile-pic" style={{width: '300px',borderRadius: '15px',padding: '20px',display: 'flex',alignItems: 'center',justifyContent: 'center',flexDirection: 'column',transition: 'transform 0.2s ease',}}>
+
+                                <input type="file"accept="image/*"onChange={handleImageChange}style={{ display: 'none' }}ref={fileInputRef} />
+
+                                <div style={{ width: '250px',height: '250px',borderRadius: '50%', overflow: 'hidden',boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)',position: 'relative',}}>
+                                
+                                    <img alt="User Pic"src={employeeData.imageSrc ? employeeData.imageSrc : 'https://d30y9cdsu7xlg0.cloudfront.net/png/138926-200.png'}id="profile-image1"style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.2s ease',}} onClick={handleClick} onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.05)'} onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'} 
+                                    />
                                 </div>
-
-                                <div className='input-conta'>
-                                    <label>Employee Name:</label>
-                                    <input type="text" style={{border:'none'}} id="employee-name" readOnly value={employeeData.EmployeeName} onChange={(e) => handleChange(e, 'EmployeeName')}/>
-                                </div>
-
-                                <div className='input-conta'>
-                                        <label>Department:</label>
-                                        <input type="text" readOnly value={employeeData.DepName} style={{border:'none'}} onChange={(e) => handleChange(e, 'DepName')}/>
-                                </div>
-
-                                <div className='input-conta'>
-                                        <label>Designation: </label>
-                                        <input type="text" readOnly  value={employeeData.Designation} style={{border:'none'}} onChange={(e) => handleChange(e, 'Designation')}/>
-                                </div>
-
-
                             </div>
 
-                        
 
+                            <div style={{ width: '400px',height: 'auto',borderRadius: '15px',padding: '20px',display: 'flex',flexDirection: 'column', gap: '15px', }}>
+                           
+                               
+                                <div className='input-conta'>
+                                    <label style={{ marginRight: '20px', fontWeight: 'bold' }}>Employee ID:</label>
+                                    <input type="text" value={employeeData.EmployeeID} readOnly style={{border: 'none', width: '100%',padding: '8px',borderRadius: '5px',backgroundColor: '#f7f7f7', }} />
+                                </div>
+
+                                <div className='input-conta'>
+                                    <label style={{ fontWeight: 'bold' }}>Employee Name:</label>
+                                    <input type="text" id="employee-name" readOnly value={employeeData.EmployeeName} onChange={(e) => handleChange(e, 'EmployeeName')} style={{border: 'none',width: '100%',padding: '8px',borderRadius: '5px',backgroundColor: '#f7f7f7', }}/>
+                                  
+                                </div>
+
+                                <div className='input-conta'>
+                                    <label style={{ fontWeight: 'bold' }}>Department:</label>
+                                    <input type="text" readOnly value={employeeData.DepName} onChange={(e) => handleChange(e, 'DepName')} style={{border: 'none',width: '100%',padding: '8px',borderRadius: '5px',backgroundColor: '#f7f7f7', }} />
+                                </div>
+
+                                <div className='input-conta'>
+                                    <label style={{ fontWeight: 'bold' }}>Designation:</label>
+                                    <input type="text" readOnly value={employeeData.Designation} onChange={(e) => handleChange(e, 'Designation')} style={{border: 'none',width: '100%',padding: '8px',borderRadius: '5px',backgroundColor: '#f7f7f7',}} />
+                                </div>
+                            </div>
                         </div>
-                        </div>
+
                         <div>
                             <div className='personal-info employee'>
                                     <div className='input-cont'>
@@ -304,14 +293,41 @@ export default function Employee() {
                                     
 
                                     <div className='input-cont'>
-                                        <label>Gender</label><br/>
-                                        <select className='gender ' style={{width:'400px'}} value={employeeData.Gender || ""}onChange={(e) => handleChange(e, 'Gender')} >
-                                            <option value="">Select Gender</option>
-                                            <option>Male</option>
-                                            <option>Female</option>
-                                            <option>Other</option>
-                                        </select>
+                                        <label>Gender</label><br />
+                                        <div className='gender'>
+                                            <label>
+                                                <input
+                                                    type="radio"
+                                                    value="Male"
+                                                    checked={employeeData.Gender === "Male"}
+                                                    onChange={(e) => handleChange(e, 'Gender')}
+                                                    style={{ marginRight: '5px' }} 
+                                                />
+                                                Male
+                                            </label>
+                                            <label>
+                                                <input
+                                                    type="radio"
+                                                    value="Female"
+                                                    checked={employeeData.Gender === "Female"}
+                                                    onChange={(e) => handleChange(e, 'Gender')}
+                                                    style={{ marginRight: '5px' }} 
+                                                />
+                                                Female
+                                            </label>
+                                            <label>
+                                                <input
+                                                    type="radio"
+                                                    value="Other"
+                                                    checked={employeeData.Gender === "Other"}
+                                                    onChange={(e) => handleChange(e, 'Gender')}
+                                                    style={{ marginRight: '5px' }} 
+                                                />
+                                                Other
+                                            </label>
+                                        </div>
                                     </div>
+
                 
                                     <div className='input-cont'>
                                         <label>Personal Email<span className="required-field"></span></label><br/>
@@ -375,7 +391,7 @@ export default function Employee() {
                    </div>
                 </div>}
                 
-                {activeDiv===2 && <div className={`container ${activeDiv === 2 ? 'active' : ''}`}>
+                {activeDiv===2 && <div className={`profile-container ${activeDiv === 2 ? 'active' : ''}`}>
                     <div className='employee'>
                         <div className='input-cont'>
                             <label>Date Of Joining</label><br/>
@@ -418,7 +434,7 @@ export default function Employee() {
                     </div>
                     
                 </div>}  
-                {activeDiv===3&&<div className={`container ${activeDiv === 3 ? 'active' : ''}`}>
+                {activeDiv===3&&<div className={`profile-container ${activeDiv === 3 ? 'active' : ''}`}>
                     <div className='employee'>
                         <div className='input-cont'>
                             <label>PAN Number</label><br/>
@@ -433,7 +449,7 @@ export default function Employee() {
                     
                     
                 </div>}
-                {activeDiv===4&&<div className={`container ${activeDiv === 4 ? 'active' : ''}`}>
+                {activeDiv===4&&<div className={`profile-container ${activeDiv === 4 ? 'active' : ''}`}>
                     <div className='employee'>
                         <div className='input-cont'>
                             <label>A/C Type</label><br/>
@@ -464,7 +480,7 @@ export default function Employee() {
           
                 </div>}
                 
-                {activeDiv===7&&<div className={`container ${activeDiv === 7 ? 'active' : ''}`}>
+                {activeDiv===7&&<div className={`profile-container ${activeDiv === 7 ? 'active' : ''}`}>
                     <div className='employee'>
                         <div className='input-cont'>
                             <label>Company Name</label><br/>

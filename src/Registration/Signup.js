@@ -101,8 +101,8 @@ function Signup() {
           <h1>Create Your Account</h1>
           {successMessage && <div className="success-message">{successMessage}</div>}
           {errorMessage && <div className="error-message">{errorMessage}</div>}
-          <div>
-            <select name="role" value={formData.role} className="input" onChange={handlechange} style={{height:'50px'}} required>
+          <div className='input-container'>
+            <select name="role" value={formData.role} className="input" onChange={handlechange} style={{height:'50px',width:'100%'}} required>
               <option value="User">User</option>
               <option value='Client'>Client</option>
               <option value="Admin">Admin</option>

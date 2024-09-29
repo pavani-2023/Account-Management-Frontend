@@ -45,7 +45,7 @@ const AdminDashboard = () => {
 
   
   return (
-    <div className='Main-Container admin-dashboard' >
+    <div className='Main-Container admin-dashboard' style={{padding:'0px'}}>
       <div style={{width:'300px',margin:'auto'}}>
         <select onChange={handleClientChange} style={{width:'300px'}}>
           <option>Select Client</option>

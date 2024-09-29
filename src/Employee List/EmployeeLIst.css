@@ -1,20 +1,31 @@
-.card{
-    background-color: #fff;
+/* Card Styling */
+.card {
+    background-color: #f9f9f9; /* Lighter background for contrast */
     border-radius: 15px;
-    width:300px;
+    width: 300px;
     height: 300px;
     min-height: 400px;
     margin-bottom: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s; /* Smooth hover effect */
 }
 
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* Deeper shadow on hover */
+}
 
-.employee-data{
+/* Employee Data Styling */
+.employee-data {
     border-bottom: 3px solid rgba(233, 224, 224, 0.76);
 }
-.data{
-    margin-left:20px;
-    /* color:rgba(8, 8, 8, 0.664); */
+
+/* Data Text Styling */
+.data {
+    margin-left: 20px;
+    color: #333; /* Darker text for better readability */
 }
+
 .modal-forms{
     position: absolute;
     top: 40%;
@@ -118,3 +129,18 @@ label{
     background-color: #f44336;
     color: white;
   }
+
+
+@media (max-width: 600px) {
+    .card {
+        width: 90%;
+    }
+
+    .modal-forms, .employeelist-modal-form {
+        width: 95%; 
+    }
+    
+    .form-data {
+        flex-direction: column; 
+    }
+}
